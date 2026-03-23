@@ -1,31 +1,129 @@
 [versions]
 agp = "9.1.0"
-coreKtx = "1.17.0"
+coreKtx = "1.18.0"
 junit = "4.13.2"
-junitVersion = "1.1.5"
+junitVersion = "1.3.0"
 espressoCore = "3.7.0"
 lifecycleRuntimeKtx = "2.10.0"
-activityCompose = "1.12.4"
-kotlin = "2.2.10"
-composeBom = "2024.09.00"
+activityCompose = "1.13.0"
+kotlin = "2.3.20"
+composeBom = "2026.03.00"
+kotlinxCoroutines = "1.10.2"
+# hilt
+hilt = "2.59.2"
+hiltNavigationCompose = "1.3.0"
+#ksp
+ksp = "2.3.5"
+#room
+room = "2.8.4"
+#leakcanary
+leakcanary = "2.14"
+#timber
+timber = "5.0.1"
+#retrofit
+retrofit2 = "3.0.0"
+moshi = "1.15.2"
+okhttp = "5.3.2"
+#lifecycle compose
+lifecycleCompose = "2.10.0"
+#chucker
+chucker = "4.3.1"
+#coil
+coil = "2.7.0"
+# data store
+data_store = "1.2.1"
+# work manager
+work_manager = "2.11.1"
+# maplibre
+maplibre = "13.0.1"
+maplibreCompose = "0.12.1"
+# navigation compose
+navigationCompose = "2.9.7"
+
+commonmark = "1.0.0-alpha03"
+richtext = "1.0.0-alpha03"
+
+# tar, zst compression
+# todo https://github.com/luben/zstd-jni?tab=readme-ov-file#android-support
+# https://github.com/luben/ZstdAndroidExample
+tar_version = "1.28.0"
 
 [libraries]
-androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
-junit = { group = "junit", name = "junit", version.ref = "junit" }
-androidx-junit = { group = "androidx.test.ext", name = "junit", version.ref = "junitVersion" }
-androidx-espresso-core = { group = "androidx.test.espresso", name = "espresso-core", version.ref = "espressoCore" }
-androidx-lifecycle-runtime-ktx = { group = "androidx.lifecycle", name = "lifecycle-runtime-ktx", version.ref = "lifecycleRuntimeKtx" }
-androidx-activity-compose = { group = "androidx.activity", name = "activity-compose", version.ref = "activityCompose" }
-androidx-compose-bom = { group = "androidx.compose", name = "compose-bom", version.ref = "composeBom" }
-androidx-compose-ui = { group = "androidx.compose.ui", name = "ui" }
-androidx-compose-ui-graphics = { group = "androidx.compose.ui", name = "ui-graphics" }
-androidx-compose-ui-tooling = { group = "androidx.compose.ui", name = "ui-tooling" }
-androidx-compose-ui-tooling-preview = { group = "androidx.compose.ui", name = "ui-tooling-preview" }
-androidx-compose-ui-test-manifest = { group = "androidx.compose.ui", name = "ui-test-manifest" }
-androidx-compose-ui-test-junit4 = { group = "androidx.compose.ui", name = "ui-test-junit4" }
-androidx-compose-material3 = { group = "androidx.compose.material3", name = "material3" }
+androidx-core-ktx = { module = "androidx.core:core-ktx", version.ref = "coreKtx" }
+junit = { module = "junit:junit", version.ref = "junit" }
+androidx-junit = { module = "androidx.test.ext:junit", version.ref = "junitVersion" }
+androidx-espresso-core = { module = "androidx.test.espresso:espresso-core", version.ref = "espressoCore" }
+androidx-lifecycle-runtime-ktx = { module = "androidx.lifecycle:lifecycle-runtime-ktx", version.ref = "lifecycleRuntimeKtx" }
+androidx-activity-compose = { module = "androidx.activity:activity-compose", version.ref = "activityCompose" }
+androidx-compose-bom = { module = "androidx.compose:compose-bom", version.ref = "composeBom" }
+androidx-compose-ui = { module = "androidx.compose.ui:ui" }
+androidx-compose-ui-graphics = { module = "androidx.compose.ui:ui-graphics" }
+androidx-compose-ui-tooling = { module = "androidx.compose.ui:ui-tooling" }
+androidx-compose-ui-tooling-preview = { module = "androidx.compose.ui:ui-tooling-preview" }
+androidx-compose-ui-test-manifest = { module = "androidx.compose.ui:ui-test-manifest" }
+androidx-compose-ui-test-junit4 = { module = "androidx.compose.ui:ui-test-junit4" }
+androidx-compose-material3 = { module = "androidx.compose.material3:material3" }
+icons-extended = { module = "androidx.compose.material:material-icons-extended" }
+#hilt
+hilt-android = { module = "com.google.dagger:hilt-android", version.ref = "hilt" }
+#hilt-compiler = { module = "com.google.dagger:hilt-compiler", version.ref = "hilt" }
+# todo: Use 1 of 2, because hilt-android-compiler already includes hilt-compiler; using both will cause dependency conflicts.
+hilt-android-compiler = { module = "com.google.dagger:hilt-android-compiler", version.ref = "hilt" }
+hilt-android-testing = { module = "com.google.dagger:hilt-android-testing", version.ref = "hilt" }
+hilt-navigation-compose = { module = "androidx.hilt:hilt-navigation-compose", version.ref = "hiltNavigationCompose" }
+# Coroutines
+kotlinx-coroutines = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-android", version.ref = "kotlinxCoroutines" }
+# Room DB
+room-runtime = { module = "androidx.room:room-runtime", version.ref = "room" }
+room-ktx = { module = "androidx.room:room-ktx", version.ref = "room" }
+room-compiler = { module = "androidx.room:room-compiler", version.ref = "room" }
+# Leakcanary
+leak-canary = { module = "com.squareup.leakcanary:leakcanary-android", version.ref = "leakcanary" }
+# logging
+timber = { module = "com.jakewharton.timber:timber", version.ref = "timber" }
+# Okhttp
+okhttp-bom = { module = "com.squareup.okhttp3:okhttp-bom", version.ref = "okhttp" }
+okhttp = { module = "com.squareup.okhttp3:okhttp" }
+logging-interceptor = { module = "com.squareup.okhttp3:logging-interceptor" }
+# Retrofit2
+retrofit2 = { module = "com.squareup.retrofit2:retrofit", version.ref = "retrofit2" }
+retrofit2-converter-moshi = { module = "com.squareup.retrofit2:converter-moshi", version.ref = "retrofit2" }
+# Moshi Core & Code Gen
+moshi-kotlin = { module = "com.squareup.moshi:moshi-kotlin", version.ref = "moshi" }
+moshi-kotlin-codegen = { module = "com.squareup.moshi:moshi-kotlin-codegen", version.ref = "moshi" }
+#lifecycle compose
+androidx-lifecycle-viewmodel-compose = { module = "androidx.lifecycle:lifecycle-viewmodel-compose", version.ref = "lifecycleCompose" }
+#chucker
+chucker-debug = { module = "com.github.chuckerteam.chucker:library", version.ref = "chucker" }
+chucker-release = { module = "com.github.chuckerteam.chucker:library-no-op", version.ref = "chucker" }
+#coil
+coil-compose = { module = "io.coil-kt:coil-compose", version.ref = "coil" }
+# data store
+data-store-preferences = { module = "androidx.datastore:datastore-preferences", version.ref = "data_store" }
+data-store-preferences-core = { module = "androidx.datastore:datastore-preferences-core", version.ref = "data_store" }
+# work manager
+work-runtime-ktx = { module = "androidx.work:work-runtime-ktx", version.ref = "work_manager" }
+# maplibre
+maplibre-gl = { module = "org.maplibre.gl:android-sdk", version.ref = "maplibre" }
+maplibre-compose = { module = "org.maplibre.compose:maplibre-compose", version.ref = "maplibreCompose" }
+# navigation compose
+navigation-compose = { module = "androidx.navigation:navigation-compose", version.ref = "navigationCompose" }
+
+commonmark = { module = "com.halilibo.compose-richtext:richtext-commonmark", version.ref = "commonmark" }
+richtext = { module = "com.halilibo.compose-richtext:richtext-ui-material3", version.ref = "richtext" }
+# tar, zst compression
+tar = { module = "org.apache.commons:commons-compress", version.ref = "tar_version" }
+
+[bundles]
+hilt = ["hilt-android", "hilt-navigation-compose"]
+roomDb = ["room-runtime","room-ktx"]
+okhttp = ["okhttp", "logging-interceptor"]
+retrofit2 = ["retrofit2", "retrofit2-converter-moshi"]
+dataStore = ["data-store-preferences", "data-store-preferences-core"]
+maplibre = ["maplibre-gl", "maplibre-compose"]
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
 kotlin-compose = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
-
+android-hilt = { id = "com.google.dagger.hilt.android", version.ref = "hilt" }
+android-ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }

@@ -1,3 +1,8 @@
 <resources>
-    <string name="app_name">offlinemap</string>
+    <string name="app_name" translatable="false">Kblack Maps Offline</string>
+    <string name="cd_downloaded_icon">Downloaded</string>
+    <string name="cd_not_downloaded_icon">Not downloaded</string>
+    <string name="cd_downloading_icon">Downloading</string>
+    <string name="cd_download_failed_icon">Download failed</string>
+    <string name="confirm_delete_model_dialog_content" translatable="false">Are you sure you want to delete the downloaded map \"%s\"?</string>
 </resources>
