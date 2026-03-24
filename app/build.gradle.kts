@@ -1,3 +1,6 @@
+import org.gradle.kotlin.dsl.invoke
+import kotlin.plus
+
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.compose)
@@ -22,6 +25,7 @@ android {
         versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        multiDexEnabled = true
     }
 
     buildTypes {
@@ -51,6 +55,15 @@ android {
     androidResources {
         noCompress.add("pmtiles")
     }
+    packaging {
+        resources {
+            excludes += setOf(
+                "META-INF/LICENSE.md",
+                "META-INF/NOTICE.md"
+            )
+        }
+    }
+
 }
 
 dependencies {
@@ -83,7 +96,16 @@ dependencies {
     implementation(libs.commonmark)
     implementation(libs.richtext)
     implementation(libs.tar)
+
+    //noinspection UseTomlInstead
     implementation("com.github.luben:zstd-jni:1.5.7-7@aar")
+    //todo: https://discuss.graphhopper.com/t/offlne-routing-on-android/9176/3
+    implementation("com.graphhopper:graphhopper-core:1.0") {
+        exclude(group = "com.google.protobuf", module = "protobuf-java")
+        exclude(group = "org.openstreetmap.osmosis", module = "osmosis-osm-binary")
+        exclude(group = "org.apache.xmlgraphics", module = "xmlgraphics-commons")
+    }
+
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)

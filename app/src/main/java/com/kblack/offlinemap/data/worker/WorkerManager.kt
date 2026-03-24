@@ -80,7 +80,6 @@ class WorkerManager(ctx: Context, params: WorkerParameters) : CoroutineWorker(ct
 
                     val connection = url.openConnection() as HttpURLConnection
 
-                    // ko cần version nữa
                     // → .../files/vn_map/v1.0/vn_map.tar.zst
 //                    val outputDir =
 //                        File(

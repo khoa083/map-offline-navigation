@@ -114,18 +114,14 @@ class HomeViewModel @Inject constructor(
             try {
                 var mapAllowlist: MapAllowlist?
 
-                // 1. Thử fetch từ internet trước
                 mapAllowlist = remoteDataSource.fetchMapAllowlist(ALLOWLIST_URL)
 
                 if (mapAllowlist == null) {
-                    // 2. Internet thất bại → đọc từ disk (cache lần trước)
                     mapAllowlist = readMapAllowlistFromDisk()
                 } else {
-                    // 3. Internet thành công → lưu vào disk để dùng offline lần sau
                     saveMapAllowlistToDisk(mapAllowlist)
                 }
 
-                // 4. Vẫn null → đọc từ assets (fallback cuối)
                 if (mapAllowlist == null) {
                     mapAllowlist = readMapAllowlistFromAssets()
                 }
