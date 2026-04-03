@@ -2,6 +2,7 @@ package com.kblack.offlinemap.presentation.ui
 
 import com.graphhopper.util.Instruction
 
+//todo: FIXME
 object NavigationInstructionFormat {
 
     fun rotationDegrees(sign: Int): Float {
