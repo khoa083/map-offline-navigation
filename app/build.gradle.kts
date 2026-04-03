@@ -1,6 +1,3 @@
-import org.gradle.kotlin.dsl.invoke
-import kotlin.plus
-
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.compose)
@@ -82,6 +79,7 @@ dependencies {
     implementation(libs.coil.compose)
     implementation(libs.bundles.dataStore)
     implementation(libs.work.runtime.ktx)
+    implementation(libs.play.services.location)
     implementation(libs.bundles.maplibre)
 //    implementation(libs.maplibre.plugin.annotation)
     ksp(libs.hilt.android.compiler)

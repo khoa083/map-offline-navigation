@@ -115,13 +115,22 @@ class MapViewModel @Inject constructor(
     }
 
     fun useCurrentLocation() = viewModelScope.launch {
-        val loc = getCurrentLocationUseCase()
-        if (loc == null) {
-            _uiState.update { it.copy(errorMessage = "Current location is not available") }
-            return@launch
+        val cached = _uiState.value.currentLocation
+        if (cached != null) {
+            _uiState.update { it.copy(startPoint = cached, errorMessage = null) }
+            _centerOnCurrentLocation.tryEmit(cached)
         }
-        _uiState.update { it.copy(currentLocation = loc, startPoint = loc) }
-        _centerOnCurrentLocation.emit(loc)
+
+        val fresh = getCurrentLocationUseCase()
+        when {
+            fresh != null -> {
+                _uiState.update { it.copy(currentLocation = fresh, startPoint = fresh, errorMessage = null) }
+                _centerOnCurrentLocation.emit(fresh)
+            }
+            cached == null -> {
+                _uiState.update { it.copy(errorMessage = "Current location is not available") }
+            }
+        }
     }
 
     fun selectStartPoint(point: GeoCoordinate) {
@@ -141,9 +150,10 @@ class MapViewModel @Inject constructor(
     }
 
     fun clearPoints() {
+
         _uiState.update {
             it.copy(
-                startPoint = if(it.startPoint == it.currentLocation) it.currentLocation else null,
+                startPoint = it.currentLocation,
                 endPoint = null,
                 route = null,
                 errorMessage = null

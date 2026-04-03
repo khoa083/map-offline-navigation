@@ -1,40 +1,41 @@
 package com.kblack.offlinemap.presentation.screen.overview
 
 import android.Manifest
+import android.annotation.SuppressLint
+import android.app.Activity
 import android.content.Context
+import android.content.pm.ActivityInfo
 import android.content.pm.PackageManager
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.animation.core.Animatable
+import androidx.compose.animation.core.LinearEasing
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Flag
-import androidx.compose.material.icons.filled.KeyboardArrowUp
 import androidx.compose.material3.BottomSheetScaffold
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SheetValue
 import androidx.compose.material3.rememberBottomSheetScaffoldState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableDoubleStateOf
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.runtime.snapshotFlow
 import androidx.compose.runtime.withFrameMillis
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.rememberVectorPainter
 import androidx.compose.ui.platform.LocalContext
@@ -47,6 +48,8 @@ import com.kblack.offlinemap.domain.models.GeoCoordinate
 import com.kblack.offlinemap.domain.models.MapModel
 import com.kblack.offlinemap.presentation.base.BaseContainer
 import com.kblack.offlinemap.presentation.screen.overview.component.MapControls
+import com.kblack.offlinemap.presentation.screen.overview.component.NavigationBottomPanel
+import com.kblack.offlinemap.presentation.screen.overview.component.NavigationTopInstructionCard
 import com.kblack.offlinemap.presentation.screen.overview.component.RouteInstructionsSheetContent
 import com.kblack.offlinemap.presentation.screen.overview.component.SelectPointBottomSheet
 import com.kblack.offlinemap.presentation.screen.overview.component.UpdateRoutingVehicle
@@ -57,8 +60,6 @@ import com.kblack.offlinemap.presentation.ui.Constant.INITIAL_ZOOM
 import com.kblack.offlinemap.presentation.ui.Constant.MAX_ZOOM
 import com.kblack.offlinemap.presentation.ui.Constant.MIN_ZOOM
 import com.kblack.offlinemap.presentation.ui.theme.customColors
-import kotlinx.coroutines.flow.collectLatest
-import kotlinx.coroutines.launch
 import org.maplibre.compose.camera.CameraPosition
 import org.maplibre.compose.camera.rememberCameraState
 import org.maplibre.compose.expressions.dsl.const
@@ -85,17 +86,24 @@ import org.maplibre.geojson.Point
 import org.maplibre.spatialk.geojson.Position
 import timber.log.Timber
 import kotlin.math.abs
-import kotlin.time.Duration.Companion.milliseconds
 import kotlin.time.Duration.Companion.seconds
 
+@SuppressLint("SourceLockedOrientationActivity")
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MapViewScreen(
     map: MapModel,
     mapViewModel: MapViewModel = hiltViewModel(),
 ) {
-
     val context = LocalContext.current
+    val activity = context as? Activity
+    DisposableEffect(Unit) {
+        activity?.requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
+        onDispose {
+            activity?.requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED
+        }
+    }
+
     val uiState by mapViewModel.uiState.collectAsStateWithLifecycle()
     val styleJsonPath = remember(map.mapId) { mapViewModel.getStyleJsonPath(map) }
     var showSelectPointSheet by remember { mutableStateOf(false) }
@@ -108,11 +116,33 @@ fun MapViewScreen(
 
     val showEndFlagAndTopBar = uiState.startPoint != null && uiState.endPoint != null
     val selectedTravelMode = uiState.routingOptions.travelMode
+    val canStartNavigation = uiState.route != null && !uiState.isRouting
 
     //fix show picker point
     LaunchedEffect(showEndFlagAndTopBar) {
         if (showEndFlagAndTopBar) {
             showSelectPointSheet = false
+        }
+    }
+
+    var compassMode by remember { mutableStateOf(false) }
+
+    val routeCoords = remember(routePoints) {
+        routePoints.map { Point.fromLngLat(it.longitude, it.latitude) }
+    }
+
+    val progress = remember(routeCoords) { Animatable(0f) }
+
+    LaunchedEffect(routeCoords) {
+        progress.snapTo(0f)
+        if (routeCoords.size >= 2) {
+            progress.animateTo(
+                targetValue = 1f,
+                animationSpec = tween(
+                    durationMillis = 1000, // chỉnh tốc độ ở đây
+                    easing = LinearEasing
+                )
+            )
         }
     }
 
@@ -210,7 +240,7 @@ fun MapViewScreen(
     }
 
 
-    if(false) {
+    if(compassMode) {
         val heading by rememberCompassHeading()
 
         LaunchedEffect(Unit) {
@@ -247,7 +277,7 @@ fun MapViewScreen(
                         isLogoEnabled = false,
                         isAttributionEnabled = false,
                         isScaleBarEnabled = false,
-                        padding = PaddingValues(top = 64.dp)
+                        padding = PaddingValues(top = 84.dp)
                     )
                 ),
                 baseStyle = BaseStyle.Uri("file://${styleJsonPath}"),
@@ -272,13 +302,12 @@ fun MapViewScreen(
                 },
             ) {
 
-                if (routePoints.size >= 2) {
-                    val routeGeoJson = remember(routePoints) {
-                        val cords = routePoints.map { p ->
-                            Point.fromLngLat(p.longitude, p.latitude)
-                        }
-                        val lineString = LineString.fromLngLats(cords)
-                        Feature.fromGeometry(lineString).toJson()
+                if (routeCoords.size >= 2) {
+                    val revealCount = ((routeCoords.size - 1) * progress.value).toInt().coerceAtLeast(1) + 1
+                    val revealed = routeCoords.take(revealCount)
+
+                    val routeGeoJson = remember(revealed) {
+                        Feature.fromGeometry(LineString.fromLngLats(revealed)).toJson()
                     }
 
                     val routeSource = rememberGeoJsonSource(
@@ -295,7 +324,6 @@ fun MapViewScreen(
                         opacity = const(0.6f),
                         cap = const(LineCap.Round),
                         join = const(LineJoin.Round),
-//                        dasharray = const(listOf(3f, 2f)) //todo: foot
                     )
                 }
 
@@ -343,7 +371,7 @@ fun MapViewScreen(
             }
 
 
-            if (showEndFlagAndTopBar) {
+            if (showEndFlagAndTopBar && !uiState.isNavigating) {
                 UpdateRoutingVehicle(
                     selectedTravelMode = selectedTravelMode,
                     onBackClick = {
@@ -355,7 +383,9 @@ fun MapViewScreen(
                         mapViewModel.updateRoutingOptions(
                             uiState.routingOptions.copy(travelMode = mode)
                         )
-                    }
+                    },
+                    onStartNavigation = { mapViewModel.startNavigation() },
+                    canStartNavigation = canStartNavigation
                 )
             }
 
@@ -375,7 +405,9 @@ fun MapViewScreen(
                             )
                         )
                     }
-                }
+                },
+                compassMode = compassMode,
+                onClickCompass = {compassMode =! compassMode}
             )
 
             if (showSelectPointSheet && !showEndFlagAndTopBar) {
@@ -394,21 +426,14 @@ fun MapViewScreen(
                 )
             }
 
-            if (showEndFlagAndTopBar) {
+            if (showEndFlagAndTopBar && !uiState.isNavigating) {
                 BottomSheetScaffold(
-                    sheetPeekHeight = 128.dp,
+                    sheetPeekHeight = 148.dp,
                     scaffoldState = sheetState,
                     sheetSwipeEnabled = sheetState.bottomSheetState.currentValue != SheetValue.Expanded,
                     containerColor = Color.Transparent,
                     contentColor = MaterialTheme.customColors.taskCardBgColor,
                     sheetContainerColor = MaterialTheme.customColors.taskCardBgColor,
-                    sheetDragHandle = {
-                        ExpandCollapseButton(
-                            sheetState.bottomSheetState.targetValue == SheetValue.Expanded,
-                            onExpand = { sheetState.bottomSheetState.expand() },
-                            onCollapse = { sheetState.bottomSheetState.partialExpand() },
-                        )
-                    },
                         sheetContent = {
                             RouteInstructionsSheetContent(
                                 route = uiState.route,
@@ -418,28 +443,19 @@ fun MapViewScreen(
                         },
                     ) { _ -> }
             }
-        }
-    }
-}
 
-@Composable
-private fun ExpandCollapseButton(
-    expanded: Boolean,
-    onExpand: suspend () -> Unit,
-    onCollapse: suspend () -> Unit,
-    modifier: Modifier = Modifier,
-) {
-    val degrees by animateFloatAsState(targetValue = if (expanded) 180f else 0f)
-    val coroutineScope = rememberCoroutineScope()
-    IconButton(
-        modifier = modifier,
-        onClick = { coroutineScope.launch { if (expanded) onCollapse() else onExpand() } },
-    ) {
-        Icon(
-            imageVector = Icons.Default.KeyboardArrowUp,
-            contentDescription = "Expand/Collapse",
-            modifier = Modifier.rotate(degrees)
-        )
+            if (uiState.isNavigating) {
+                NavigationTopInstructionCard(
+                    snapshot = uiState.navigationSnapshot,
+                    modifier = Modifier.align(Alignment.TopCenter)
+                )
+                NavigationBottomPanel(
+                    snapshot = uiState.navigationSnapshot,
+                    onStopNavigation = { mapViewModel.stopNavigation() },
+                    modifier = Modifier.align(Alignment.BottomCenter)
+                )
+            }
+        }
     }
 }
 

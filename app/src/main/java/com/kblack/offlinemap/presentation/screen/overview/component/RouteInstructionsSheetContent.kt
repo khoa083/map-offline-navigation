@@ -32,10 +32,10 @@ import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import com.graphhopper.util.Instruction
 import com.kblack.offlinemap.domain.models.Route
 import com.kblack.offlinemap.domain.models.RouteInstruction
 import com.kblack.offlinemap.domain.utils.RouteTextFormatter
+import com.kblack.offlinemap.presentation.ui.NavigationInstructionFormatter
 import com.kblack.offlinemap.presentation.ui.theme.customColors
 
 @Composable
@@ -161,7 +161,7 @@ private fun RouteInstructionRow(instruction: RouteInstruction) {
 
         Column(modifier = Modifier.weight(1f)) {
             Text(
-                text = instructionTitle(instruction),
+                text = NavigationInstructionFormatter.title(instruction.sign, instruction.name),
                 color = MaterialTheme.colorScheme.onSurface,
                 style = MaterialTheme.typography.bodyLarge
             )
@@ -178,7 +178,7 @@ private fun RouteInstructionRow(instruction: RouteInstruction) {
 
 @Composable
 private fun RouteSignIcon(sign: Int) {
-    val rotation = routeSignRotationDegrees(sign)
+    val rotation = NavigationInstructionFormatter.rotationDegrees(sign)
 
     Box(
         modifier = Modifier
@@ -199,63 +199,3 @@ private fun RouteSignIcon(sign: Int) {
     }
 }
 
-//todo: FIXME Created by AI, I will revise it later. :)))
-private fun routeSignRotationDegrees(sign: Int): Float {
-    return when (sign) {
-        Instruction.TURN_SLIGHT_LEFT -> -35f
-        Instruction.TURN_LEFT -> -90f
-        Instruction.TURN_SHARP_LEFT -> -135f
-        Instruction.KEEP_LEFT -> -20f
-        Instruction.TURN_SLIGHT_RIGHT -> 35f
-        Instruction.TURN_RIGHT -> 90f
-        Instruction.TURN_SHARP_RIGHT -> 135f
-        Instruction.KEEP_RIGHT -> 20f
-        Instruction.U_TURN_LEFT,
-        Instruction.U_TURN_RIGHT,
-        Instruction.U_TURN_UNKNOWN -> 180f
-
-        // Roundabout and unknown-like signs keep neutral direction in this base implementation.
-        Instruction.USE_ROUNDABOUT,
-        Instruction.LEAVE_ROUNDABOUT,
-        Instruction.CONTINUE_ON_STREET,
-        Instruction.FINISH,
-        Instruction.REACHED_VIA,
-        Instruction.UNKNOWN,
-        Instruction.IGNORE,
-        Instruction.PT_START_TRIP,
-        Instruction.PT_TRANSFER,
-        Instruction.PT_END_TRIP -> 0f
-
-        else -> 0f
-    }
-}
-
-private fun instructionTitle(instruction: RouteInstruction): String {
-    val action = when (instruction.sign) {
-        Instruction.UNKNOWN -> "Continue"
-        Instruction.U_TURN_UNKNOWN -> "Make a U-turn"
-        Instruction.U_TURN_LEFT -> "Make a U-turn left"
-        Instruction.KEEP_LEFT -> "Keep left"
-        Instruction.LEAVE_ROUNDABOUT -> "Leave roundabout"
-        Instruction.TURN_SHARP_LEFT -> "Turn sharp left"
-        Instruction.TURN_LEFT -> "Turn left"
-        Instruction.TURN_SLIGHT_LEFT -> "Turn slight left"
-        Instruction.CONTINUE_ON_STREET -> "Continue on"
-        Instruction.TURN_SLIGHT_RIGHT -> "Turn slight right"
-        Instruction.TURN_RIGHT -> "Turn right"
-        Instruction.TURN_SHARP_RIGHT -> "Turn sharp right"
-        Instruction.FINISH -> "Arrive"
-        Instruction.REACHED_VIA -> "Reached via point"
-        Instruction.USE_ROUNDABOUT -> "Enter roundabout"
-        Instruction.KEEP_RIGHT -> "Keep right"
-        Instruction.U_TURN_RIGHT -> "Make a U-turn right"
-        Instruction.PT_START_TRIP -> "Start trip"
-        Instruction.PT_TRANSFER -> "Transfer"
-        Instruction.PT_END_TRIP -> "End trip"
-        Instruction.IGNORE -> "Continue"
-        else -> "Continue"
-    }
-
-    val name = instruction.name.trim()
-    return if (name.isEmpty()) action else "$action $name"
-}

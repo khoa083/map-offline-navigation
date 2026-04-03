@@ -9,23 +9,28 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material.icons.automirrored.filled.DirectionsWalk
 import androidx.compose.material.icons.filled.DirectionsCar
-import androidx.compose.material.icons.filled.DirectionsWalk
 import androidx.compose.material.icons.filled.Motorcycle
+import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import com.kblack.offlinemap.domain.models.TravelMode
 import com.kblack.offlinemap.presentation.ui.theme.customColors
@@ -35,6 +40,8 @@ fun UpdateRoutingVehicle(
     selectedTravelMode: TravelMode,
     onBackClick: () -> Unit,
     onTravelModeChange: (TravelMode) -> Unit,
+    onStartNavigation: () -> Unit,
+    canStartNavigation: Boolean,
     modifier: Modifier = Modifier,
 ) {
     Box(
@@ -61,8 +68,8 @@ fun UpdateRoutingVehicle(
                 .background(MaterialTheme.customColors.taskCardBgColor)
         ) {
             Icon(
-                Icons.Filled.ArrowBack,
-                contentDescription = "",
+                Icons.AutoMirrored.Filled.ArrowBack,
+                contentDescription = "Back",
                 tint = MaterialTheme.colorScheme.onSurface
             )
         }
@@ -73,7 +80,7 @@ fun UpdateRoutingVehicle(
             verticalAlignment = Alignment.CenterVertically,
         ) {
             TravelModeButton(
-                icon = Icons.Filled.DirectionsWalk,
+                icon = Icons.AutoMirrored.Filled.DirectionsWalk,
                 isSelected = selectedTravelMode == TravelMode.Foot,
                 onClick = { onTravelModeChange(TravelMode.Foot) }
             )
@@ -87,6 +94,18 @@ fun UpdateRoutingVehicle(
                 isSelected = selectedTravelMode == TravelMode.Car,
                 onClick = { onTravelModeChange(TravelMode.Car) }
             )
+        }
+
+        Button(
+            onClick = onStartNavigation,
+            enabled = canStartNavigation,
+            colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.onSurface),
+            modifier = Modifier
+                .align(Alignment.CenterEnd)
+                .alpha(if (canStartNavigation) 1f else 0.6f)
+                .padding(end = 14.dp)
+        ) {
+            Text(text = "Start", color = MaterialTheme.customColors.taskCardBgColor)
         }
     }
 }
@@ -114,7 +133,7 @@ private fun TravelModeButton(
     ) {
         Icon(
             icon,
-            contentDescription = "",
+            contentDescription = "Travel mode",
             tint = MaterialTheme.colorScheme.onSurface
         )
     }

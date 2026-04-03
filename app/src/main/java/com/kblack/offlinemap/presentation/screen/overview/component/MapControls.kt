@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxScope
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -16,7 +17,10 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.Explore
+import androidx.compose.material.icons.filled.ExploreOff
 import androidx.compose.material.icons.filled.MyLocation
+import androidx.compose.material.icons.filled.Navigation
 import androidx.compose.material.icons.filled.Remove
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -36,7 +40,9 @@ fun BoxScope.MapControls(
     zoom: Double,
     onZoomIn: () -> Unit,
     onZoomOut: () -> Unit,
-    onClickLocation: () -> Unit
+    onClickLocation: () -> Unit,
+    compassMode: Boolean = false,
+    onClickCompass: () -> Unit,
 ){
     Column(
         modifier = Modifier
@@ -59,10 +65,11 @@ fun BoxScope.MapControls(
                     enabled = zoom < MAX_ZOOM,
                     modifier = Modifier
                         .alpha(0.8f)
-                        .width(48.dp)
-                        .height(52.dp)
+                        .width(52.dp)
+                        .height(56.dp)
                         .clip(RoundedCornerShape(28.dp, 28.dp, 8.dp, 8.dp))
                         .background(MaterialTheme.customColors.taskCardBgColor)
+                        .align(Alignment.End)
                 ) {
                     Icon(
                         Icons.Default.Add,
@@ -77,10 +84,11 @@ fun BoxScope.MapControls(
                     enabled = zoom > MIN_ZOOM,
                     modifier = Modifier
                         .alpha(0.8f)
-                        .width(48.dp)
-                        .height(52.dp)
+                        .width(52.dp)
+                        .height(56.dp)
                         .clip(RoundedCornerShape(8.dp, 8.dp, 28.dp, 28.dp))
                         .background(MaterialTheme.customColors.taskCardBgColor)
+                        .align(Alignment.End)
                 ) {
                     Icon(
                         Icons.Default.Remove,
@@ -92,22 +100,45 @@ fun BoxScope.MapControls(
 
                 Spacer(modifier = Modifier.height(100.dp))
 
-                IconButton(
-                    onClick = onClickLocation,
-                    modifier = Modifier
-                        .alpha(0.8f)
-                        .size(48.dp)
-                        .clip(CircleShape)
-                        .background(MaterialTheme.customColors.taskCardBgColor)
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.SpaceBetween,
+                    verticalAlignment = Alignment.CenterVertically
                 ) {
-                    Icon(
-                        Icons.Filled.MyLocation, contentDescription = "My Location",
-                        tint = MaterialTheme.colorScheme.onSurface
-                    )
+
+                    IconButton(
+                        onClick = onClickCompass,
+                        modifier = Modifier
+                            .alpha(0.8f)
+                            .size(52.dp)
+                            .clip(CircleShape)
+                            .background(MaterialTheme.customColors.taskCardBgColor)
+                    ) {
+                        Icon(
+                            imageVector = if (compassMode) Icons.Filled.Explore else Icons.Filled.ExploreOff, contentDescription = "Explore",
+                            tint = MaterialTheme.colorScheme.onSurface
+                        )
+                    }
+
+                    IconButton(
+                        onClick = onClickLocation,
+                        modifier = Modifier
+                            .alpha(0.8f)
+                            .size(52.dp)
+                            .clip(CircleShape)
+                            .background(MaterialTheme.customColors.taskCardBgColor)
+                    ) {
+                        Icon(
+                            Icons.Filled.MyLocation, contentDescription = "My Location",
+                            tint = MaterialTheme.colorScheme.onSurface
+                        )
+                    }
+
+
                 }
             }
         }
 
-        Spacer(modifier = Modifier.height(120.dp))
+        Spacer(modifier = Modifier.height(200.dp))
     }
 }

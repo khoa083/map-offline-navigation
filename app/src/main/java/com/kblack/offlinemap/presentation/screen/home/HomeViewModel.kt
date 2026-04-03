@@ -5,6 +5,7 @@ import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.google.gson.Gson
+import com.kblack.offlinemap.data.mapper.toDomain
 import com.kblack.offlinemap.data.model.MapAllowlist
 import com.kblack.offlinemap.data.remote.api.MapListRemoteDataSource
 import com.kblack.offlinemap.data.repository.MapDownloadRepositoryImpl
