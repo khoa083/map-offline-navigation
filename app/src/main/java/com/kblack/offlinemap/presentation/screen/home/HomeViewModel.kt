@@ -195,9 +195,7 @@ class HomeViewModel @Inject constructor(
         }
     }
 
-    fun clearLoadMapAllowlistError() {
-        TODO("nothing")
-    }
+    fun clearLoadMapAllowlistError() {}
 
     private fun processPendingDownloads(maps: List<MapModel>) {
         downloadMapRepository.cancelAll {

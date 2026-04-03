@@ -173,7 +173,7 @@ fun MapViewScreen(
     val permissionLauncher = rememberLauncherForActivityResult(
         ActivityResultContracts.RequestMultiplePermissions()
     ) { result ->
-        Timber.d("[LOCATION] permission result = $result")
+        Timber.d("[CAPTURE] permission result = $result")
         hasPermission = hasLocationPermission(context)
     }
 
@@ -246,7 +246,7 @@ fun MapViewScreen(
             locationState = locationState,
             enabled = true,
         ) {
-            Timber.d("Location update: $currentLocation")
+            Timber.d("[CAPTURE] update: $currentLocation")
             val speed = currentLocation.speed?.toFloat() ?: 0f
             val speedThreshold = 1f  // 2 m/s (~7.2 km/h)
 
@@ -328,7 +328,7 @@ fun MapViewScreen(
                 ),
                 baseStyle = BaseStyle.Uri("file://${styleJsonPath}"),
                 onMapClick = { p, dp ->
-                    Timber.d("Map clicked at: $p , $dp")
+                    Timber.d("[CAPTURE] Map clicked at: $p , $dp")
                     point = GeoCoordinate(latitude = p.latitude, longitude = p.longitude)
 
                     //todo test: if both points are already selected, clicking on the map should clear them and start new selection
@@ -344,7 +344,7 @@ fun MapViewScreen(
                     Timber.e("Map failed to load: $error")
                 },
                 onMapLoadFinished = {
-                    Timber.d("Map loaded successfully")
+                    Timber.d("[CAPTURE] Map loaded successfully")
                 },
             ) {
 
