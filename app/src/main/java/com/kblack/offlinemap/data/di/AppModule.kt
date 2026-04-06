@@ -4,7 +4,6 @@ import android.content.Context
 import androidx.work.WorkManager
 import com.kblack.offlinemap.data.remote.api.MapListRemoteDataSource
 import com.kblack.offlinemap.data.repository.AppLifecycleProviderImpl
-import com.kblack.offlinemap.data.repository.DirectFallbackRouteBuilder
 import com.kblack.offlinemap.data.repository.LocationRepositoryImpl
 import com.kblack.offlinemap.data.repository.MapDownloadRepositoryImpl
 import com.kblack.offlinemap.data.repository.RoutingRepositoryImpl
@@ -63,18 +62,8 @@ object AppModule {
 
     @Provides
     @Singleton
-    fun provideDirectFallbackRouteBuilder(): DirectFallbackRouteBuilder {
-        return DirectFallbackRouteBuilder()
-    }
-
-    @Provides
-    @Singleton
-    fun provideRoutingRepository(
-        directFallbackRouteBuilder: DirectFallbackRouteBuilder
-    ): RoutingRepository {
-        return RoutingRepositoryImpl(
-            fallbackBuilder = directFallbackRouteBuilder
-        )
+    fun provideRoutingRepository(): RoutingRepository {
+        return RoutingRepositoryImpl()
     }
 
 }

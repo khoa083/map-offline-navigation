@@ -5,7 +5,6 @@ import androidx.lifecycle.viewModelScope
 import com.kblack.offlinemap.domain.models.GeoCoordinate
 import com.kblack.offlinemap.domain.models.MapModel
 import com.kblack.offlinemap.domain.models.NavigationSnapshot
-import com.kblack.offlinemap.domain.models.PlaceCandidate
 import com.kblack.offlinemap.domain.models.Route
 import com.kblack.offlinemap.domain.models.RoutingOptions
 import com.kblack.offlinemap.domain.usecase.location.GetCurrentLocationUseCase
@@ -42,26 +41,8 @@ data class MapUiState(
     val routingOptions: RoutingOptions = RoutingOptions(),
     val navigationSnapshot: NavigationSnapshot? = null,
 
-//    val searchResults: List<PlaceCandidate> = emptyList(),
-//    val searchQuery: String = "",
-
     val errorMessage: String? = null,
-
-//    val isTracking: Boolean = false,
-//    val bearingMode: BearingMode = BearingMode.IGNORE,
 )
-
-//enum class BearingMode {
-//    IGNORE,
-//    ALWAYS_NORTH,
-//    TRACK_LOCATION;
-//
-//    fun next(): BearingMode = when (this) {
-//        IGNORE -> ALWAYS_NORTH
-//        ALWAYS_NORTH -> TRACK_LOCATION
-//        TRACK_LOCATION -> IGNORE
-//    }
-//}
 
 @HiltViewModel
 class MapViewModel @Inject constructor(
@@ -79,7 +60,6 @@ class MapViewModel @Inject constructor(
     val uiState: StateFlow<MapUiState> = _uiState.asStateFlow()
 
     private var locationJob: Job? = null
-    private var searchJob: Job? = null
     private var routeJob: Job? = null
 
     private val _centerOnCurrentLocation = MutableSharedFlow<GeoCoordinate>(extraBufferCapacity = 1)
@@ -220,7 +200,6 @@ class MapViewModel @Inject constructor(
     override fun onCleared() {
         super.onCleared()
         locationJob?.cancel()
-        searchJob?.cancel()
         routeJob?.cancel()
         closeRouterUseCase()
     }

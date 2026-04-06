@@ -14,7 +14,9 @@ import com.kblack.offlinemap.domain.models.Route
 import com.kblack.offlinemap.domain.models.RouteInstruction
 import com.kblack.offlinemap.domain.models.RoutePathDetail
 import com.kblack.offlinemap.domain.models.RoutingOptions
+import com.kblack.offlinemap.domain.models.TravelMode
 import com.kblack.offlinemap.domain.repository.RoutingRepository
+import com.kblack.offlinemap.domain.utils.GeoMath
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.withContext
@@ -22,8 +24,7 @@ import timber.log.Timber
 import java.io.File
 
 class RoutingRepositoryImpl(
-    private val ioDispatcher: CoroutineDispatcher = IO,
-    private val fallbackBuilder: DirectFallbackRouteBuilder
+    private val ioDispatcher: CoroutineDispatcher = IO
 ) : RoutingRepository {
 
     @Volatile
@@ -87,7 +88,7 @@ class RoutingRepositoryImpl(
         val response = h.route(request)
         if (response == null || response.hasErrors()) {
             if (options.allowDirectFallback) {
-                return@withContext fallbackBuilder.build(from, to, options.travelMode)
+                return@withContext fallBackRoute(from, to, options.travelMode)
             }
             val firstError = if (response != null && response.getErrors().isNotEmpty()) {
                 response.getErrors()[0].message
@@ -238,5 +239,35 @@ class RoutingRepositoryImpl(
             }
             target.add(point)
         }
+    }
+    private fun fallBackRoute(from: GeoCoordinate, to: GeoCoordinate, travelMode: TravelMode): Route {
+        val points = listOf(from, to)
+        val distanceMeters = GeoMath.distanceMeters(from, to)
+
+        val speedKmH = when (travelMode) {
+            TravelMode.Car -> 50.0
+            TravelMode.Motorcycle -> 40.0
+            TravelMode.Foot -> 5.5
+        }
+
+        val durationMillis = ((distanceMeters / 1000.0) / speedKmH * 3600.0 * 1000.0).toLong()
+
+        val instruction = RouteInstruction(
+            sign = Instruction.CONTINUE_ON_STREET,
+            name = "direction to target",
+            distanceMeters = distanceMeters,
+            durationMillis = durationMillis,
+            points = points
+        )
+
+        return Route(
+            distanceMeters = distanceMeters,
+            durationMillis = durationMillis,
+            points = points,
+            instructions = listOf(instruction),
+            speedDetails = emptyMap(),
+            isDirectFallback = true,
+            debugInfo = "direct-fallback"
+        )
     }
 }

@@ -238,7 +238,9 @@ class HomeViewModel @Inject constructor(
     }
 
     private fun isMapDownloaded(map: MapModel): Boolean {
-        val pmtilesFile = File(externalFilesDir, "${map.normalizedName}/${map.pmtilesName}")
+        val pmtilesFile = File(
+            externalFilesDir,
+            "${map.normalizedName}/${map.pmtilesName}")
         return pmtilesFile.exists()
     }
 
@@ -251,7 +253,10 @@ class HomeViewModel @Inject constructor(
     }
 
     private fun isFileInExternalFilesDir(fileName: String): Boolean {
-        return externalFilesDir?.let { File(it, fileName).exists() } ?: false
+        return externalFilesDir?.let { File(
+            it,
+            fileName).exists()
+        } ?: false
     }
 
 
