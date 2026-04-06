@@ -13,7 +13,7 @@ kotlinxCoroutines = "1.10.2"
 hilt = "2.59.2"
 hiltNavigationCompose = "1.3.0"
 #ksp
-ksp = "2.3.5"
+ksp = "2.3.6"
 #room
 room = "2.8.4"
 #leakcanary
@@ -43,8 +43,9 @@ maplibreCompose = "0.12.1"
 navigationCompose = "2.9.7"
 play-services-location = "21.3.0"
 
-commonmark = "1.0.0-alpha03"
-richtext = "1.0.0-alpha03"
+commonmark = "1.0.0-alpha04"
+richtext = "1.0.0-alpha04"
+konfettiCompose = "2.0.5"
 
 # tar, zst compression
 # todo https://github.com/luben/zstd-jni?tab=readme-ov-file#android-support
@@ -118,6 +119,7 @@ commonmark = { module = "com.halilibo.compose-richtext:richtext-commonmark", ver
 richtext = { module = "com.halilibo.compose-richtext:richtext-ui-material3", version.ref = "richtext" }
 # tar, zst compression
 tar = { module = "org.apache.commons:commons-compress", version.ref = "tar_version" }
+konfetti-compose = { module = "nl.dionsegijn:konfetti-compose", version.ref = "konfettiCompose" }
 
 [bundles]
 hilt = ["hilt-android", "hilt-navigation-compose"]

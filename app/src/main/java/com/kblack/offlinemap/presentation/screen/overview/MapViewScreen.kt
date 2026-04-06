@@ -1,13 +1,8 @@
 package com.kblack.offlinemap.presentation.screen.overview
 
-import android.Manifest
 import android.annotation.SuppressLint
 import android.app.Activity
-import android.content.Context
 import android.content.pm.ActivityInfo
-import android.content.pm.PackageManager
-import androidx.activity.compose.rememberLauncherForActivityResult
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.animation.core.Animatable
 import androidx.compose.animation.core.LinearEasing
 import androidx.compose.animation.core.tween
@@ -42,13 +37,14 @@ import androidx.compose.ui.graphics.vector.rememberVectorPainter
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
-import androidx.core.app.ActivityCompat
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.kblack.offlinemap.domain.models.GeoCoordinate
 import com.kblack.offlinemap.domain.models.MapModel
 import com.kblack.offlinemap.presentation.base.BaseContainer
 import com.kblack.offlinemap.presentation.screen.overview.component.MapControls
+import com.kblack.offlinemap.presentation.screen.overview.component.rememberMapLocationAccessState
+import com.kblack.offlinemap.presentation.screen.overview.component.rememberMapLocationState
 import com.kblack.offlinemap.presentation.screen.overview.component.NavigationBottomPanel
 import com.kblack.offlinemap.presentation.screen.overview.component.NavigationMode
 import com.kblack.offlinemap.presentation.screen.overview.component.RouteInstructionsBottomSheet
@@ -71,12 +67,7 @@ import org.maplibre.compose.layers.CircleLayer
 import org.maplibre.compose.layers.LineLayer
 import org.maplibre.compose.layers.SymbolLayer
 import org.maplibre.compose.location.BearingUpdate
-import org.maplibre.compose.location.LocationPuck
-import org.maplibre.compose.location.LocationPuckColors
-import org.maplibre.compose.location.LocationPuckSizes
 import org.maplibre.compose.location.LocationTrackingEffect
-import org.maplibre.compose.location.rememberDefaultLocationProvider
-import org.maplibre.compose.location.rememberUserLocationState
 import org.maplibre.compose.map.MapOptions
 import org.maplibre.compose.map.MaplibreMap
 import org.maplibre.compose.map.OrnamentOptions
@@ -93,7 +84,6 @@ import kotlin.math.abs
 import kotlin.time.Duration.Companion.milliseconds
 import kotlin.time.Duration.Companion.seconds
 
-//todo: FIXME
 @SuppressLint("SourceLockedOrientationActivity")
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -124,15 +114,11 @@ fun MapViewScreen(
     val selectedTravelMode = uiState.routingOptions.travelMode
     val canStartNavigation = uiState.route != null && !uiState.isRouting
 
-    //fix show picker point
     LaunchedEffect(showEndFlagAndTopBar) {
         if (showEndFlagAndTopBar) {
             showSelectPointSheet = false
         }
     }
-
-    val locationProvider = rememberDefaultLocationProvider()
-    val locationState = rememberUserLocationState(locationProvider)
 
     var compassMode by remember { mutableStateOf(false) }
     var mapMode3d by remember { mutableStateOf(false) }
@@ -158,32 +144,12 @@ fun MapViewScreen(
     }
 
 
-    fun hasLocationPermission(ctx: Context): Boolean {
-        val fine = ActivityCompat.checkSelfPermission(
-            ctx, Manifest.permission.ACCESS_FINE_LOCATION
-        ) == PackageManager.PERMISSION_GRANTED
-        val coarse = ActivityCompat.checkSelfPermission(
-            ctx, Manifest.permission.ACCESS_COARSE_LOCATION
-        ) == PackageManager.PERMISSION_GRANTED
-        return fine || coarse
-    }
-
-    var hasPermission by remember { mutableStateOf(hasLocationPermission(context)) }
-
-    val permissionLauncher = rememberLauncherForActivityResult(
-        ActivityResultContracts.RequestMultiplePermissions()
-    ) { result ->
-        Timber.d("[CAPTURE] permission result = $result")
-        hasPermission = hasLocationPermission(context)
-    }
-
+    val locationAccessState = rememberMapLocationAccessState(
+        context = context,
+        onLocationReady = { mapViewModel.useCurrentLocation() }
+    )
+    val locationState = rememberMapLocationState(locationAccessState.hasPermission)
     val sheetState = rememberBottomSheetScaffoldState()
-
-    LaunchedEffect(hasPermission) {
-        if (hasPermission) {
-            mapViewModel.useCurrentLocation()
-        }
-    }
 
     val camera =
         rememberCameraState(
@@ -196,16 +162,14 @@ fun MapViewScreen(
 
     LaunchedEffect(zoom) {
         if (abs(camera.position.zoom - zoom) < 0.01) return@LaunchedEffect
-         camera.animateTo(
-             finalPosition =
-                 camera.position.copy(
+        camera.animateTo(
+            finalPosition =
+                camera.position.copy(
                     zoom = zoom
                 ),
         )
     }
 
-    //todo: FIXME: hard code tilt
-    // control 2D/3D mode by changing tilt.
     LaunchedEffect(mapMode3d) {
         camera.animateTo(
             finalPosition = camera.position.copy(tilt = if (mapMode3d) 55.0 else 0.0),
@@ -215,14 +179,6 @@ fun MapViewScreen(
 
     LaunchedEffect(Unit) {
         mapViewModel.initializeMap(map)
-        if (!hasPermission) {
-            permissionLauncher.launch(
-                arrayOf(
-                    Manifest.permission.ACCESS_FINE_LOCATION,
-                    Manifest.permission.ACCESS_COARSE_LOCATION
-                )
-            )
-        }
         mapViewModel.centerOnCurrentLocation.collect { p ->
             camera.animateTo(
                 CameraPosition(
@@ -239,29 +195,30 @@ fun MapViewScreen(
         if (uiState.isNavigating && !mapMode3d) mapMode3d = true
     }
 
-    if (hasPermission && uiState.isNavigating) {
+    if (uiState.isNavigating) {
+        locationState?.let { safeLocationState ->
+            LocationTrackingEffect(
+                trackBearing = true,
+                locationState = safeLocationState,
+                enabled = true,
+            ) {
+                Timber.d("[CAPTURE] update: $currentLocation")
+                val speed = currentLocation.speed?.toFloat() ?: 0f
+                val speedThreshold = 1f  // 2 m/s (~7.2 km/h)
 
-        LocationTrackingEffect(
-            trackBearing = true,
-            locationState = locationState,
-            enabled = true,
-        ) {
-            Timber.d("[CAPTURE] update: $currentLocation")
-            val speed = currentLocation.speed?.toFloat() ?: 0f
-            val speedThreshold = 1f  // 2 m/s (~7.2 km/h)
+                val updateMode = if (speed >= speedThreshold) {
+                    BearingUpdate.TRACK_LOCATION
+                } else {
+                    BearingUpdate.ALWAYS_NORTH
+                }
 
-            val updateMode = if (speed >= speedThreshold) {
-                BearingUpdate.TRACK_LOCATION
-            } else {
-                BearingUpdate.ALWAYS_NORTH
+                camera.updateFromLocation(updateBearing = updateMode)
             }
-            
-            camera.updateFromLocation(updateBearing = updateMode)
         }
     }
 
 
-    if(compassMode) {
+    if (compassMode) {
         val heading by rememberCompassMode()
 
         LaunchedEffect(uiState.isNavigating) {
@@ -277,30 +234,6 @@ fun MapViewScreen(
             }
         }
     }
-//    val targetHeading = remember { mutableStateOf<Float?>(null) }
-//    if(compassMode) {
-//        val heading by rememberCompassHeading()
-//
-//        LaunchedEffect(Unit) {
-//            snapshotFlow { heading }.collect { h ->
-//                targetHeading.value = h
-//            }
-//        }
-//
-//        LaunchedEffect(camera) {
-//            var current = camera.position.bearing.toFloat()
-//            while (true) {
-//                withFrameMillis {
-//                    val target = targetHeading.value ?: return@withFrameMillis
-//                    val delta = shortestAngleDelta(current, target)
-//                    if (abs(delta) > 0.05f) {
-//                        current = normalizeDegree(current + delta * 0.2f)
-//                        camera.position = camera.position.copy(bearing = current.toDouble())
-//                    }
-//                }
-//            }
-//        }
-//    }
 
     val routeGeoJson by remember(routeCoords) {
         derivedStateOf {
@@ -331,16 +264,12 @@ fun MapViewScreen(
                     Timber.d("[CAPTURE] Map clicked at: $p , $dp")
                     point = GeoCoordinate(latitude = p.latitude, longitude = p.longitude)
 
-                    if (!showEndFlagAndTopBar) {
-                        showSelectPointSheet = true
-                    } else {
-                        showSelectPointSheet = false
-                    }
+                    showSelectPointSheet = !showEndFlagAndTopBar
 
                     ClickResult.Pass
                 },
                 onMapLoadFailed = { error ->
-                    Timber.e("Map failed to load: $error")
+                    Timber.e("[CAPTURE] Map failed to load: $error")
                 },
                 onMapLoadFinished = {
                     Timber.d("[CAPTURE] Map loaded successfully")
@@ -370,10 +299,7 @@ fun MapViewScreen(
 
                 if (showEndFlagAndTopBar) {
 
-                    FlagPointLayer(
-                        id = "end-point-layer-flag",
-                        point = uiState.endPoint!!
-                    )
+                    FlagPointLayer(point = uiState.endPoint!!)
                 } else if (uiState.endPoint != null) {
                     val endPointSource = rememberGeoJsonSource(
                         data = GeoJsonData.JsonString(singlePointFeatureJson(uiState.endPoint!!))
@@ -398,20 +324,19 @@ fun MapViewScreen(
 
                     )
                 }
-                // https://maplibre.org/maplibre-compose/api/lib/maplibre-compose/org.maplibre.compose.location/-location-puck.html
-                LocationPuck(
-                    idPrefix = "location-accuracy",
-                    locationState = locationState,
-                    cameraState = camera,
-                    oldLocationThreshold = 3.seconds,
-                    accuracyThreshold = 0f,
-                    colors = LocationPuckColors(
-                        bearingColor = Color(0xFF0B57D0),
-                    ),
-                    sizes = LocationPuckSizes(
 
-                    ),
-                )
+                if (locationAccessState.hasPermission && uiState.currentLocation != null) {
+                    val currentLocationSource = rememberGeoJsonSource(
+                        data = GeoJsonData.JsonString(singlePointFeatureJson(uiState.currentLocation!!))
+                    )
+                    CircleLayer(
+                        id = "current-location-layer",
+                        source = currentLocationSource,
+                        color = const(Color(0xFF0B57D0)),
+                        radius = const(7.dp),
+                        opacity = const(0.9f)
+                    )
+                }
             }
             if (uiState.isLoading) {
                 CircularProgressIndicator(
@@ -444,20 +369,9 @@ fun MapViewScreen(
                 zoom,
                 onZoomIn = { zoom = (zoom + 1.0).coerceIn(MIN_ZOOM, MAX_ZOOM) },
                 onZoomOut = { zoom = (zoom - 1.0).coerceIn(MIN_ZOOM, MAX_ZOOM) },
-                onClickLocation = {
-                    if (hasPermission) {
-                        mapViewModel.useCurrentLocation()
-                    } else {
-                        permissionLauncher.launch(
-                            arrayOf(
-                                Manifest.permission.ACCESS_FINE_LOCATION,
-                                Manifest.permission.ACCESS_COARSE_LOCATION
-                            )
-                        )
-                    }
-                },
+                onClickLocation = locationAccessState.onLocationClick,
                 compassMode = compassMode,
-                onClickCompass = {compassMode = !compassMode},
+                onClickCompass = { compassMode = !compassMode },
                 mapMode3d = mapMode3d,
                 onClickMapMode3d = { mapMode3d = !mapMode3d }
             )
@@ -486,14 +400,14 @@ fun MapViewScreen(
                     containerColor = Color.Transparent,
                     contentColor = MaterialTheme.customColors.taskCardBgColor,
                     sheetContainerColor = MaterialTheme.customColors.taskCardBgColor,
-                        sheetContent = {
-                            RouteInstructionsBottomSheet(
-                                route = uiState.route,
-                                isRouting = uiState.isRouting,
-                                modifier = Modifier.fillMaxSize()
-                            )
-                        },
-                    ) { _ -> }
+                    sheetContent = {
+                        RouteInstructionsBottomSheet(
+                            route = uiState.route,
+                            isRouting = uiState.isRouting,
+                            modifier = Modifier.fillMaxSize()
+                        )
+                    },
+                ) { _ -> }
             }
 
             if (uiState.isNavigating) {
@@ -510,9 +424,9 @@ fun MapViewScreen(
         }
     }
 }
+
 @Composable
 private fun FlagPointLayer(
-    id: String,
     point: GeoCoordinate,
 ) {
     val source = rememberGeoJsonSource(
@@ -520,7 +434,7 @@ private fun FlagPointLayer(
     )
 
     SymbolLayer(
-        id = id,
+        id = "end-point-layer-flag",
         source = source,
         iconImage =
             image(

@@ -1,16 +1,20 @@
 package com.kblack.offlinemap.presentation.di
 
 import com.kblack.offlinemap.domain.repository.LocationRepository
+import com.kblack.offlinemap.domain.repository.MapAllowlistRepository
 import com.kblack.offlinemap.domain.repository.MapDownloadRepository
 import com.kblack.offlinemap.domain.repository.RoutingRepository
 import com.kblack.offlinemap.domain.usecase.location.GetCurrentLocationUseCase
 import com.kblack.offlinemap.domain.usecase.location.ObserveCurrentLocationUseCase
+import com.kblack.offlinemap.domain.usecase.mapallowlist.LoadMapAllowlistUseCase
 import com.kblack.offlinemap.domain.usecase.routing.CalculateRouteUseCase
 import com.kblack.offlinemap.domain.usecase.routing.InitializeRouterUseCase
 import com.kblack.offlinemap.domain.usecase.mapdownload.CancelAllUseCase
 import com.kblack.offlinemap.domain.usecase.mapdownload.CancelDownloadMapUseCase
+import com.kblack.offlinemap.domain.usecase.mapdownload.DeleteMapUseCase
 import com.kblack.offlinemap.domain.usecase.mapdownload.DownloadMapUseCase
 import com.kblack.offlinemap.domain.usecase.mapdownload.GetGraphPathUseCase
+import com.kblack.offlinemap.domain.usecase.mapdownload.GetLocalMapStatusUseCase
 import com.kblack.offlinemap.domain.usecase.mapdownload.GetStyleJsonPathUseCase
 import com.kblack.offlinemap.domain.usecase.routing.BuildNavigationUseCase
 import com.kblack.offlinemap.domain.usecase.routing.CloseRouterUseCase
@@ -108,6 +112,30 @@ object UseCaseModule {
     @ViewModelScoped
     fun provideBuildNavigationUseCase(): BuildNavigationUseCase {
         return BuildNavigationUseCase()
+    }
+
+    @Provides
+    @ViewModelScoped
+    fun provideGetLocalMapStatusUseCase(
+        downloadMapRepository: MapDownloadRepository,
+    ): GetLocalMapStatusUseCase {
+        return GetLocalMapStatusUseCase(downloadMapRepository)
+    }
+
+    @Provides
+    @ViewModelScoped
+    fun provideDeleteLocalMapFilesUseCase(
+        downloadMapRepository: MapDownloadRepository,
+    ): DeleteMapUseCase {
+        return DeleteMapUseCase(downloadMapRepository)
+    }
+
+    @Provides
+    @ViewModelScoped
+    fun provideLoadMapAllowlistUseCase(
+        mapAllowlistRepository: MapAllowlistRepository,
+    ): LoadMapAllowlistUseCase {
+        return LoadMapAllowlistUseCase(mapAllowlistRepository)
     }
 
 }

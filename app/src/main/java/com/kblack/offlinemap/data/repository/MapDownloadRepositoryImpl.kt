@@ -34,10 +34,10 @@ import com.kblack.offlinemap.presentation.ui.Constant.KEY_MAP_START_UNZIPPING
 import com.kblack.offlinemap.presentation.ui.Constant.KEY_MAP_TOTAL_BYTES
 import com.kblack.offlinemap.presentation.ui.Constant.KEY_MAP_URL
 import com.kblack.offlinemap.presentation.ui.Constant.MAP_NAME_TAG
+import com.kblack.offlinemap.presentation.ui.Constant.TMP_FILE_EXT
 import java.io.File
 import java.util.UUID
 import java.util.concurrent.Executors
-import javax.inject.Inject
 
 class MapDownloadRepositoryImpl (
     private val context: Context,
@@ -94,6 +94,37 @@ class MapDownloadRepositoryImpl (
             .cancelAllWork()
             .result
             .addListener({ onComplete() }, Executors.newSingleThreadExecutor())
+    }
+
+    override fun getLocalMapStatus(map: MapModel): MapDownloadStatus {
+        var status = MapDownloadStatusType.NOT_DOWNLOADED
+        var receivedBytes = 0L
+        var totalBytes = 0L
+
+        if (isMapPartiallyDownloaded(map)) {
+            status = MapDownloadStatusType.PARTIALLY_DOWNLOADED
+            val tmpFile = File(
+                externalFilesDir,
+                "${map.normalizedName}/${map.downloadFileName}.$TMP_FILE_EXT"
+            )
+            receivedBytes = tmpFile.length()
+            totalBytes = map.totalBytes
+        } else if (isMapDownloaded(map)) {
+            status = MapDownloadStatusType.SUCCEEDED
+        }
+
+        return MapDownloadStatus(
+            status = status,
+            receivedBytes = receivedBytes,
+            totalBytes = totalBytes,
+        )
+    }
+
+    override fun deleteMap(map: MapModel) {
+        val mapDir = File(externalFilesDir, map.normalizedName)
+        if (mapDir.exists()) {
+            mapDir.deleteRecursively()
+        }
     }
 
     private fun observerWorkerProgress(
@@ -240,6 +271,19 @@ class MapDownloadRepositoryImpl (
             }
             notify(1, builder.build())
         }
+    }
+
+    private fun isMapDownloaded(map: MapModel): Boolean {
+        val pmtilesFile = File(externalFilesDir, "${map.normalizedName}/${map.pmtilesName}")
+        return pmtilesFile.exists()
+    }
+
+    private fun isMapPartiallyDownloaded(map: MapModel): Boolean {
+        val tmpFile = File(
+            externalFilesDir,
+            "${map.normalizedName}/${map.downloadFileName}.$TMP_FILE_EXT"
+        )
+        return tmpFile.exists()
     }
 
 }

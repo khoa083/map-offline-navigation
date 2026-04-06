@@ -2,7 +2,6 @@ package com.kblack.offlinemap.domain.repository
 
 import com.kblack.offlinemap.domain.models.MapDownloadStatus
 import com.kblack.offlinemap.domain.models.MapModel
-import java.util.UUID
 
 interface MapDownloadRepository {
 
@@ -14,6 +13,10 @@ interface MapDownloadRepository {
     fun cancelDownloadMap(map: MapModel)
 
     fun cancelAll(onComplete: () -> Unit)
+
+    fun getLocalMapStatus(map: MapModel): MapDownloadStatus
+
+    fun deleteMap(map: MapModel)
 
     fun getStyleJsonPath(map: MapModel): String?
     fun getGraphPath(map: MapModel): String?

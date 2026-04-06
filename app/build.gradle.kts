@@ -81,6 +81,7 @@ dependencies {
     implementation(libs.work.runtime.ktx)
     implementation(libs.play.services.location)
     implementation(libs.bundles.maplibre)
+    implementation(libs.konfetti.compose)
 //    implementation(libs.maplibre.plugin.annotation)
     ksp(libs.hilt.android.compiler)
     implementation(libs.bundles.hilt)

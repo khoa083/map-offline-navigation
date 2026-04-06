@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.Celebration
 import androidx.compose.material.icons.rounded.Error
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.CircularProgressIndicator
@@ -39,7 +40,9 @@ import com.kblack.offlinemap.presentation.screen.home.component.MapTopBar
 import com.kblack.offlinemap.presentation.model.TopBarAction
 import com.kblack.offlinemap.presentation.model.TopBarType
 import com.kblack.offlinemap.presentation.screen.home.component.MapList
+import com.kblack.offlinemap.presentation.ui.SimpleConfettiHost
 import com.kblack.offlinemap.presentation.ui.rememberDelayedAnimationProgress
+import com.kblack.offlinemap.presentation.ui.rememberSimpleConfettiController
 import kotlinx.coroutines.delay
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -48,9 +51,10 @@ fun HomeScreen(
     onClickMapView: (MapModel) -> Unit = {},
     homeViewModel: HomeViewModel
 ) {
-
     val uiState by homeViewModel.uiState.collectAsState()
     var loadingMapAllowlistDelayed by remember { mutableStateOf(false) }
+
+    val confetti = rememberSimpleConfettiController()
 
     LaunchedEffect(uiState.loadingMapAllowlist) {
         if (uiState.loadingMapAllowlist) {
@@ -86,82 +90,81 @@ fun HomeScreen(
         )
     }
 
-    Scaffold(
-        modifier = Modifier.fillMaxSize(),
-        containerColor = MaterialTheme.colorScheme.background,
-        topBar = {
-            val progress =
-                rememberDelayedAnimationProgress(
-                    animationDurationMs = 800,
-                    animationLabel = "map top bar",
-                )
-            Box(
-                modifier =
-                    Modifier.graphicsLayer {
-                        alpha = progress
-                        translationY = ((-16).dp * (1 - progress)).toPx()
-                    }
-            ) {
-                MapTopBar(
-                    title = stringResource(R.string.app_name),
-                    leftAction =
-                        TopBarAction(
-                            type = TopBarType.SETTING,
-                        ),
-                )
+    SimpleConfettiHost(
+        controller = confetti,
+        modifier = Modifier.fillMaxSize()
+    ) {
+        Scaffold(
+            modifier = Modifier.fillMaxSize(),
+            containerColor = MaterialTheme.colorScheme.background,
+            topBar = {
+                val progress =
+                    rememberDelayedAnimationProgress(
+                        animationDurationMs = 800,
+                        animationLabel = "map top bar",
+                    )
+                Box(
+                    modifier =
+                        Modifier.graphicsLayer {
+                            alpha = progress
+                            translationY = ((-16).dp * (1 - progress)).toPx()
+                        }
+                ) {
+                    MapTopBar(
+                        title = stringResource(R.string.app_name),
+                    )
+                }
+            },
+            floatingActionButton = {
+                FloatingActionButton(
+                    onClick = {
+                        confetti.launch()
+                    },
+                    containerColor = MaterialTheme.colorScheme.secondaryContainer,
+                    contentColor = MaterialTheme.colorScheme.secondary,
+                ) {
+                    Icon(Icons.Filled.Celebration, contentDescription = null)
+                }
             }
-        },
-        floatingActionButton = {
-            FloatingActionButton(
-                onClick = { },
-                containerColor = MaterialTheme.colorScheme.secondaryContainer,
-                contentColor = MaterialTheme.colorScheme.secondary,
-            ) {
-                Icon(Icons.Filled.Add, contentDescription = null)
-            }
-        }
-    ) { paddingValues ->
-        Box(
-            contentAlignment = Alignment.TopCenter,
-            modifier = Modifier
-                .fillMaxSize()
-                .background(MaterialTheme.colorScheme.surfaceContainer),
-        ) {
-
-
+        ) { paddingValues ->
             Box(
                 contentAlignment = Alignment.TopCenter,
                 modifier = Modifier
                     .fillMaxSize()
-                    .padding(top = 16.dp),
+                    .background(MaterialTheme.colorScheme.surfaceContainer),
             ) {
-                MapList(
-                    contentPadding = paddingValues,
-                    maps = uiState.maps,
-                    mapDownloadStatus = uiState.mapDownloadStatus,
-                    homeViewModel = homeViewModel,
-                    onModelClicked = { map ->
-                        onClickMapView(map)
-                    }
-                )
+                Box(
+                    contentAlignment = Alignment.TopCenter,
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .padding(top = 16.dp),
+                ) {
+                    MapList(
+                        contentPadding = paddingValues,
+                        maps = uiState.maps,
+                        mapDownloadStatus = uiState.mapDownloadStatus,
+                        homeViewModel = homeViewModel,
+                        onModelClicked = { map -> onClickMapView(map) }
+                    )
+                }
             }
 
-        }
-        if (loadingMapAllowlistDelayed) {
-            Row(
-                modifier = Modifier.fillMaxSize(),
-                verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.Center,
-            ) {
-                CircularProgressIndicator(
-                    trackColor = MaterialTheme.colorScheme.surfaceVariant,
-                    strokeWidth = 3.dp,
-                    modifier = Modifier.padding(end = 8.dp).size(20.dp),
-                )
-                Text(
-                    "Loading map list...",
-                    style = MaterialTheme.typography.bodyMedium,
-                )
+            if (loadingMapAllowlistDelayed) {
+                Row(
+                    modifier = Modifier.fillMaxSize(),
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.Center,
+                ) {
+                    CircularProgressIndicator(
+                        trackColor = MaterialTheme.colorScheme.surfaceVariant,
+                        strokeWidth = 3.dp,
+                        modifier = Modifier.padding(end = 8.dp).size(20.dp),
+                    )
+                    Text(
+                        "Loading map list...",
+                        style = MaterialTheme.typography.bodyMedium,
+                    )
+                }
             }
         }
     }

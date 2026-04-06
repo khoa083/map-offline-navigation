@@ -1,8 +1,5 @@
 package com.kblack.offlinemap.data.model
 
-import com.kblack.offlinemap.domain.models.MapModel
-import com.kblack.offlinemap.presentation.ui.Constant.BASE_HUGGINGFACE_URL
-
 data class MapAllowlist(
     val maps: List<MapListResponse> = emptyList()
 )

@@ -5,10 +5,12 @@ import androidx.work.WorkManager
 import com.kblack.offlinemap.data.remote.api.MapListRemoteDataSource
 import com.kblack.offlinemap.data.repository.AppLifecycleProviderImpl
 import com.kblack.offlinemap.data.repository.LocationRepositoryImpl
+import com.kblack.offlinemap.data.repository.MapAllowlistRepositoryImpl
 import com.kblack.offlinemap.data.repository.MapDownloadRepositoryImpl
 import com.kblack.offlinemap.data.repository.RoutingRepositoryImpl
 import com.kblack.offlinemap.domain.repository.AppLifecycleProvider
 import com.kblack.offlinemap.domain.repository.LocationRepository
+import com.kblack.offlinemap.domain.repository.MapAllowlistRepository
 import com.kblack.offlinemap.domain.repository.MapDownloadRepository
 import com.kblack.offlinemap.domain.repository.RoutingRepository
 import dagger.Module
@@ -32,6 +34,15 @@ object AppModule {
     @Singleton
     fun provideMapListRemoteDataSource(): MapListRemoteDataSource {
         return MapListRemoteDataSource()
+    }
+
+    @Provides
+    @Singleton
+    fun provideMapAllowlistRepository(
+        remoteDataSource: MapListRemoteDataSource,
+        @ApplicationContext context: Context,
+    ): MapAllowlistRepository {
+        return MapAllowlistRepositoryImpl(remoteDataSource, context)
     }
 
     @Provides
