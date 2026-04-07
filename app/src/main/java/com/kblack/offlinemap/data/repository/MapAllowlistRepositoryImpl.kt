@@ -32,6 +32,10 @@ class MapAllowlistRepositoryImpl(
         return mapAllowlist?.maps?.map { it.toDomain() }
     }
 
+    override fun getMapUrlResponse(url: String): Int {
+        return remoteDataSource.getUrlResponseCode(url)
+    }
+
     private fun saveMapAllowlistToDisk(allowlist: MapAllowlist) {
         try {
             val file = java.io.File(externalFilesDir, allowlistFileName)

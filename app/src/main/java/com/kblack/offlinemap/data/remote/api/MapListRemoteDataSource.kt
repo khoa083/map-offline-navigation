@@ -21,4 +21,15 @@ class MapListRemoteDataSource {
             null
         }
     }
+
+    fun getUrlResponseCode(url: String): Int {
+        return try {
+            val connection = URL(url).openConnection() as HttpURLConnection
+            connection.requestMethod = "GET"
+            connection.connect()
+            connection.responseCode
+        } catch (_: Exception) {
+            -1
+        }
+    }
 }

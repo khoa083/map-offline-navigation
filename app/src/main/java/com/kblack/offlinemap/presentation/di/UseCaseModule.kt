@@ -6,6 +6,7 @@ import com.kblack.offlinemap.domain.repository.MapDownloadRepository
 import com.kblack.offlinemap.domain.repository.RoutingRepository
 import com.kblack.offlinemap.domain.usecase.location.GetCurrentLocationUseCase
 import com.kblack.offlinemap.domain.usecase.location.ObserveCurrentLocationUseCase
+import com.kblack.offlinemap.domain.usecase.mapallowlist.GetMapUrlResponseUseCase
 import com.kblack.offlinemap.domain.usecase.mapallowlist.LoadMapAllowlistUseCase
 import com.kblack.offlinemap.domain.usecase.routing.CalculateRouteUseCase
 import com.kblack.offlinemap.domain.usecase.routing.InitializeRouterUseCase
@@ -136,6 +137,14 @@ object UseCaseModule {
         mapAllowlistRepository: MapAllowlistRepository,
     ): LoadMapAllowlistUseCase {
         return LoadMapAllowlistUseCase(mapAllowlistRepository)
+    }
+
+    @Provides
+    @ViewModelScoped
+    fun provideGetMapUrlResponseUseCase(
+        mapAllowlistRepository: MapAllowlistRepository,
+    ): GetMapUrlResponseUseCase {
+        return GetMapUrlResponseUseCase(mapAllowlistRepository)
     }
 
 }

@@ -5,9 +5,12 @@ import androidx.lifecycle.viewModelScope
 import com.kblack.offlinemap.domain.models.MapDownloadStatus
 import com.kblack.offlinemap.domain.models.MapDownloadStatusType
 import com.kblack.offlinemap.domain.models.MapModel
-import com.kblack.offlinemap.domain.repository.MapDownloadRepository
+import com.kblack.offlinemap.domain.usecase.mapallowlist.GetMapUrlResponseUseCase
 import com.kblack.offlinemap.domain.usecase.mapallowlist.LoadMapAllowlistUseCase
+import com.kblack.offlinemap.domain.usecase.mapdownload.CancelAllUseCase
+import com.kblack.offlinemap.domain.usecase.mapdownload.CancelDownloadMapUseCase
 import com.kblack.offlinemap.domain.usecase.mapdownload.DeleteMapUseCase
+import com.kblack.offlinemap.domain.usecase.mapdownload.DownloadMapUseCase
 import com.kblack.offlinemap.domain.usecase.mapdownload.GetLocalMapStatusUseCase
 import com.kblack.offlinemap.presentation.ui.Constant.ALLOWLIST_URL
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -17,8 +20,6 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import java.net.HttpURLConnection
-import java.net.URL
 import javax.inject.Inject
 
 data class MapManagerUiState(
@@ -30,9 +31,12 @@ data class MapManagerUiState(
 @HiltViewModel
 class HomeViewModel @Inject constructor(
     private val loadMapAllowlistUseCase: LoadMapAllowlistUseCase,
+    private val getMapUrlResponseUseCase: GetMapUrlResponseUseCase,
     private val getLocalMapStatusUseCase: GetLocalMapStatusUseCase,
     private val deleteMapUseCase: DeleteMapUseCase,
-    private val downloadMapRepository: MapDownloadRepository,
+    private val downloadMapUseCase: DownloadMapUseCase,
+    private val cancelDownloadMapUseCase: CancelDownloadMapUseCase,
+    private val cancelAllUseCase: CancelAllUseCase,
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow(MapManagerUiState())
@@ -58,27 +62,19 @@ class HomeViewModel @Inject constructor(
 
         deleteMap(map)
 
-        downloadMapRepository.downloadMap(
+        downloadMapUseCase(
             map = map,
             onStatusUpdated = ::setDownloadStatus,
         )
     }
 
     fun cancelDownloadMap(map: MapModel) {
-        downloadMapRepository.cancelDownloadMap(map)
+        cancelDownloadMapUseCase(map)
         deleteMap(map)
     }
 
-    // todo: FIXME
     fun getMapUrlResponse(map: MapModel): Int {
-        return try {
-            val url = URL(map.url)
-            val connection = url.openConnection() as HttpURLConnection
-            connection.connect()
-            connection.responseCode
-        } catch (_: Exception) {
-            -1
-        }
+        return getMapUrlResponseUseCase(map.url)
     }
 
     private fun setDownloadStatus(map: MapModel, status: MapDownloadStatus) {
@@ -94,7 +90,6 @@ class HomeViewModel @Inject constructor(
 
         _uiState.update { it.copy(mapDownloadStatus = curMapDownloadStatus) }
     }
-
 
     fun loadMapAllowlist() {
         _uiState.update {
@@ -139,16 +134,19 @@ class HomeViewModel @Inject constructor(
         }
     }
 
-
-    fun clearLoadMapAllowlistError() {}
+    fun clearLoadMapAllowlistError() {
+        _uiState.update {
+            it.copy(loadingMapAllowlistError = "")
+        }
+    }
 
     private fun processPendingDownloads(maps: List<MapModel>) {
-        downloadMapRepository.cancelAll {
+        cancelAllUseCase {
             viewModelScope.launch(Main) {
                 for (map in maps) {
                     val downloadStatus = uiState.value.mapDownloadStatus[map.mapId]?.status
                     if (downloadStatus == MapDownloadStatusType.PARTIALLY_DOWNLOADED) {
-                        downloadMapRepository.downloadMap(
+                        downloadMapUseCase(
                             map = map,
                             onStatusUpdated = ::setDownloadStatus,
                         )

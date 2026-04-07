@@ -245,7 +245,7 @@ fun MapViewScreen(
 
     Scaffold(
         modifier = Modifier.fillMaxSize(),
-        containerColor = MaterialTheme.customColors.taskCardBgColor,
+        containerColor = MaterialTheme.colorScheme.background,
     )
     {
         BaseContainer(modifier = Modifier.padding(it)) {
@@ -288,7 +288,7 @@ fun MapViewScreen(
                             source = routeSource,
                             minZoom = 0.0f,
                             maxZoom = 24.0f,
-                            color = const(Color(0xFF0B57D0)),
+                            color = const(MaterialTheme.customColors.tabHeaderBgColor),
                             width = const(8.dp),
                             opacity = const(0.6f),
                             cap = const(LineCap.Round),
@@ -307,7 +307,7 @@ fun MapViewScreen(
                     CircleLayer(
                         id = "end-point-layer",
                         source = endPointSource,
-                        color = const(Color(0xFF0B57D0)),
+                        color = const(MaterialTheme.customColors.tabHeaderBgColor),
                         radius = const(8.dp)
 
                     )
@@ -319,7 +319,7 @@ fun MapViewScreen(
                     CircleLayer(
                         id = "start-point-layer",
                         source = startPointSource,
-                        color = const(Color(0xFF0B57D0)),
+                        color = const(MaterialTheme.customColors.tabHeaderBgColor),
                         radius = const(8.dp)
 
                     )
@@ -332,7 +332,7 @@ fun MapViewScreen(
                     CircleLayer(
                         id = "current-location-layer",
                         source = currentLocationSource,
-                        color = const(Color(0xFF0B57D0)),
+                        color = const(MaterialTheme.customColors.tabHeaderBgColor),
                         radius = const(7.dp),
                         opacity = const(0.9f)
                     )
@@ -398,8 +398,8 @@ fun MapViewScreen(
                     scaffoldState = sheetState,
                     sheetSwipeEnabled = sheetState.bottomSheetState.currentValue != SheetValue.Expanded,
                     containerColor = Color.Transparent,
-                    contentColor = MaterialTheme.customColors.taskCardBgColor,
-                    sheetContainerColor = MaterialTheme.customColors.taskCardBgColor,
+                    contentColor = MaterialTheme.colorScheme.onSurface,
+                    sheetContainerColor = MaterialTheme.colorScheme.surfaceContainer,
                     sheetContent = {
                         RouteInstructionsBottomSheet(
                             route = uiState.route,

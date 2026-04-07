@@ -5,5 +5,6 @@ import com.kblack.offlinemap.domain.models.MapModel
 
 interface MapAllowlistRepository {
     suspend fun loadMapAllowlist(url: String): List<MapModel>?
+    fun getMapUrlResponse(url: String): Int
 }
 

@@ -45,6 +45,7 @@ play-services-location = "21.3.0"
 
 commonmark = "1.0.0-alpha04"
 richtext = "1.0.0-alpha04"
+#https://github.com/DanielMartinus/Konfetti
 konfettiCompose = "2.0.5"
 
 # tar, zst compression
