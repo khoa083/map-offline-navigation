@@ -26,6 +26,7 @@ import nl.dionsegijn.konfetti.core.models.Shape
 import java.util.concurrent.TimeUnit
 import kotlin.collections.copy
 
+//https://github.com/DanielMartinus/Konfetti/blob/main/samples/shared/src/main/java/nl/dionsegijn/samples/shared/Presets.kt
 @Stable
 class SimpleConfettiController {
     private var eventId by mutableIntStateOf(0)
