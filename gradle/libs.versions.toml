@@ -52,6 +52,9 @@ konfettiCompose = "2.0.5"
 # todo https://github.com/luben/zstd-jni?tab=readme-ov-file#android-support
 # https://github.com/luben/ZstdAndroidExample
 tar_version = "1.28.0"
+#mockk
+mockk = "1.14.9"
+
 
 [libraries]
 androidx-core-ktx = { module = "androidx.core:core-ktx", version.ref = "coreKtx" }
@@ -121,6 +124,7 @@ richtext = { module = "com.halilibo.compose-richtext:richtext-ui-material3", ver
 # tar, zst compression
 tar = { module = "org.apache.commons:commons-compress", version.ref = "tar_version" }
 konfetti-compose = { module = "nl.dionsegijn:konfetti-compose", version.ref = "konfettiCompose" }
+mockk = { module = "io.mockk:mockk", version.ref = "mockk" }
 
 [bundles]
 hilt = ["hilt-android", "hilt-navigation-compose"]
