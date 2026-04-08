@@ -67,6 +67,9 @@ import org.maplibre.compose.layers.CircleLayer
 import org.maplibre.compose.layers.LineLayer
 import org.maplibre.compose.layers.SymbolLayer
 import org.maplibre.compose.location.BearingUpdate
+import org.maplibre.compose.location.LocationPuck
+import org.maplibre.compose.location.LocationPuckColors
+import org.maplibre.compose.location.LocationPuckSizes
 import org.maplibre.compose.location.LocationTrackingEffect
 import org.maplibre.compose.map.MapOptions
 import org.maplibre.compose.map.MaplibreMap
@@ -148,8 +151,26 @@ fun MapViewScreen(
         context = context,
         onLocationReady = { mapViewModel.useCurrentLocation() }
     )
-    val locationState = rememberMapLocationState(locationAccessState.hasPermission)
+    val canUseMapLibreLocation =
+        locationAccessState.hasPermission && locationAccessState.isLocationServiceOn
+    val locationStateMaplibre = rememberMapLocationState(canUseMapLibreLocation)
+    val hasMapLibreLocation = locationStateMaplibre?.location != null
     val sheetState = rememberBottomSheetScaffoldState()
+
+    // fix crash Location punk
+//    val locationState = rememberMapLocationState(locationAccessState.hasPermission)
+//    val sheetState = rememberBottomSheetScaffoldState()
+//
+//    val locationProvider = key(locationAccessState.hasPermission) {
+//        if (locationAccessState.hasPermission) {
+//            rememberDefaultLocationProvider()
+//        } else {
+//            rememberNullLocationProvider()
+//        }
+//    }
+//    val locationStateMaplibre = rememberUserLocationState(locationProvider)
+//    val hasMapLibreLocation = locationStateMaplibre.location != null
+
 
     val camera =
         rememberCameraState(
@@ -196,7 +217,7 @@ fun MapViewScreen(
     }
 
     if (uiState.isNavigating) {
-        locationState?.let { safeLocationState ->
+        locationStateMaplibre?.let { safeLocationState ->
             LocationTrackingEffect(
                 trackBearing = true,
                 locationState = safeLocationState,
@@ -325,16 +346,22 @@ fun MapViewScreen(
                     )
                 }
 
-                if (locationAccessState.hasPermission && uiState.currentLocation != null) {
-                    val currentLocationSource = rememberGeoJsonSource(
-                        data = GeoJsonData.JsonString(singlePointFeatureJson(uiState.currentLocation!!))
-                    )
-                    CircleLayer(
-                        id = "current-location-layer",
-                        source = currentLocationSource,
-                        color = const(MaterialTheme.customColors.tabHeaderBgColor),
-                        radius = const(7.dp),
-                        opacity = const(0.9f)
+                if (locationAccessState.hasPermission &&
+                    locationAccessState.isLocationServiceOn &&
+                    hasMapLibreLocation
+                ) {
+                    // https://maplibre.org/maplibre-compose/api/lib/maplibre-compose/org.maplibre.compose.location/-location-puck.html
+                    //todo FIXME: Currently, due to the new library, Location Punk is not yet stable; I will find a way to fix it later.
+                    LocationPuck(
+                        idPrefix = "location-accuracy",
+                        locationState = locationStateMaplibre,
+                        cameraState = camera,
+                        oldLocationThreshold = 10.seconds,
+                        accuracyThreshold = 0f,
+                        colors = LocationPuckColors(
+                            bearingColor = Color(0xFF0B57D0),
+                        ),
+                        sizes = LocationPuckSizes(),
                     )
                 }
             }
@@ -398,8 +425,8 @@ fun MapViewScreen(
                     scaffoldState = sheetState,
                     sheetSwipeEnabled = sheetState.bottomSheetState.currentValue != SheetValue.Expanded,
                     containerColor = Color.Transparent,
-                    contentColor = MaterialTheme.colorScheme.onSurface,
-                    sheetContainerColor = MaterialTheme.colorScheme.surfaceContainer,
+                    contentColor = MaterialTheme.customColors.taskCardBgColor,
+                    sheetContainerColor = MaterialTheme.customColors.taskCardBgColor,
                     sheetContent = {
                         RouteInstructionsBottomSheet(
                             route = uiState.route,
