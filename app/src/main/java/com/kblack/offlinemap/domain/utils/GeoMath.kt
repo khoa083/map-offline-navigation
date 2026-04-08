@@ -7,6 +7,8 @@ import kotlin.math.cos
 import kotlin.math.sin
 import kotlin.math.sqrt
 // https://github.com/junjunguo/PocketMaps/blob/master/PocketMaps/app/src/main/java/com/junjunguo/pocketmaps/util/GeoMath.java
+// The original project used Degree Approximation to calculate the distance.
+// Haversine
 object GeoMath {
     private const val EARTH_RADIUS_METERS = 6371000.0
 
