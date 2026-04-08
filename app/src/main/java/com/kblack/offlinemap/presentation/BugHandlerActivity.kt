@@ -90,10 +90,8 @@ class BugHandlerActivity : ComponentActivity() {
         val currentDateTime = Calendar.getInstance().time
         val formatter = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault())
         val formattedDateTime = formatter.format(currentDateTime)
-//        val versionName = readBuildConfigString("MY_VERSION_NAME", BuildConfig.VERSION_NAME)
-//        val commitName = readBuildConfigString("MY_COMMIT_NAME", "unknown")
-        val versionName = "BuildConfig.MY_VERSION_NAME"
-        val commitName = "BuildConfig.MY_COMMIT_NAME"
+        val versionName = readBuildConfigString("MY_VERSION_NAME", BuildConfig.VERSION_NAME)
+        val commitName = readBuildConfigString("MY_COMMIT_NAME", "unknown")
 
         return buildString {
             append("Version: $versionName\n\n")

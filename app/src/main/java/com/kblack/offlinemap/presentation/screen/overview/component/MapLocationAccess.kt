@@ -1,6 +1,7 @@
 package com.kblack.offlinemap.presentation.screen.overview.component
 
 import android.Manifest
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
@@ -25,7 +26,6 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
 import androidx.lifecycle.compose.LocalLifecycleOwner
 import org.maplibre.compose.location.rememberDefaultLocationProvider
-import org.maplibre.compose.location.rememberNullLocationProvider
 import org.maplibre.compose.location.rememberUserLocationState
 import timber.log.Timber
 
@@ -202,6 +202,7 @@ fun rememberMapLocationAccessState(
 
 @Suppress("unused")
 @Composable
+@SuppressLint("MissingPermission")
 fun rememberMapLocationState(hasPermission: Boolean) =
     if (hasPermission) {
         val locationProvider = rememberDefaultLocationProvider()
@@ -209,7 +210,3 @@ fun rememberMapLocationState(hasPermission: Boolean) =
     } else {
         null
     }
-
-
-
-

@@ -90,6 +90,7 @@ import kotlin.time.Duration.Companion.seconds
 @SuppressLint("SourceLockedOrientationActivity")
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
+//todo FIXME: Refactor this method to reduce its Cognitive Complexity from 75 to the 15 allowed
 fun MapViewScreen(
     map: MapModel,
     mapViewModel: MapViewModel = hiltViewModel(),
@@ -351,7 +352,7 @@ fun MapViewScreen(
                     hasMapLibreLocation
                 ) {
                     // https://maplibre.org/maplibre-compose/api/lib/maplibre-compose/org.maplibre.compose.location/-location-puck.html
-                    //todo FIXME: Currently, due to the new library, Location Punk is not yet stable; I will find a way to fix it later.
+                    //todo FIXME: Currently, due to the new library, Location Punk is not yet stable, I will find a way to fix it later.
                     LocationPuck(
                         idPrefix = "location-accuracy",
                         locationState = locationStateMaplibre,

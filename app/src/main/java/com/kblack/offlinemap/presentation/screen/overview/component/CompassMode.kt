@@ -38,6 +38,7 @@ import kotlin.math.abs
  * but more latency. 0.15 is a sensible default.
  * [sensorDelay] One of SensorManager.SENSOR_DELAY_* constants.
  */
+//todo: Create by Claude 4.6
 //https://proandroiddev.com/update-for-your-compass-new-android-orientation-api-dc4e5c25ca35
 @Composable
 fun rememberCompassMode(

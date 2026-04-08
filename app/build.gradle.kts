@@ -1,3 +1,6 @@
+import java.util.Properties
+import kotlin.apply
+
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.compose)
@@ -8,11 +11,7 @@ plugins {
 
 android {
     namespace = "com.kblack.offlinemap"
-    compileSdk {
-        version = release(36) {
-            minorApiLevel = 1
-        }
-    }
+    compileSdk = ((rootProject.extra["configSDK"] as Map<*, *>)["target_sdk"] as Int?)!!
 
     defaultConfig {
         applicationId = "com.kblack.offlinemap"
@@ -25,13 +24,93 @@ android {
         multiDexEnabled = true
     }
 
+    signingConfigs {
+        create("release") {
+            val properties = Properties().apply {
+                load(rootProject.file("local.properties").inputStream())
+            }
+
+//            storeFile = file(properties["RELEASE_STORE_FILE"] as String)
+//            storePassword = properties["RELEASE_STORE_PASSWORD"] as String
+//            keyAlias = properties["RELEASE_KEY_ALIAS"] as String
+//            keyPassword = properties["RELEASE_KEY_PASSWORD"] as String
+        }
+    }
+
+    testOptions {
+        unitTests {
+            isIncludeAndroidResources = true
+            isReturnDefaultValues = true
+            all {
+                it.jvmArgs(
+                    "-XX:+EnableDynamicAgentLoading",
+                    "-XX:-PrintWarnings",
+                    "-Xshare:off"
+                )
+            }
+        }
+    }
+
+    buildFeatures {
+        buildConfig = true
+        compose = true
+    }
+
+    packaging {
+        dex {
+            useLegacyPackaging = false
+        }
+        jniLibs {
+            useLegacyPackaging = false
+        }
+        resources {
+            excludes += "META-INF/*.version"
+            // https://youtrack.jetbrains.com/issue/KT-48019/Bundle-Kotlin-Tooling-Metadata-into-apk-artifacts
+            excludes += "kotlin-tooling-metadata.json"
+            // https://github.com/Kotlin/kotlinx.coroutines?tab=readme-ov-file#avoiding-including-the-debug-infrastructure-in-the-resulting-apk
+            excludes += "DebugProbesKt.bin"
+        }
+    }
+
+    defaultConfig {
+        applicationId = "com.kblack.offlinemap"
+        minSdk = ((rootProject.extra["configSDK"] as Map<*, *>)["min_sdk"] as Int?)!!
+        targetSdk = ((rootProject.extra["configSDK"] as Map<*, *>)["target_sdk"] as Int?)!!
+        // Trên store lấy version dựa theo 2 phần này
+        versionCode = rootProject.extra["versionCode"] as Int
+        versionName = rootProject.extra["versionName"] as String
+
+        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+
+        //BugHandlerActivity get name
+        buildConfigField(
+            "String",
+            "MY_VERSION_NAME",
+            "\"$versionName${rootProject.extra["myVersionName"] as String}\""
+        )
+        buildConfigField(
+            "String",
+            "MY_COMMIT_NAME",
+            "\"${rootProject.extra["commitMessage"] as String}\""
+        )
+        //END-----------------BugHandlerActivity get name
+
+        vectorDrawables {
+            useSupportLibrary = true
+        }
+    }
+
     buildTypes {
         release {
             isMinifyEnabled = true
+            isShrinkResources = true
+            // TODO myVersionName contains the hash of the commit
+//            versionNameSuffix = rootProject.extra["myVersionName"] as String
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
+//            signingConfig = signingConfigs.getByName("release")
         }
         debug {
             isPseudoLocalesEnabled = true
@@ -40,14 +119,12 @@ android {
 //            versionNameSuffix = rootProject.extra["myVersionName"] as String
         }
     }
+
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_11
-        targetCompatibility = JavaVersion.VERSION_11
+        sourceCompatibility = JavaVersion.VERSION_21
+        targetCompatibility = JavaVersion.VERSION_21
     }
-    buildFeatures {
-        buildConfig = true
-        compose = true
-    }
+
 
     androidResources {
         noCompress.add("pmtiles")
@@ -105,6 +182,7 @@ dependencies {
         exclude(group = "org.openstreetmap.osmosis", module = "osmosis-osm-binary")
         exclude(group = "org.apache.xmlgraphics", module = "xmlgraphics-commons")
     }
+    implementation(libs.slf4j.android)
 
     testImplementation(libs.junit)
     testImplementation(libs.mockk)
