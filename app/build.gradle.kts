@@ -60,6 +60,7 @@ android {
             isIncludeAndroidResources = true
             isReturnDefaultValues = true
             all {
+                it.failOnNoDiscoveredTests = false
                 it.jvmArgs(
                     "-XX:+EnableDynamicAgentLoading",
                     "-XX:-PrintWarnings",
@@ -111,6 +112,7 @@ android {
 //            applicationIdSuffix = ".debug"
             // TODO myVersionName contains the hash of the commit
 //            versionNameSuffix = rootProject.extra["myVersionName"] as String
+            enableUnitTestCoverage = true
         }
     }
 
@@ -124,6 +126,13 @@ android {
         noCompress.add("pmtiles")
     }
 
+}
+
+tasks.withType<org.gradle.api.tasks.testing.Test>().configureEach {
+    reports.html.required.set(true)
+    reports.html.outputLocation.set(rootProject.layout.projectDirectory.dir("reports/tests/$name/html"))
+    reports.junitXml.required.set(true)
+    reports.junitXml.outputLocation.set(rootProject.layout.projectDirectory.dir("reports/tests/$name/xml"))
 }
 
 dependencies {

@@ -47,3 +47,5 @@ extra["versionCode"] = versionCode
 extra["versionName"] = versionName
 extra["myVersionName"] = myVersionName
 extra["commitMessage"] = commitMessage
+
+apply(from = "app/jacoco.gradle.kts")
