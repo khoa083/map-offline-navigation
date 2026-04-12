@@ -3,7 +3,7 @@ import org.gradle.testing.jacoco.tasks.JacocoReport
 apply(plugin = "jacoco")
 
 configure<JacocoPluginExtension> {
-    toolVersion = "0.8.12"
+    toolVersion = "0.8.14"
 }
 
 val coverageModules = listOf(

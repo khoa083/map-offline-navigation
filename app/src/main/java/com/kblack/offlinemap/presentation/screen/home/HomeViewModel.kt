@@ -26,7 +26,7 @@ data class MapManagerUiState(
     val maps: List<MapModel> = emptyList(),
     val mapDownloadStatus: Map<String, MapDownloadStatus> = emptyMap(),
     val loadingMapAllowlist: Boolean = true,
-    val loadingMapAllowlistError: String = "",
+    val loadingMapAllowlistError: String? = null,
 )
 @HiltViewModel
 class HomeViewModel @Inject constructor(
@@ -93,7 +93,7 @@ class HomeViewModel @Inject constructor(
 
     fun loadMapAllowlist() {
         _uiState.update {
-            it.copy(loadingMapAllowlist = true, loadingMapAllowlistError = "")
+            it.copy(loadingMapAllowlist = true, loadingMapAllowlistError = null)
         }
 
         viewModelScope.launch(IO) {
@@ -136,7 +136,7 @@ class HomeViewModel @Inject constructor(
 
     fun clearLoadMapAllowlistError() {
         _uiState.update {
-            it.copy(loadingMapAllowlistError = "")
+            it.copy(loadingMapAllowlistError = null)
         }
     }
 

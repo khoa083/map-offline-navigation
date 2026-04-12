@@ -88,7 +88,11 @@ class MapViewModel @Inject constructor(
             }.onFailure { error ->
                 initializedGraphPath = null
                 _uiState.update {
-                    it.copy(routingReady = false, isLoading = false, errorMessage = error.message)
+                    it.copy(
+                        routingReady = false,
+                        isLoading = false,
+                        errorMessage = error.message ?: "Failed to initialize routing"
+                    )
                 }
             }
         }
@@ -159,7 +163,12 @@ class MapViewModel @Inject constructor(
                 _uiState.update { it.copy(isRouting = false, route = route, errorMessage = null) }
                 updateNavigationSnapshot(_uiState.value.currentLocation)
             }.onFailure { error ->
-                _uiState.update { it.copy(isRouting = false, errorMessage = error.message) }
+                _uiState.update {
+                    it.copy(
+                        isRouting = false,
+                        errorMessage = error.message ?: "Failed to calculate route"
+                    )
+                }
             }
         }
     }
@@ -178,6 +187,10 @@ class MapViewModel @Inject constructor(
         locationJob?.cancel()
         locationJob = null
         _uiState.update { it.copy(isNavigating = false, navigationSnapshot = null) }
+    }
+
+    fun clearErrorMessage() {
+        _uiState.update { it.copy(errorMessage = null) }
     }
 
     private fun observeLocation() {

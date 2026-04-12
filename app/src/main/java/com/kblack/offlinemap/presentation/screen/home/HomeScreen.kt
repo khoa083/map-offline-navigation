@@ -67,7 +67,8 @@ fun HomeScreen(
         }
     }
 
-    if (uiState.loadingMapAllowlistError.isNotEmpty()) {
+    if (uiState.loadingMapAllowlistError != null) {
+        val errorMessage = uiState.loadingMapAllowlistError
         AlertDialog(
             icon = {
                 Icon(
@@ -76,7 +77,7 @@ fun HomeScreen(
                     tint = MaterialTheme.colorScheme.error,
                 )
             },
-            title = { Text(uiState.loadingMapAllowlistError) },
+            title = { errorMessage?.let { Text(it) } },
             text = { Text("Please check your internet connection and try again later.") },
             onDismissRequest = { homeViewModel.loadMapAllowlist() },
             confirmButton = {

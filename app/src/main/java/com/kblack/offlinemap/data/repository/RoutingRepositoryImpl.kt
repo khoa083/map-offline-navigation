@@ -56,7 +56,6 @@ class RoutingRepositoryImpl(
             val loaded = localHopper.load(graphDir.absolutePath)
             if (!loaded) {
                 throw IllegalStateException("Cannot load GraphHopper graph from ${graphDir.absolutePath}")
-                //todo: show noti
             }
             hopper = localHopper
 
