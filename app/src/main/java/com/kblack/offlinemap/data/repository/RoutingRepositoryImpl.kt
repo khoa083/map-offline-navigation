@@ -96,7 +96,7 @@ class RoutingRepositoryImpl(
             }
             throw IllegalStateException(firstError)
         }
-        Timber.d("[CAPTURE] CalculateRoute GraphHopper: ${response.best}")
+//        Timber.d("[CAPTURE] CalculateRoute GraphHopper: ${response.best}")
         mapPath(response.best)
 
     }
@@ -171,25 +171,6 @@ class RoutingRepositoryImpl(
         for ((key, value) in path.pathDetails) {
             speedMap[key] = mapPathDetails(value)
         }
-
-        Timber.d(
-            "[CAPTURE] instructions GraphHopper $instructions"
-        )
-
-        //LOG
-        Timber.d(
-            "[CAPTURE] Route GraphHopper ${
-                Route(
-                    distanceMeters = path.distance,
-                    durationMillis = path.time,
-                    points = points,
-                    instructions = instructions,
-                    speedDetails = speedMap,
-                    isDirectFallback = false,
-                    debugInfo = path.debugInfo ?: ""
-                )
-            }"
-        )
 
         return Route(
             distanceMeters = path.distance,

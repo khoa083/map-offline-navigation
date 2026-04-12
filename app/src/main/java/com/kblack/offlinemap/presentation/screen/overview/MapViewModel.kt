@@ -28,7 +28,6 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 data class MapUiState(
-
     val routingReady: Boolean = false,
     val isLoading: Boolean = false,
     val isRouting: Boolean = false,
