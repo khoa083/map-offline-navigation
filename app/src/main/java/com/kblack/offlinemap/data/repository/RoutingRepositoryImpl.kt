@@ -96,7 +96,6 @@ class RoutingRepositoryImpl(
             }
             throw IllegalStateException(firstError)
         }
-//        Timber.d("[CAPTURE] CalculateRoute GraphHopper: ${response.best}")
         mapPath(response.best)
 
     }

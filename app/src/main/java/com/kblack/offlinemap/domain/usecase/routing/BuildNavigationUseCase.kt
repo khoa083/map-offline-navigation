@@ -9,7 +9,6 @@ import com.kblack.offlinemap.domain.utils.GeoMath
 // https://github.com/junjunguo/PocketMaps/blob/master/PocketMaps/app/src/main/java/com/junjunguo/pocketmaps/navigator/NaviEngine.java
 // nearest-point + off-track detection
 // https://stackoverflow.com/questions/47109609/algorithm-to-find-the-nearest-point-to-a-path-using-latitude-and-longitude
-// todo: FIXME off-track detection current not working
 class BuildNavigationUseCase {
 
     operator fun invoke(

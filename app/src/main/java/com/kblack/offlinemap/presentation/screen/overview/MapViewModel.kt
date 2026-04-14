@@ -180,6 +180,7 @@ class MapViewModel @Inject constructor(
         }
         _uiState.update { it.copy(isNavigating = true) }
         observeLocation()
+        useCurrentLocation()
     }
 
     fun stopNavigation() {
@@ -206,7 +207,13 @@ class MapViewModel @Inject constructor(
         val route = _uiState.value.route ?: return
         val current = currentLocation ?: return
         if (!_uiState.value.isNavigating) return
-        _uiState.update { it.copy(navigationSnapshot = buildNavigationUseCase(route, current)) }
+
+        val snapshot = buildNavigationUseCase(route, current)
+        _uiState.update { it.copy(navigationSnapshot = snapshot) }
+
+        if (snapshot.isOffTrack) {
+            recalculateRoute()
+        }
     }
 
     override fun onCleared() {

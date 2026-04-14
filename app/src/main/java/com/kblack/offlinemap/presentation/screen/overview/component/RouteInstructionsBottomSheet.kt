@@ -126,7 +126,7 @@ private fun RouteSummaryHeader(route: Route?) {
                     modifier = Modifier.size(18.dp)
                 )
             },
-            label = "Time",
+            label = "Remaining",
             value = RouteTextFormatter.formatDurationMillis(route?.durationMillis ?: 0L)
         )
     }

@@ -116,14 +116,14 @@ fun NavigationBottomPanel(
                 horizontalArrangement = Arrangement.SpaceBetween,
                 verticalAlignment = Alignment.Top
             ) {
-                Header(value = currentTime, label = "Destination")
+                Header(value = currentTime, label = "Time")
                 Header(
                     value = RouteTextFormatter.formatDurationMillis(remainingDuration),
                     label = "Remaining"
                 )
                 Header(
                     value = RouteTextFormatter.formatDistanceMeters(remainingDistance),
-                    label = "Left"
+                    label = "Distance"
                 )
             }
 
