@@ -14,7 +14,9 @@ class GeoMathTest {
     fun `distanceMeters should 0 if the two points are the same`() {
         val geo = GeoCoordinate(latitude = 0.0, longitude = 0.0)
 
-        assertEquals(0.0, GeoMath.distanceMeters(geo, geo), 0.1)
+        val actual = GeoMath.distanceMeters(geo, geo)
+
+        assertEquals(0.0, actual, 0.1)
     }
 
     //todo Example: https://www.vcalc.com/wiki/vcalc/haversine-distance?var-lat1=21.051632&var-lon1=105.812875&var-lat2=21.05063&var-lon2=105.813307
@@ -23,7 +25,9 @@ class GeoMathTest {
         val geoA = GeoCoordinate(latitude = 21.051632, longitude = 105.812875)
         val geoB = GeoCoordinate(latitude = 21.05063, longitude = 105.813307)
 
-        assertEquals(120.0, GeoMath.distanceMeters(geoA, geoB), 0.1)
+        val actual = GeoMath.distanceMeters(geoA, geoB)
+
+        assertEquals(120.0, actual, 0.1)
     }
 
     @Test
@@ -166,3 +170,4 @@ class GeoMathTest {
 }
 
 // longitude tăng = đông, longitude giảm = tây; latitude tăng = bắc, latitude giảm = nam
+// North (0°), South (180°), East (90°), West (270°)
