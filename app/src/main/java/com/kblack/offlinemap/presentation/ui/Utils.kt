@@ -17,7 +17,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.core.content.ContextCompat
 import com.kblack.offlinemap.domain.models.MapModel
-import com.kblack.offlinemap.presentation.screen.home.HomeViewModel
+import com.kblack.offlinemap.presentation.viewmodel.HomeViewModel
 import kotlinx.coroutines.delay
 import kotlin.math.ln
 import kotlin.math.pow

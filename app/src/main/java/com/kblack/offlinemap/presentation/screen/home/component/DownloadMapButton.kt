@@ -1,6 +1,5 @@
 package com.kblack.offlinemap.presentation.screen.home.component
 
-import android.widget.Toast
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.animation.ExperimentalSharedTransitionApi
@@ -53,13 +52,12 @@ import androidx.compose.ui.unit.sp
 import com.kblack.offlinemap.domain.models.MapDownloadStatus
 import com.kblack.offlinemap.domain.models.MapDownloadStatusType
 import com.kblack.offlinemap.domain.models.MapModel
-import com.kblack.offlinemap.presentation.screen.home.HomeViewModel
+import com.kblack.offlinemap.presentation.viewmodel.HomeViewModel
 import com.kblack.offlinemap.presentation.ui.checkNotificationPermissionAndStartDownload
 import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.Dispatchers.Main
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import timber.log.Timber
 import java.net.HttpURLConnection
 
 @OptIn(ExperimentalSharedTransitionApi::class)

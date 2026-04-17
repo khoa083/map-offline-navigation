@@ -1,4 +1,4 @@
-package com.kblack.offlinemap.presentation.screen.overview
+package com.kblack.offlinemap.presentation.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope

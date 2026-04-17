@@ -27,7 +27,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.kblack.offlinemap.R
 import com.kblack.offlinemap.domain.models.GeoCoordinate
-import com.kblack.offlinemap.presentation.screen.overview.MapUiState
+import com.kblack.offlinemap.presentation.viewmodel.MapUiState
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import java.util.Locale

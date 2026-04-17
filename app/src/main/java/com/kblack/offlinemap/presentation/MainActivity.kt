@@ -5,10 +5,9 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
-import androidx.lifecycle.ViewModel
 import androidx.navigation.compose.rememberNavController
 import com.kblack.offlinemap.presentation.navigation.MapNavGraph
-import com.kblack.offlinemap.presentation.screen.home.HomeViewModel
+import com.kblack.offlinemap.presentation.viewmodel.HomeViewModel
 import com.kblack.offlinemap.presentation.ui.theme.OfflinemapTheme
 import dagger.hilt.android.AndroidEntryPoint
 

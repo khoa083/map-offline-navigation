@@ -32,7 +32,7 @@ import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.unit.dp
 import com.kblack.offlinemap.domain.models.MapDownloadStatus
 import com.kblack.offlinemap.domain.models.MapModel
-import com.kblack.offlinemap.presentation.screen.home.HomeViewModel
+import com.kblack.offlinemap.presentation.viewmodel.HomeViewModel
 import com.kblack.offlinemap.presentation.ui.theme.customColors
 
 @Composable

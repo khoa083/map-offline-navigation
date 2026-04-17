@@ -23,7 +23,7 @@ import com.kblack.offlinemap.R
 import com.kblack.offlinemap.domain.models.MapDownloadStatus
 import com.kblack.offlinemap.domain.models.MapDownloadStatusType
 import com.kblack.offlinemap.domain.models.MapModel
-import com.kblack.offlinemap.presentation.screen.home.HomeViewModel
+import com.kblack.offlinemap.presentation.viewmodel.HomeViewModel
 
 @Composable
 fun DeleteMapButton(

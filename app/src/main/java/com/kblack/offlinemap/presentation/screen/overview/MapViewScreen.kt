@@ -3,7 +3,6 @@ package com.kblack.offlinemap.presentation.screen.overview
 import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.pm.ActivityInfo
-import android.widget.Toast
 import androidx.compose.animation.core.Animatable
 import androidx.compose.animation.core.LinearEasing
 import androidx.compose.animation.core.tween
@@ -12,20 +11,14 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Flag
-import androidx.compose.material.icons.rounded.Error
-import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.BottomSheetScaffold
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SheetValue
-import androidx.compose.material3.Snackbar
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
-import androidx.compose.material3.Text
-import androidx.compose.material3.TextButton
 import androidx.compose.material3.rememberBottomSheetScaffoldState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
@@ -66,6 +59,7 @@ import com.kblack.offlinemap.presentation.ui.Constant.INITIAL_ZOOM
 import com.kblack.offlinemap.presentation.ui.Constant.MAX_ZOOM
 import com.kblack.offlinemap.presentation.ui.Constant.MIN_ZOOM
 import com.kblack.offlinemap.presentation.ui.theme.customColors
+import com.kblack.offlinemap.presentation.viewmodel.MapViewModel
 import org.maplibre.compose.camera.CameraPosition
 import org.maplibre.compose.camera.rememberCameraState
 import org.maplibre.compose.expressions.dsl.const

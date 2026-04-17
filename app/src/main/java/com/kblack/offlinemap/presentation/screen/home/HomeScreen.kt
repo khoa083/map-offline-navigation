@@ -8,7 +8,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Celebration
 import androidx.compose.material.icons.rounded.Error
 import androidx.compose.material3.AlertDialog
@@ -31,18 +30,15 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.semantics.contentDescription
-import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.unit.dp
 import com.kblack.offlinemap.R
 import com.kblack.offlinemap.domain.models.MapModel
 import com.kblack.offlinemap.presentation.screen.home.component.MapTopBar
-import com.kblack.offlinemap.presentation.model.TopBarAction
-import com.kblack.offlinemap.presentation.model.TopBarType
 import com.kblack.offlinemap.presentation.screen.home.component.MapList
 import com.kblack.offlinemap.presentation.ui.SimpleConfettiHost
 import com.kblack.offlinemap.presentation.ui.rememberDelayedAnimationProgress
 import com.kblack.offlinemap.presentation.ui.rememberSimpleConfettiController
+import com.kblack.offlinemap.presentation.viewmodel.HomeViewModel
 import kotlinx.coroutines.delay
 
 @OptIn(ExperimentalMaterial3Api::class)

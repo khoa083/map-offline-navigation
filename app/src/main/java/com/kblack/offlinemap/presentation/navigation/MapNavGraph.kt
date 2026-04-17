@@ -9,7 +9,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import com.kblack.offlinemap.presentation.screen.home.HomeScreen
-import com.kblack.offlinemap.presentation.screen.home.HomeViewModel
+import com.kblack.offlinemap.presentation.viewmodel.HomeViewModel
 import com.kblack.offlinemap.presentation.screen.overview.MapViewScreen
 
 @Composable

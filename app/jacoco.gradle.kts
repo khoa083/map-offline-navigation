@@ -29,6 +29,8 @@ val jacocoExclusions = listOf(
     "**/*Activity*.*", "**/*Fragment*.*", "**/*App*.*",
     "**/*ComposableSingletons*.*", "**/ComposableLambda*.*",
     "**/*\$Composable*.*", "**/*Kt\$*.*", "**/*\$stableprop*.*", "**/*\$lambda*.*",
+    //custom exclusions
+    "**/model/**", "**/models/**", "**/navigation/**", "**/domain/repository/**",
 )
 
 tasks.register<JacocoReport>("jacocoTestReportAll") {
