@@ -41,7 +41,6 @@ work_manager = "2.11.2"
 maplibreCompose = "0.12.1"
 # navigation compose
 navigationCompose = "2.9.7"
-play-services-location = "21.3.0"
 
 commonmark = "1.0.0-alpha04"
 richtext = "1.0.0-alpha04"
@@ -120,7 +119,6 @@ work-runtime-ktx = { module = "androidx.work:work-runtime-ktx", version.ref = "w
 maplibre-compose = { module = "org.maplibre.compose:maplibre-compose", version.ref = "maplibreCompose" }
 # navigation compose
 navigation-compose = { module = "androidx.navigation:navigation-compose", version.ref = "navigationCompose" }
-play-services-location = { module = "com.google.android.gms:play-services-location", version.ref = "play-services-location" }
 
 commonmark = { module = "com.halilibo.compose-richtext:richtext-commonmark", version.ref = "commonmark" }
 richtext = { module = "com.halilibo.compose-richtext:richtext-ui-material3", version.ref = "richtext" }

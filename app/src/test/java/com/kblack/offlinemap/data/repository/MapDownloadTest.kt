@@ -19,7 +19,7 @@ class MapDownloadTest {
 
     //todo: It can be replaced by robolectric @RunWith(RobolectricTestRunner::class) | context = ApplicationProvider.getApplicationContext()
     // https://developer.android.com/training/testing/local-tests/robolectric
-    private val context: Context = mockk(relaxed = true) // using relaxed = true or create sharedPreferences mock MapDownloadRepositoryImpl line 48-49
+    private val context: Context = mockk(relaxed = true)
     private val lifecycleProvider: AppLifecycleProvider = mockk(relaxed = true)
     private val workManager: WorkManager = mockk()
     private lateinit var repo: MapDownloadRepositoryImpl

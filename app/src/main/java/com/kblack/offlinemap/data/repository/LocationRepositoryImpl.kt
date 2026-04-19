@@ -3,117 +3,98 @@ package com.kblack.offlinemap.data.repository
 import android.annotation.SuppressLint
 import android.content.Context
 import android.location.Location
-import android.os.Looper
-import com.google.android.gms.location.CurrentLocationRequest
-import com.google.android.gms.location.FusedLocationProviderClient
-import com.google.android.gms.location.Granularity
-import com.google.android.gms.location.LocationCallback
-import com.google.android.gms.location.LocationRequest
-import com.google.android.gms.location.LocationResult
-import com.google.android.gms.location.LocationServices
-import com.google.android.gms.location.Priority
-import com.google.android.gms.tasks.CancellationTokenSource
-import com.google.android.gms.tasks.Task
-import com.kblack.offlinemap.data.mapper.toDomain
+import android.location.LocationListener
+import android.location.LocationManager
 import com.kblack.offlinemap.domain.models.GeoCoordinate
 import com.kblack.offlinemap.domain.repository.LocationRepository
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.callbackFlow
-import kotlinx.coroutines.suspendCancellableCoroutine
-import kotlin.coroutines.resume
-
+import timber.log.Timber
 
 class LocationRepositoryImpl(
     appContext: Context
-) : LocationRepository {
-    private val fusedLocationClient: FusedLocationProviderClient =
-        LocationServices.getFusedLocationProviderClient(appContext)
+): LocationRepository {
+    private val locationManager: LocationManager =
+        appContext.getSystemService(Context.LOCATION_SERVICE) as LocationManager
 
     @SuppressLint("MissingPermission")
     override suspend fun getCurrentLocation(): GeoCoordinate? {
-        return try {
-            val currentLocation = readLastKnownLocation() ?: readFreshLocation()
-            currentLocation?.toDomain()
-        } catch (_: SecurityException) {
-            null
-        }
+        val last = readBestLastKnownLocation() ?: return null
+        return GeoCoordinate(last.latitude, last.longitude)
     }
 
     @SuppressLint("MissingPermission")
     override fun observeCurrentLocation(intervalMs: Long): Flow<GeoCoordinate> = callbackFlow {
-        val minTimeMs = if (intervalMs < 0L) 0L else intervalMs
-        val request = LocationRequest.Builder(Priority.PRIORITY_HIGH_ACCURACY, minTimeMs)
-            .setMinUpdateIntervalMillis(minTimeMs)
-            .setWaitForAccurateLocation(false)
-            .build()
+        val listener = object : LocationListener {
+            override fun onLocationChanged(location: Location) {
+                trySend(GeoCoordinate(location.latitude, location.longitude))
+            }
 
-        val callback = object : LocationCallback() {
-            override fun onLocationResult(locationResult: LocationResult) {
-                for (location in locationResult.locations) {
-                    trySend(location.toDomain())
-                }
+            override fun onProviderEnabled(provider: String) {
+                Timber.d("onProviderEnabled")
+            }
+
+            override fun onProviderDisabled(provider: String) {
+                Timber.d("onProviderDisabled")
             }
         }
 
-        try {
-            fusedLocationClient
-                .requestLocationUpdates(request, callback, Looper.getMainLooper())
-                .addOnFailureListener { throwable -> close(throwable) }
+        val minTimeMs = if (intervalMs < 0L) 0L else intervalMs
 
-            readLastKnownLocation()?.let {
-                trySend(it.toDomain())
+        try {
+            val providers = arrayOf(
+                LocationManager.GPS_PROVIDER,
+                LocationManager.NETWORK_PROVIDER,
+                LocationManager.PASSIVE_PROVIDER
+            )
+
+            for (provider in providers) {
+                try {
+                    if (locationManager.isProviderEnabled(provider)) {
+                        locationManager.requestLocationUpdates(provider, minTimeMs, 0f, listener)
+                    }
+                } catch (_: IllegalArgumentException) {}
+            }
+
+            readBestLastKnownLocation()?.let {
+                trySend(GeoCoordinate(it.latitude, it.longitude))
             }
         } catch (_: SecurityException) {
             close()
-        } catch (_: IllegalStateException) {
+        } catch (_: IllegalArgumentException) {
             close()
         }
 
         awaitClose {
             try {
-                fusedLocationClient.removeLocationUpdates(callback)
+                locationManager.removeUpdates(listener)
+            } catch (_: SecurityException) {null}
+        }
+    }
+
+    @SuppressLint("MissingPermission")
+    private fun readBestLastKnownLocation(): Location? {
+        val candidates = arrayOf(
+            LocationManager.GPS_PROVIDER,
+            LocationManager.NETWORK_PROVIDER,
+            LocationManager.PASSIVE_PROVIDER
+        )
+
+        var best: Location? = null
+        for (provider in candidates) {
+            val loc = try {
+                locationManager.getLastKnownLocation(provider)
             } catch (_: SecurityException) {
                 null
+            } catch (_: IllegalArgumentException) {
+                null
+            }
+
+            if (loc != null && (best == null || loc.time > best.time)) {
+                best = loc
             }
         }
-    }
-
-    @SuppressLint("MissingPermission")
-    private suspend fun readFreshLocation(): Location? {
-        val tokenSource = CancellationTokenSource()
-        val request = CurrentLocationRequest.Builder()
-            .setPriority(Priority.PRIORITY_HIGH_ACCURACY)
-            .setGranularity(Granularity.GRANULARITY_PERMISSION_LEVEL)
-            .setDurationMillis(10_000L)
-            .setMaxUpdateAgeMillis(5_000L)
-            .build()
-
-        return suspendCancellableCoroutine { continuation ->
-            continuation.invokeOnCancellation { tokenSource.cancel() }
-
-            fusedLocationClient
-                .getCurrentLocation(request, tokenSource.token)
-                .addOnSuccessListener { if (continuation.isActive) continuation.resume(it) }
-                .addOnFailureListener { if (continuation.isActive) continuation.resume(null) }
-                .addOnCanceledListener { if (continuation.isActive) continuation.resume(null) }
-        }
-    }
-
-    @SuppressLint("MissingPermission")
-    private suspend fun readLastKnownLocation(): Location? {
-        return try {
-            fusedLocationClient.lastLocation.awaitOrNull()
-        } catch (_: SecurityException) {
-            null
-        }
-    }
-
-    private suspend fun <T> Task<T>.awaitOrNull(): T? {
-        return suspendCancellableCoroutine { continuation ->
-            addOnSuccessListener { if (continuation.isActive) continuation.resume(it) }
-            addOnFailureListener { if (continuation.isActive) continuation.resume(null) }
-            addOnCanceledListener { if (continuation.isActive) continuation.resume(null) }
-        }
+        return best
     }
 }

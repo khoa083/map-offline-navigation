@@ -144,7 +144,6 @@ dependencies {
     implementation(libs.coil.compose)
     implementation(libs.bundles.dataStore)
     implementation(libs.work.runtime.ktx)
-    implementation(libs.play.services.location)
     implementation(libs.bundles.maplibre)
     implementation(libs.konfetti.compose)
 //    implementation(libs.maplibre.plugin.annotation)

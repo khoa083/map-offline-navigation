@@ -1,5 +1,6 @@
 package com.kblack.offlinemap.presentation
 
+import app.cash.turbine.test
 import com.kblack.offlinemap.domain.models.GeoCoordinate
 import com.kblack.offlinemap.domain.models.Route
 import com.kblack.offlinemap.domain.usecase.location.GetCurrentLocationUseCase
@@ -15,13 +16,16 @@ import io.mockk.every
 import io.mockk.just
 import io.mockk.mockk
 import io.mockk.runs
+import junit.framework.TestCase.assertNotNull
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.StandardTestDispatcher
 import kotlinx.coroutines.test.resetMain
+import kotlinx.coroutines.test.runTest
 import kotlinx.coroutines.test.setMain
 import org.junit.After
 import org.junit.Before
+import org.junit.Test
 
 @OptIn(ExperimentalCoroutinesApi::class)
 class MapViewModelTest {
@@ -70,6 +74,18 @@ class MapViewModelTest {
     @After
     fun tearDown() {
         Dispatchers.resetMain()
+    }
+
+    @Test
+    fun `recalculateRoute should return an error message when routingReady = false`() = runTest {
+        viewModel.uiState.test {
+            awaitItem()
+            viewModel.recalculateRoute()
+
+            val errorMess = awaitItem()
+            assertNotNull(errorMess.errorMessage)
+            cancelAndIgnoreRemainingEvents()
+        }
     }
 
 
