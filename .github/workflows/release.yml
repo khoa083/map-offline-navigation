@@ -59,10 +59,10 @@ jobs:
         id: version
         run: |
           # Extract version numbers directly from root build.gradle.kts
-          MAJOR=$(grep '"major" to [0-9]' build.gradle.kts | grep -o '[0-9]\+')
-          MINOR=$(grep '"minor" to [0-9]' build.gradle.kts | grep -o '[0-9]\+')
-          PATCH=$(grep '"patch" to [0-9]' build.gradle.kts | grep -o '[0-9]\+')
-          BUILD=$(grep '"build" to [0-9]' build.gradle.kts | grep -o '[0-9]\+')
+          MAJOR=$(grep -E '"major" to [0-9]+' build.gradle.kts | grep -oE '[0-9]+' | head -1)
+          MINOR=$(grep -E '"minor" to [0-9]+' build.gradle.kts | grep -oE '[0-9]+' | head -1)
+          PATCH=$(grep -E '"patch" to [0-9]+' build.gradle.kts | grep -oE '[0-9]+' | head -1)
+          BUILD=$(grep -E '"build" to [0-9]+' build.gradle.kts | grep -oE '[0-9]+' | head -1)
 
           # Set defaults if extraction fails
           MAJOR=${MAJOR:-1}

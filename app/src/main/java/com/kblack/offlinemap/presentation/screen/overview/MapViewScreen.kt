@@ -32,6 +32,10 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.runtime.setValue
 import androidx.compose.runtime.snapshotFlow
+import androidx.activity.compose.BackHandler
+import androidx.compose.material3.AlertDialog
+import androidx.compose.material3.Text
+import androidx.compose.material3.Button
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -106,6 +110,9 @@ fun MapViewScreen(
         }
     }
 
+    // State for exit confirmation dialog
+    var showExitDialog by remember { mutableStateOf(false) }
+
     val uiState by mapViewModel.uiState.collectAsStateWithLifecycle()
     val styleJsonPath = remember(map.mapId) { mapViewModel.getStyleJsonPath(map) }
     var showSelectPointSheet by remember { mutableStateOf(false) }
@@ -160,6 +167,32 @@ fun MapViewScreen(
     val locationStateMaplibre = rememberMapLocationState(canUseMapLibreLocation)
     val hasMapLibreLocation = locationStateMaplibre?.location != null
     val sheetState = rememberBottomSheetScaffoldState()
+
+    val shouldInterceptBack = uiState.isNavigating || activity?.isTaskRoot == true
+    BackHandler(enabled = shouldInterceptBack) {
+        showExitDialog = true
+    }
+
+    if (showExitDialog) {
+        AlertDialog(
+            onDismissRequest = { showExitDialog = false },
+            title = { Text("Exit Application") },
+            text = { Text("Are you sure you want to exit the application?") },
+            confirmButton = {
+                Button(onClick = {
+                    showExitDialog = false
+                    activity?.finish()
+                }) {
+                    Text("Exit")
+                }
+            },
+            dismissButton = {
+                Button(onClick = { showExitDialog = false }) {
+                    Text("Cancel")
+                }
+            }
+        )
+    }
 
     // fix crash Location punk
 //    val locationState = rememberMapLocationState(locationAccessState.hasPermission)

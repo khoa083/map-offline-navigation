@@ -20,7 +20,6 @@
 # hide the original source file name.
 #-renamesourcefileattribute SourceFile
 
-
 # --- WorkManager/Worker ---
 # Keep worker class and constructor for reflection
 -keepnames class com.kblack.offlinemap.data.worker.MapDownloadWorker
