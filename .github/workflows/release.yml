@@ -1,0 +1,144 @@
+name: Build Release APK
+
+on:
+  push:
+    branches:
+      - main
+#  workflow_dispatch: {}
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+
+    if: startsWith(github.event.head_commit.message, '[release]')
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      issues: write
+      pull-requests: write
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up JDK 21
+        uses: actions/setup-java@v4
+        with:
+          java-version: '21'
+          distribution: 'temurin'
+
+      - name: Cache Gradle packages
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.gradle/caches
+            ~/.gradle/wrapper
+          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
+          restore-keys: |
+            ${{ runner.os }}-gradle-
+
+      - name: Grant execute permission
+        run: chmod +x gradlew
+
+      - name: Decode Keystore
+        run: echo "${{ secrets.RELEASE_STORE_FILE }}" | base64 -di > signing-key.jks
+
+      - name: Build Release APK
+        run: |
+          ./gradlew assembleRelease \
+            -Pandroid.injected.signing.store.file=$(pwd)/signing-key.jks \
+            -Pandroid.injected.signing.store.password='${{ secrets.RELEASE_STORE_PASSWORD }}' \
+            -Pandroid.injected.signing.key.alias='${{ secrets.RELEASE_KEY_ALIAS }}' \
+            -Pandroid.injected.signing.key.password='${{ secrets.RELEASE_KEY_PASSWORD }}'
+
+      - name: Get version info
+        id: version
+        run: |
+          # Extract version numbers directly from root build.gradle.kts
+          MAJOR=$(grep '"major" to [0-9]' build.gradle.kts | grep -o '[0-9]\+')
+          MINOR=$(grep '"minor" to [0-9]' build.gradle.kts | grep -o '[0-9]\+')
+          PATCH=$(grep '"patch" to [0-9]' build.gradle.kts | grep -o '[0-9]\+')
+          BUILD=$(grep '"build" to [0-9]' build.gradle.kts | grep -o '[0-9]\+')
+
+          # Set defaults if extraction fails
+          MAJOR=${MAJOR:-1}
+          MINOR=${MINOR:-0}
+          PATCH=${PATCH:-0}
+          BUILD=${BUILD:-1}
+
+          # Create version name and code
+          VERSION_NAME="${MAJOR}.${MINOR}.${PATCH}"
+          VERSION_CODE=$((MAJOR * 1000000 + MINOR * 10000 + PATCH * 100 + BUILD))
+
+          COMMIT_SHORT=$(git rev-parse --short HEAD)
+          DATE=$(date +%Y%m%d)
+
+          # Create clean tag name
+          TAG_NAME="v${VERSION_NAME}-${VERSION_CODE}"
+
+          echo "version_name=${VERSION_NAME}" >> $GITHUB_OUTPUT
+          echo "version_code=${VERSION_CODE}" >> $GITHUB_OUTPUT
+          echo "commit_short=${COMMIT_SHORT}" >> $GITHUB_OUTPUT
+          echo "tag_name=${TAG_NAME}" >> $GITHUB_OUTPUT
+          echo "date=${DATE}" >> $GITHUB_OUTPUT
+
+          echo "Extracted values:"
+          echo "MAJOR: $MAJOR"
+          echo "MINOR: $MINOR" 
+          echo "PATCH: $PATCH"
+          echo "BUILD: $BUILD"
+          echo "Version Name: $VERSION_NAME"
+          echo "Version Code: $VERSION_CODE"
+          echo "Tag Name: $TAG_NAME"
+
+      - name: Find APK
+        id: apk_file
+        run: |
+          APK_PATH=$(find app/build/outputs/apk/release -name "*.apk" | head -1)
+          NEW_APK_NAME="${{ steps.version.outputs.tag_name }}.apk"
+          cp "$APK_PATH" "$NEW_APK_NAME"
+          echo "apk_path=${NEW_APK_NAME}" >> $GITHUB_OUTPUT
+          echo "apk_name=${NEW_APK_NAME}" >> $GITHUB_OUTPUT
+
+      - name: Create Release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ steps.version.outputs.tag_name }}
+          name: ${{ steps.version.outputs.tag_name }}
+          body: |
+
+            **Build Info:**
+            - Version: ${{ steps.version.outputs.version_name }}
+            - Version Code: ${{ steps.version.outputs.version_code }}
+            - Commit: ${{ steps.version.outputs.commit_short }}
+            - Build Date: ${{ steps.version.outputs.date }}
+
+            **Changes:**
+            - Release APK build successful ✅
+
+          files: ${{ steps.apk_file.outputs.apk_path }}
+          draft: false
+          prerelease: false
+
+      - name: Upload APK as Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: release-apk-${{ steps.version.outputs.tag_name }}
+          path: ${{ steps.apk_file.outputs.apk_path }}
+
+      - name: Notify on failure
+        if: failure()
+        run: |
+          echo "::error::Build failed! Check the logs for details."
+          echo "Build failed at $(date)"
+
+      - name: Notify on success
+        if: success()
+        run: |
+          echo "::notice::✅ Build completed successfully!"
+          echo "::notice::Release created: ${{ steps.version.outputs.tag_name }}"
+          echo "::notice::APK: ${{ steps.apk_file.outputs.apk_name }}"

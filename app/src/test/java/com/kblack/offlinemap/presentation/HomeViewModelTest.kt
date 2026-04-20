@@ -19,6 +19,8 @@ import junit.framework.TestCase.assertEquals
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.StandardTestDispatcher
+import kotlinx.coroutines.test.UnconfinedTestDispatcher
+import kotlinx.coroutines.test.advanceUntilIdle
 import kotlinx.coroutines.test.resetMain
 import kotlinx.coroutines.test.runTest
 import kotlinx.coroutines.test.setMain
@@ -38,13 +40,18 @@ class HomeViewModelTest {
     private val cancelAllUseCase: CancelAllUseCase = mockk()
 
     private lateinit var viewModel: HomeViewModel
-    private val testDispatcher = StandardTestDispatcher()
+    private val testDispatcher = UnconfinedTestDispatcher()
 
     private val mockMap = MapModel(mapId = "vn", name = "Vietnam", url = "https://test/vn.tar.zst")
 
     @Before
     fun setUp() {
         Dispatchers.setMain(testDispatcher)
+
+        every { cancelAllUseCase(any()) } answers {
+            firstArg<() -> Unit>().invoke()
+        }
+
         viewModel = HomeViewModel(
             loadMapAllowlistUseCase,
             getMapUrlResponseUseCase,
@@ -65,10 +72,6 @@ class HomeViewModelTest {
     fun `loadMapAllowlist should success updates state with maps`() = runTest {
         coEvery { loadMapAllowlistUseCase(any()) } returns listOf(mockMap)
         every { getLocalMapStatusUseCase(any()) } returns MapDownloadStatus(MapDownloadStatusType.SUCCEEDED)
-
-        every { cancelAllUseCase(any()) } answers {
-            firstArg<() -> Unit>().invoke()
-        }
 
         viewModel.uiState.test {
             val init = awaitItem()
@@ -98,6 +101,7 @@ class HomeViewModelTest {
             val errorState = awaitItem()
             assertEquals(false, errorState.loadingMapAllowlist)
 
+            advanceUntilIdle()
             cancelAndIgnoreRemainingEvents()
         }
     }

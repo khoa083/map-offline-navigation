@@ -40,14 +40,14 @@ android {
 
     signingConfigs {
         create("release") {
-            val properties = Properties().apply {
-                load(rootProject.file("local.properties").inputStream())
-            }
+            val propFile = rootProject.file("local.properties")
+            val props = Properties()
+            if (propFile.exists()) propFile.inputStream().use { props.load(it) }
 
-            storeFile = file(properties["RELEASE_STORE_FILE"] as String)
-            storePassword = properties["RELEASE_STORE_PASSWORD"] as String
-            keyAlias = properties["RELEASE_KEY_ALIAS"] as String
-            keyPassword = properties["RELEASE_KEY_PASSWORD"] as String
+            storeFile = file(System.getenv("RELEASE_STORE_FILE") ?: props.getProperty("RELEASE_STORE_FILE") ?: "debug.keystore")
+            storePassword = System.getenv("RELEASE_STORE_PASSWORD") ?: props.getProperty("RELEASE_STORE_PASSWORD") ?: ""
+            keyAlias = System.getenv("RELEASE_KEY_ALIAS") ?: props.getProperty("RELEASE_KEY_ALIAS") ?: ""
+            keyPassword = System.getenv("RELEASE_KEY_PASSWORD") ?: props.getProperty("RELEASE_KEY_PASSWORD") ?: ""
         }
     }
 
@@ -69,11 +69,6 @@ android {
     buildFeatures {
         buildConfig = true
         compose = true
-    }
-
-    lint {
-        checkReleaseBuilds = false
-        abortOnError = false
     }
 
     packaging {
@@ -192,4 +187,5 @@ dependencies {
     releaseImplementation(libs.chucker.release)
 }
 
-apply(from = "jacoco.gradle.kts")
+// todo: FIX https://issuetracker.google.com/issues/463283604
+apply(from = file("jacoco.gradle.kts"))
