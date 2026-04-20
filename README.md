@@ -5,5 +5,5 @@
 </p>
 
 <p align="center">
-  <strong>Kblack: Offline Map Navigation là một ứng dụng chỉ đường ngoại tuyến dành cho Android sử dụng thư viện Graphhopper để xử lý các thuật toán tìm đường và Maplibre Compose hiển thị map, ứng dụng phù hợp cho những vị trí không có mạng và những chuyến đi trekking.</strong>
+  <strong>Kblack: Offline Map Navigation là một ứng dụng chỉ đường ngoại tuyến dành cho Android sử dụng thư viện Graphhopper để xử lý các thuật toán tìm đường và Maplibre Compose xử lý map.</strong>
 </p>
