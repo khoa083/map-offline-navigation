@@ -367,7 +367,6 @@ fun MapViewScreen(
                     hasMapLibreLocation
                 ) {
                     // https://maplibre.org/maplibre-compose/api/lib/maplibre-compose/org.maplibre.compose.location/-location-puck.html
-                    //todo FIXME: Currently, due to the new library, Location Punk is not yet stable, I will find a way to fix it later.
                     LocationPuck(
                         idPrefix = "location-accuracy",
                         locationState = locationStateMaplibre,

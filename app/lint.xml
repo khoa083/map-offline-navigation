@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<lint>
+    <!-- TODO -->
+<!--    <issue id="MissingTranslation">-->
+<!--        <ignore path="res/values/" />-->
+<!--    </issue>-->
+</lint>

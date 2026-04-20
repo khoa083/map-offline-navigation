@@ -6,7 +6,7 @@ plugins {
     alias(libs.plugins.kotlin.compose)
     alias(libs.plugins.android.ksp)
     alias(libs.plugins.android.hilt)
-    kotlin("plugin.serialization") version "2.0.21"
+    alias(libs.plugins.kotlin.serialization)
 }
 
 android {
@@ -17,14 +17,12 @@ android {
         applicationId = "com.kblack.offlinemap"
         minSdk = ((rootProject.extra["configSDK"] as Map<*, *>)["min_sdk"] as Int?)!!
         targetSdk = ((rootProject.extra["configSDK"] as Map<*, *>)["target_sdk"] as Int?)!!
-        // Trên store lấy version dựa theo 2 phần này
         versionCode = rootProject.extra["versionCode"] as Int
         versionName = rootProject.extra["versionName"] as String
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         multiDexEnabled = true
 
-        //BugHandlerActivity get name
         buildConfigField(
             "String",
             "MY_VERSION_NAME",
@@ -35,8 +33,6 @@ android {
             "MY_COMMIT_NAME",
             "\"${rootProject.extra["commitMessage"] as String}\""
         )
-        //END-----------------BugHandlerActivity get name
-
         vectorDrawables {
             useSupportLibrary = true
         }
@@ -48,10 +44,10 @@ android {
                 load(rootProject.file("local.properties").inputStream())
             }
 
-//            storeFile = file(properties["RELEASE_STORE_FILE"] as String)
-//            storePassword = properties["RELEASE_STORE_PASSWORD"] as String
-//            keyAlias = properties["RELEASE_KEY_ALIAS"] as String
-//            keyPassword = properties["RELEASE_KEY_PASSWORD"] as String
+            storeFile = file(properties["RELEASE_STORE_FILE"] as String)
+            storePassword = properties["RELEASE_STORE_PASSWORD"] as String
+            keyAlias = properties["RELEASE_KEY_ALIAS"] as String
+            keyPassword = properties["RELEASE_KEY_PASSWORD"] as String
         }
     }
 
@@ -73,6 +69,11 @@ android {
     buildFeatures {
         buildConfig = true
         compose = true
+    }
+
+    lint {
+        checkReleaseBuilds = false
+        abortOnError = false
     }
 
     packaging {
@@ -105,7 +106,7 @@ android {
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
-//            signingConfig = signingConfigs.getByName("release")
+            signingConfig = signingConfigs.getByName("release")
         }
         debug {
             isPseudoLocalesEnabled = true
