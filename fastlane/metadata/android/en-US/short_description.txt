@@ -1,0 +1,1 @@
+Kblack: Offline Map Navigation is an offline navigation app for Android that utilizes the GraphHopper library for routing algorithms and MapLibre for map rendering.

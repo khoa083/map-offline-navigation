@@ -73,10 +73,10 @@ android {
 
     packaging {
         dex {
-            useLegacyPackaging = false
+            useLegacyPackaging = true
         }
         jniLibs {
-            useLegacyPackaging = false
+            useLegacyPackaging = true
         }
         resources {
             excludes += "META-INF/*.version"
@@ -120,6 +120,13 @@ android {
 
     androidResources {
         noCompress.add("pmtiles")
+    }
+
+    dependenciesInfo {
+        // Disables dependency metadata when building APKs (for IzzyOnDroid/F-Droid)
+        includeInApk = false
+        // Disables dependency metadata when building Android App Bundles (for Google Play)
+        includeInBundle = false
     }
 
 }

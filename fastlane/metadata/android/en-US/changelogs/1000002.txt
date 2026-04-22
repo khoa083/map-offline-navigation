@@ -1,0 +1,2 @@
+- Detect and handle already downloaded .tar.zst files before starting download
+- Fix show unzipping progress in UI

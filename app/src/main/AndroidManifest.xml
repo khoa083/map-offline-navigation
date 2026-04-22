@@ -13,15 +13,16 @@
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
     <uses-permission android:name="android.permission.WAKE_LOCK"/>
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+
+    <!--  todo:  Because when using WorkManager, it automatically declares this permission so that when the device restarts,
+            WorkManager will check the database to see which jobs are not yet completed and continue them.  -->
+<!--    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />-->
 
     <!--  todo: The cause is leakcanary-android-core automatically adding phone access permissions.   -->
     <uses-permission android:name="android.permission.READ_PHONE_STATE" tools:node="remove" />
 
-    <!-- DANGEROUS PERMISSIONS, must request -->
-<!--    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />-->
-<!--    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />-->
-<!--    <uses-permission android:name="android.permission.ACTIVITY_RECOGNITION" />-->
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
 
     <application
         android:name=".MyApp"

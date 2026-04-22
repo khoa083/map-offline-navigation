@@ -1,0 +1,10 @@
+<h3>Features</h3>
+<ul>
+    <li><strong>View maps offline</strong> — Access maps without an internet connection.</li>
+    <li><strong>Interactive Map Controls</strong> — Supports rotate, zoom, and 2D/3D compass mode toggles.</li>
+    <li><strong>Advanced Routing</strong> — Find routes efficiently using the GraphHopper engine.</li>
+    <li><strong>Fully Offline Navigation</strong> — No internet required after the initial map download.</li>
+    <li><strong>Smart Recalculation</strong> — Automatically recalculates the route when you deviate more than 30m from the track.</li>
+    <li><strong>Resumable Downloads</strong> — Resume interrupted map downloads without having to start over.</li>
+    <li><strong>Multiple Profiles</strong> — Optimized routing for both car and motorcycle profiles.</li>
+</ul>

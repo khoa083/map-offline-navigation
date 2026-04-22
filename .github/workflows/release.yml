@@ -24,6 +24,7 @@ jobs:
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
+          token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Set up JDK 21
         uses: actions/setup-java@v4
@@ -103,6 +104,30 @@ jobs:
           cp "$APK_PATH" "$NEW_APK_NAME"
           echo "apk_path=${NEW_APK_NAME}" >> $GITHUB_OUTPUT
           echo "apk_name=${NEW_APK_NAME}" >> $GITHUB_OUTPUT
+
+      - name: Generate IzzyOnDroid changelog
+        run: |
+          CHANGELOG_DIR="fastlane/metadata/android/en-US/changelogs"
+          mkdir -p "$CHANGELOG_DIR"
+          
+          VERSION_CODE="${{ steps.version.outputs.version_code }}"
+
+          COMMIT_MSG="${{ github.event.head_commit.message }}"
+          CHANGELOG_TEXT="${COMMIT_MSG#*[release]}"
+          CHANGELOG_TEXT="${CHANGELOG_TEXT#"${CHANGELOG_TEXT%%[! ]*}"}"  # trim leading space
+
+          CHANGELOG_TEXT="${CHANGELOG_TEXT:0:490}"
+
+          echo "$CHANGELOG_TEXT" > "$CHANGELOG_DIR/${VERSION_CODE}.txt"
+
+          echo "Created changelog: $CHANGELOG_DIR/${VERSION_CODE}.txt"
+          cat "$CHANGELOG_DIR/${VERSION_CODE}.txt"
+
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add "$CHANGELOG_DIR/${VERSION_CODE}.txt"
+          git commit -m "chore: add changelog for $VERSION_CODE" || echo "No changes to commit"
+          git push
 
       - name: Create Release
         uses: softprops/action-gh-release@v2
