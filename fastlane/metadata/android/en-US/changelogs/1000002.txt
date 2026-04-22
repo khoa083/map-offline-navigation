@@ -1,1 +1,1 @@
-elease] Fix location permission bug, add fastlane metadata, fix ci/cd
+Fix location permission bug, add fastlane metadata, fix ci/cd
