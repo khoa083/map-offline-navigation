@@ -17,7 +17,7 @@ val versionInfo = mapOf(
     "major" to 1,
     "minor" to 0,
     "patch" to 0,
-    "build" to 2
+    "build" to 3
 )
 
 val myVersionName = "." + "git rev-parse --short=7 HEAD".runCommand(workingDir = rootDir)
