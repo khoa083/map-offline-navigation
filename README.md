@@ -4,8 +4,6 @@
   <img align="center" src="app/src/main/res/mipmap-xxxhdpi/ic_launcher.png" alt="NerdCalci Icon" width="192" height="192">
 </p>
 
-<h3 align="center">Currently only supports Vietnam.</h3>
-
 <p align="center">
   <strong>Kblack: Offline Map Navigation is an offline navigation app for Android that utilizes the GraphHopper library for routing algorithms and MapLibre for map rendering.</strong>
 </p>
@@ -23,6 +21,11 @@
     <img src="https://github.com/machiav3lli/oandbackupx/raw/034b226cea5c1b30eb4f6a6f313e4dadcbb0ece4/badge_github.png" alt="Get it on GitHub" height="80">
   </a>
 </div>
+
+<p align="center">
+  <strong>⚠️ Currently only supports Vietnam.</strong>
+  Want your region? <a href="https://github.com/khoa083/map-offline-navigation/issues">Open an issue →</a>
+</p>
 
 ## Screenshots
 

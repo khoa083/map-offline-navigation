@@ -1,11 +1,21 @@
+<p>
+  <strong>⚠️ Currently only supports Vietnam.</strong>
+  Want your region?
+  <a href="https://github.com/khoa083/map-offline-navigation/issues">Open an issue on GitHub.</a>
+</p>
+
+<p>
+  <strong>Offline Map Navigation</strong> is an offline Android navigation app
+  powered by <strong>GraphHopper</strong> for routing and <strong>MapLibre</strong>
+  for map rendering.
+</p>
+
 <h3>Features</h3>
-<p>Offline Map Navigation is an offline navigation app for Android that utilizes the GraphHopper library for routing algorithms and MapLibre for map rendering. (Currently only supports Vietnam.)</p>
 <ul>
-    <li><strong>View maps offline</strong> — Access maps without an internet connection.</li>
-    <li><strong>Interactive Map Controls</strong> — Supports rotate, zoom, and 2D/3D compass mode toggles.</li>
-    <li><strong>Advanced Routing</strong> — Find routes efficiently using the GraphHopper engine.</li>
-    <li><strong>Fully Offline Navigation</strong> — No internet required after the initial map download.</li>
-    <li><strong>Smart Recalculation</strong> — Automatically recalculates the route when you deviate more than 30m from the track.</li>
-    <li><strong>Resumable Downloads</strong> — Resume interrupted map downloads without having to start over.</li>
-    <li><strong>Multiple Profiles</strong> — Optimized routing for both car and motorcycle profiles.</li>
+  <li><strong>Offline maps</strong> — Access maps without an internet connection.</li>
+  <li><strong>Interactive controls</strong> — Rotate, zoom, and toggle 2D/3D compass mode.</li>
+  <li><strong>Multi-profile routing</strong> — Optimized for car, motorcycle, and foot.</li>
+  <li><strong>Smart recalculation</strong> — Auto-reroutes when you deviate more than 30m.</li>
+  <li><strong>Resumable downloads</strong> — Resume interrupted map downloads anytime.</li>
+  <li><strong>Fully offline</strong> — No internet required after the initial download.</li>
 </ul>
