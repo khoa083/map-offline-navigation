@@ -107,7 +107,7 @@ The project is built with **Clean Architecture** and follows the **MVVM (Model-V
 
 ### Running tests
 
-Run all unit tests:
+* Run all unit tests:
 
 ```bash
 ./gradlew :app:testDebugUnitTest
@@ -117,7 +117,7 @@ Run all unit tests:
 > `app/build/reports/tests/testDebugUnitTest/index.html`
 <img width="500" alt="image" src="https://github.com/user-attachments/assets/8f607d65-8b50-494c-bcdb-a061008649d4" />
 
-Run Jacoco:
+* Run Jacoco:
 
 ```bash
 ./gradlew :app:jacocoTestReportAll
