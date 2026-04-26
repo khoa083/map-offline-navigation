@@ -1,0 +1,4 @@
+- Update JNI packaging to keep debug symbols
+- Remove gradle-daemon-jvm.properties
+- Allow unsigned APK builds and prevent debug key fallback for release
+- Fix reproducible builds
