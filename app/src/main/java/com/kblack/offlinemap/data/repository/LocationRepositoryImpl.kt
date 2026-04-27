@@ -14,7 +14,7 @@ import timber.log.Timber
 
 class LocationRepositoryImpl(
     appContext: Context
-): LocationRepository {
+) : LocationRepository {
     private val locationManager: LocationManager =
         appContext.getSystemService(Context.LOCATION_SERVICE) as LocationManager
 
@@ -54,7 +54,8 @@ class LocationRepositoryImpl(
                     if (locationManager.isProviderEnabled(provider)) {
                         locationManager.requestLocationUpdates(provider, minTimeMs, 0f, listener)
                     }
-                } catch (_: IllegalArgumentException) {}
+                } catch (_: IllegalArgumentException) {
+                }
             }
 
             readBestLastKnownLocation()?.let {
@@ -69,7 +70,9 @@ class LocationRepositoryImpl(
         awaitClose {
             try {
                 locationManager.removeUpdates(listener)
-            } catch (_: SecurityException) {null}
+            } catch (_: SecurityException) {
+                null
+            }
         }
     }
 

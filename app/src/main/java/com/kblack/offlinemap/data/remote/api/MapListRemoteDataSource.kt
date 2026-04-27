@@ -16,7 +16,9 @@ class MapListRemoteDataSource {
             if (connection.responseCode == HttpURLConnection.HTTP_OK) {
                 val response = connection.inputStream.bufferedReader().use { it.readText() }
                 Gson().fromJson(response, MapAllowlist::class.java)
-            } else { null }
+            } else {
+                null
+            }
         } catch (e: Exception) {
             null
         }

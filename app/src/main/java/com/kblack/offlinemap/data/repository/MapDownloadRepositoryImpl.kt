@@ -39,7 +39,7 @@ import java.io.File
 import java.util.UUID
 import java.util.concurrent.Executors
 
-class MapDownloadRepositoryImpl (
+class MapDownloadRepositoryImpl(
     private val context: Context,
     private val lifecycleProvider: AppLifecycleProvider,
     private val workManager: WorkManager,
@@ -214,7 +214,9 @@ class MapDownloadRepositoryImpl (
                         downloadStartTimeSharedPreferences.edit { remove(map.name) }
                     }
 
-                    else -> {null}
+                    else -> {
+                        null
+                    }
                 }
             }
         }

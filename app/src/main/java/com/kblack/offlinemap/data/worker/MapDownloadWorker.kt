@@ -37,7 +37,7 @@ import java.net.URL
 private const val FOREGROUND_NOTIFICATION_CHANNEL_ID = "map_download_channel_foreground"
 private var channelCreated = false
 
-class MapDownloadWorker (context: Context, params: WorkerParameters) :
+class MapDownloadWorker(context: Context, params: WorkerParameters) :
     CoroutineWorker(context, params) {
 
     private val notificationManager =
@@ -71,7 +71,7 @@ class MapDownloadWorker (context: Context, params: WorkerParameters) :
             } else {
                 return@withContext try {
 
-                    setForeground(createForegroundInfo(0,mapName))
+                    setForeground(createForegroundInfo(0, mapName))
 
                     val outputDir = File(
                         applicationContext.getExternalFilesDir(null),
@@ -86,8 +86,16 @@ class MapDownloadWorker (context: Context, params: WorkerParameters) :
                     val originalFile = File(originalFilePath)
 
                     if (originalFile.exists() && fileName.endsWith(".tar.zst")) {
-                        setProgress(Data.Builder().putBoolean(KEY_MAP_START_UNZIPPING, true).build())
-                        setForeground(createForegroundInfo(progress = 100, mapName = mapName, isUnzipping = true))
+                        setProgress(
+                            Data.Builder().putBoolean(KEY_MAP_START_UNZIPPING, true).build()
+                        )
+                        setForeground(
+                            createForegroundInfo(
+                                progress = 100,
+                                mapName = mapName,
+                                isUnzipping = true
+                            )
+                        )
                         extractTarZst(srcFile = originalFile, destDir = outputDir)
                         patchStyleJson(context = applicationContext, destDir = outputDir)
                         return@withContext Result.success()
@@ -157,7 +165,8 @@ class MapDownloadWorker (context: Context, params: WorkerParameters) :
                                 }
                                 bytesReadLatencyBuffer.add(curTs - lastSetProgressTs)
                                 deltaBytes = 0L
-                                bytesPerMs = bytesReadSizeBuffer.sum().toFloat() / bytesReadLatencyBuffer.sum()
+                                bytesPerMs = bytesReadSizeBuffer.sum()
+                                    .toFloat() / bytesReadLatencyBuffer.sum()
                             }
 
                             // Calculate remaining seconds
@@ -193,8 +202,16 @@ class MapDownloadWorker (context: Context, params: WorkerParameters) :
                     outputTmpFile.renameTo(originalFile)
 
                     if (fileName.endsWith(".tar.zst")) {
-                        setProgress(Data.Builder().putBoolean(KEY_MAP_START_UNZIPPING, true).build())
-                        setForeground(createForegroundInfo(progress = 100, mapName = mapName, isUnzipping = true))
+                        setProgress(
+                            Data.Builder().putBoolean(KEY_MAP_START_UNZIPPING, true).build()
+                        )
+                        setForeground(
+                            createForegroundInfo(
+                                progress = 100,
+                                mapName = mapName,
+                                isUnzipping = true
+                            )
+                        )
                         extractTarZst(srcFile = originalFile, destDir = outputDir)
                         patchStyleJson(context = applicationContext, destDir = outputDir)
                     }
@@ -213,7 +230,11 @@ class MapDownloadWorker (context: Context, params: WorkerParameters) :
         return createForegroundInfo(0)
     }
 
-    private fun createForegroundInfo(progress: Int, mapName: String? = null, isUnzipping: Boolean = false): ForegroundInfo {
+    private fun createForegroundInfo(
+        progress: Int,
+        mapName: String? = null,
+        isUnzipping: Boolean = false
+    ): ForegroundInfo {
         var title = "Downloading map"
         if (mapName != null) {
             title = "Downloading \"$mapName\""
@@ -221,7 +242,10 @@ class MapDownloadWorker (context: Context, params: WorkerParameters) :
         val content = if (isUnzipping) "Unzipping..." else "Downloading in progress: $progress%"
 
         val intent =
-            Intent(applicationContext, Class.forName("com.kblack.offlinemap.presentation.MainActivity")).apply {
+            Intent(
+                applicationContext,
+                Class.forName("com.kblack.offlinemap.presentation.MainActivity")
+            ).apply {
                 flags = Intent.FLAG_ACTIVITY_SINGLE_TOP
             }
         val pendingIntent =
@@ -233,7 +257,8 @@ class MapDownloadWorker (context: Context, params: WorkerParameters) :
             )
 
         val notification =
-            NotificationCompat.Builder(applicationContext,FOREGROUND_NOTIFICATION_CHANNEL_ID
+            NotificationCompat.Builder(
+                applicationContext, FOREGROUND_NOTIFICATION_CHANNEL_ID
             )
                 .setContentTitle(title)
                 .setContentText(content)

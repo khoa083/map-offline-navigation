@@ -187,7 +187,7 @@ private fun RouteSignIcon(sign: Int) {
             .background(MaterialTheme.customColors.taskCardBgColor),
         contentAlignment = Alignment.Center
     ) {
-        // todo: FIXME Created by AI, I will revise it later. The icon should depend on the sign type, not just an arrow.
+        // todo: I will revise it later. The icon should depend on the sign type, not just an arrow.
         Icon(
             imageVector = Icons.Filled.ArrowUpward,
             contentDescription = null,

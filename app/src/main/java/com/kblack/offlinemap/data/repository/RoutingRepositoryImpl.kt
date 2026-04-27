@@ -225,7 +225,12 @@ class RoutingRepositoryImpl(
             target.add(point)
         }
     }
-    private fun fallBackRoute(from: GeoCoordinate, to: GeoCoordinate, travelMode: TravelMode): Route {
+
+    private fun fallBackRoute(
+        from: GeoCoordinate,
+        to: GeoCoordinate,
+        travelMode: TravelMode
+    ): Route {
         val points = listOf(from, to)
         val distanceMeters = GeoMath.distanceMeters(from, to)
 

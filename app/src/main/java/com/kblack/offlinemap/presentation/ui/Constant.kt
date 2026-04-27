@@ -1,6 +1,7 @@
 package com.kblack.offlinemap.presentation.ui
 
 import androidx.compose.ui.unit.dp
+import com.kblack.offlinemap.BuildConfig
 
 object Constant {
     val MAP_INFO_ICON_SIZE = 18.dp
@@ -24,7 +25,12 @@ object Constant {
     //TODO: Since this is an open-source project, the URL is placed here.
     const val BASE_HUGGINGFACE_URL = "https://huggingface.co/datasets/kblack083/mapdata/resolve/main/"
 
-    const val ALLOWLIST_URL = "https://raw.githubusercontent.com/khoa083/mapdata/refs/heads/main/map_lists.json"
+    val ALLOWLIST_URL = "https://raw.githubusercontent.com/khoa083/mapdata/refs/heads/main/${
+        when(BuildConfig.BUILD_TYPE) {
+            "debug" -> "map_lists_dev.json"
+            else -> "map_lists.json"
+        }
+    }"
 
     // Zoom level at target. A value in the range of [0 ... 25.5]
     const val MIN_ZOOM = 1.0

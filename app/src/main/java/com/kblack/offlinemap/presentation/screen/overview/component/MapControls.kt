@@ -1,6 +1,5 @@
 package com.kblack.offlinemap.presentation.screen.overview.component
 
-import android.Manifest
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -20,7 +19,6 @@ import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Explore
 import androidx.compose.material.icons.filled.ExploreOff
 import androidx.compose.material.icons.filled.MyLocation
-import androidx.compose.material.icons.filled.Navigation
 import androidx.compose.material.icons.filled.Remove
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
