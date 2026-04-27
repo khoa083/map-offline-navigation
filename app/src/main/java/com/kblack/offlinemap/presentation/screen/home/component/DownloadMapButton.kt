@@ -235,7 +235,7 @@ fun DownloadMapButton(
         } else {
             curDownloadProgress =
                 downloadStatus!!.receivedBytes.toFloat() / downloadStatus.totalBytes.toFloat()
-            if (curDownloadProgress.isNaN()) {
+            if (curDownloadProgress.isNaN() || curDownloadProgress.isInfinite()) {
                 curDownloadProgress = 0f
             }
             val animatedProgress = remember { Animatable(0f) }
