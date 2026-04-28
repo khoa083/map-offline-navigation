@@ -12,7 +12,6 @@ import com.kblack.offlinemap.domain.usecase.mapdownload.CancelDownloadMapUseCase
 import com.kblack.offlinemap.domain.usecase.mapdownload.DeleteMapUseCase
 import com.kblack.offlinemap.domain.usecase.mapdownload.DownloadMapUseCase
 import com.kblack.offlinemap.domain.usecase.mapdownload.GetLocalMapStatusUseCase
-import com.kblack.offlinemap.presentation.ui.Constant.ALLOWLIST_URL
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.Dispatchers.Main
@@ -98,7 +97,7 @@ class HomeViewModel @Inject constructor(
 
         viewModelScope.launch(IO) {
             try {
-                val maps = loadMapAllowlistUseCase(ALLOWLIST_URL)
+                val maps = loadMapAllowlistUseCase()
                 if (maps == null) {
                     _uiState.update {
                        it.copy(

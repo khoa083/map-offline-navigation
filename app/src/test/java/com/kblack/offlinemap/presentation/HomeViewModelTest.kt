@@ -70,7 +70,7 @@ class HomeViewModelTest {
 
     @Test
     fun `loadMapAllowlist should success updates state with maps`() = runTest {
-        coEvery { loadMapAllowlistUseCase(any()) } returns listOf(mockMap)
+        coEvery { loadMapAllowlistUseCase() } returns listOf(mockMap)
         every { getLocalMapStatusUseCase(any()) } returns MapDownloadStatus(MapDownloadStatusType.SUCCEEDED)
 
         viewModel.uiState.test {
@@ -90,7 +90,7 @@ class HomeViewModelTest {
 
     @Test
     fun `loadMapAllowlist should show error when maps is null`() = runTest {
-        coEvery { loadMapAllowlistUseCase(any()) } returns null
+        coEvery { loadMapAllowlistUseCase() } returns null
 
         viewModel.uiState.test {
             val init = awaitItem()
