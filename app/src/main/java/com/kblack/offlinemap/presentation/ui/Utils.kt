@@ -16,7 +16,10 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.core.content.ContextCompat
+import com.google.gson.Gson
+import com.google.gson.reflect.TypeToken
 import com.kblack.offlinemap.domain.models.MapModel
+import com.kblack.offlinemap.presentation.model.DefaultLocation
 import com.kblack.offlinemap.presentation.viewmodel.HomeViewModel
 import kotlinx.coroutines.delay
 import kotlin.math.ln
@@ -83,4 +86,13 @@ fun checkNotificationPermissionAndStartDownload(
 
 fun ensureValidFileName(fileName: String): String {
     return fileName.replace(Regex("[^a-zA-Z0-9._-]"), "_")
+}
+
+// todo: Fixme: move to data layer
+fun loadDefaultLocations(ctx: Context): Map<String, DefaultLocation> {
+    val json = ctx.assets.open("default_location.json")
+        .bufferedReader().readText()
+    val type = object : TypeToken<Map<String, DefaultLocation>>() {}
+        .type
+    return Gson().fromJson(json, type)
 }

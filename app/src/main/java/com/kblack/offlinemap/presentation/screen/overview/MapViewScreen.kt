@@ -63,6 +63,7 @@ import com.kblack.offlinemap.presentation.screen.overview.component.shortestAngl
 import com.kblack.offlinemap.presentation.ui.Constant.INITIAL_ZOOM
 import com.kblack.offlinemap.presentation.ui.Constant.MAX_ZOOM
 import com.kblack.offlinemap.presentation.ui.Constant.MIN_ZOOM
+import com.kblack.offlinemap.presentation.ui.loadDefaultLocations
 import com.kblack.offlinemap.presentation.ui.theme.customColors
 import com.kblack.offlinemap.presentation.viewmodel.MapViewModel
 import org.maplibre.compose.camera.CameraPosition
@@ -149,6 +150,13 @@ fun MapViewScreen(
         uiState.routingOptions.travelMode == TravelMode.Foot
     }
 
+    val defaultLocations = remember { loadDefaultLocations(context) }
+    val defaultLocation = remember(map.mapId) {
+        val l = defaultLocations[map.mapId]
+        if (l != null) Position(latitude = l.lat, longitude = l.lng) else
+            Position(latitude = 21.0285, longitude = 105.8542) //Hanoi(VN)
+    }
+
     LaunchedEffect(routeCoords) {
         progress.snapTo(0f)
         if (routeCoords.size >= 2) {
@@ -218,7 +226,7 @@ fun MapViewScreen(
         rememberCameraState(
             firstPosition =
                 CameraPosition(
-                    target = Position(latitude = 21.0285, longitude = 105.8542), //Hanoi
+                    target = defaultLocation,
                     zoom = INITIAL_ZOOM
                 )
         )
