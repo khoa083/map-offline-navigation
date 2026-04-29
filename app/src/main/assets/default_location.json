@@ -514,6 +514,11 @@
     "lat": 20.593684,
     "lng": 78.96288
   },
+  "in_central": {
+    "name": "india (Central Zone)",
+    "lat": 27.028,
+    "lng": 80.452
+  },
   "io": {
     "name": "british indian ocean territory",
     "lat": -6.343194,

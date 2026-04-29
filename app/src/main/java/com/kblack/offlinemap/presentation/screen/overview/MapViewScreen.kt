@@ -227,7 +227,7 @@ fun MapViewScreen(
             firstPosition =
                 CameraPosition(
                     target = defaultLocation,
-                    zoom = INITIAL_ZOOM
+                    zoom = zoom
                 )
         )
 
@@ -456,8 +456,8 @@ fun MapViewScreen(
 
             MapControls(
                 zoom,
-                onZoomIn = { zoom = (zoom + 1.0).coerceIn(MIN_ZOOM, MAX_ZOOM) },
-                onZoomOut = { zoom = (zoom - 1.0).coerceIn(MIN_ZOOM, MAX_ZOOM) },
+                onZoomIn = { zoom = (camera.position.zoom + 1.0).coerceIn(MIN_ZOOM, MAX_ZOOM) },
+                onZoomOut = { zoom = (camera.position.zoom - 1.0).coerceIn(MIN_ZOOM, MAX_ZOOM) },
                 onClickLocation = locationAccessState.onLocationClick,
                 compassMode = compassMode,
                 onClickCompass = { compassMode = !compassMode },
