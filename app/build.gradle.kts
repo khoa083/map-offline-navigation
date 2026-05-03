@@ -112,7 +112,7 @@ android {
         }
         debug {
             isPseudoLocalesEnabled = true
-//            applicationIdSuffix = ".debug"
+            applicationIdSuffix = ".dev"
             // TODO myVersionName contains the hash of the commit
 //            versionNameSuffix = rootProject.extra["myVersionName"] as String
             enableUnitTestCoverage = true
