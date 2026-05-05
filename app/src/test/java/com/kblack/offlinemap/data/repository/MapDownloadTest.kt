@@ -2,9 +2,8 @@ package com.kblack.offlinemap.data.repository
 
 import android.content.Context
 import androidx.work.WorkManager
-import com.kblack.offlinemap.domain.models.MapDownloadStatusType
-import com.kblack.offlinemap.domain.models.MapModel
-import com.kblack.offlinemap.domain.repository.AppLifecycleProvider
+import com.kblack.offlinemap.models.MapDownloadStatusType
+import com.kblack.offlinemap.models.MapModel
 import io.mockk.every
 import io.mockk.mockk
 import org.junit.After
@@ -22,7 +21,8 @@ class MapDownloadTest {
     private val context: Context = mockk(relaxed = true)
     private val lifecycleProvider: AppLifecycleProvider = mockk(relaxed = true)
     private val workManager: WorkManager = mockk()
-    private lateinit var repo: MapDownloadRepositoryImpl
+    private lateinit var mapDownloadRepo: MapDownloadRepositoryImpl
+    private lateinit var ioFileRepo: IOFileRepositoryImpl
     private lateinit var mockDir: File
     private val mockMap = MapModel(
         mapId = "vn",
@@ -46,11 +46,12 @@ class MapDownloadTest {
         every { context.getExternalFilesDir(null) } returns mockDir
         every { lifecycleProvider.isAppInForeground } returns false
 
-        repo = MapDownloadRepositoryImpl(
+        mapDownloadRepo = MapDownloadRepositoryImpl(
             context = context,
             lifecycleProvider = lifecycleProvider,
             workManager = workManager
         )
+        ioFileRepo = IOFileRepositoryImpl(context)
     }
 
     @After
@@ -60,13 +61,13 @@ class MapDownloadTest {
 
     @Test
     fun `MapDownloadRepositoryImpl should NOT_DOWNLOADED when no files exist`() {
-        val actual = repo.getLocalMapStatus(mockMap)
+        val actual = mapDownloadRepo.getLocalMapStatus(mockMap)
         assertEquals(MapDownloadStatusType.NOT_DOWNLOADED, actual.status)
     }
 
     @Test
     fun `MapDownloadRepositoryImpl getStyleJsonPath should null when style_runtime json does not exist`() {
-        assertNull(repo.getStyleJsonPath(mockMap))
+        assertNull(ioFileRepo.getStyleJsonPath(mockMap))
     }
 
     @Test
@@ -74,12 +75,12 @@ class MapDownloadTest {
         val graphDir = File(mockDir, "${mockMap.normalizedName}/graph-cache")
         graphDir.mkdirs()
 
-        assertEquals(graphDir.absolutePath, repo.getGraphPath(mockMap))
+        assertEquals(graphDir.absolutePath, ioFileRepo.getGraphPath(mockMap))
     }
 
     @Test
     fun `MapDownloadRepositoryImpl getGraphPath should null when graph-cache does not exist`() {
-        assertNull(repo.getGraphPath(mockMap))
+        assertNull(ioFileRepo.getGraphPath(mockMap))
     }
 
     //PARTIALLY_DOWNLOADED, SUCCEEDED , deleteMap

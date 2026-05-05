@@ -1,6 +1,7 @@
 package com.kblack.offlinemap.domain.utils
 
-import com.kblack.offlinemap.domain.models.GeoCoordinate
+import com.kblack.offlinemap.models.GeoCoordinate
+import com.kblack.offlinemap.utils.GeoMath
 import org.junit.Assert.assertEquals
 import org.junit.Test
 import org.junit.runner.RunWith

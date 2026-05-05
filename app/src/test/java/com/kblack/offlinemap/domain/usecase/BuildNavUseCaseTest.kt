@@ -1,9 +1,9 @@
 package com.kblack.offlinemap.domain.usecase
 
-import com.kblack.offlinemap.domain.models.GeoCoordinate
-import com.kblack.offlinemap.domain.models.NavigationSnapshot
-import com.kblack.offlinemap.domain.models.Route
-import com.kblack.offlinemap.domain.usecase.routing.BuildNavigationUseCase
+import com.kblack.offlinemap.models.GeoCoordinate
+import com.kblack.offlinemap.models.NavigationSnapshot
+import com.kblack.offlinemap.models.Route
+import com.kblack.offlinemap.usecase.routing.BuildNavigationUseCase
 import junit.framework.TestCase.assertFalse
 import junit.framework.TestCase.assertTrue
 import org.hamcrest.MatcherAssert.assertThat

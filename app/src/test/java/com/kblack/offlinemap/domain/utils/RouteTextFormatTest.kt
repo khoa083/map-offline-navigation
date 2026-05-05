@@ -1,5 +1,6 @@
 package com.kblack.offlinemap.domain.utils
 
+import com.kblack.offlinemap.utils.RouteTextFormatter
 import org.junit.Assert.assertEquals
 import org.junit.Test
 import org.junit.runner.RunWith
