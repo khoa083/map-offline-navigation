@@ -35,7 +35,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Offlinemap">
         <activity
-            android:name=".presentation.MainActivity"
+            android:name=".ui.MainActivity"
             android:exported="true"
             android:label="@string/app_name"
             android:theme="@style/Theme.Offlinemap">
@@ -52,7 +52,7 @@
             tools:node="merge">
         </service>
         <activity
-            android:name=".presentation.BugHandlerActivity"
+            android:name=".ui.BugHandlerActivity"
             android:exported="false"
             android:theme="@style/BugHunter"/>
     </application>

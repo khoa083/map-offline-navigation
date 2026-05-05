@@ -1,7 +1,7 @@
 package com.kblack.offlinemap.data.remote.api
 
 import com.google.gson.Gson
-import com.kblack.offlinemap.data.model.MapAllowlist
+import com.kblack.offlinemap.data.models.MapAllowlist
 import java.net.HttpURLConnection
 import java.net.URL
 

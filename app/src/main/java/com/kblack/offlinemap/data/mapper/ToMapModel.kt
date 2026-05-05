@@ -1,7 +1,7 @@
 package com.kblack.offlinemap.data.mapper
 
-import com.kblack.offlinemap.data.model.MapListResponse
-import com.kblack.offlinemap.domain.models.MapModel
+import com.kblack.offlinemap.data.models.MapListResponse
+import com.kblack.offlinemap.models.MapModel
 import com.kblack.offlinemap.data.utils.Constant.BASE_HUGGINGFACE_URL
 
 fun MapListResponse.toDomain(): MapModel = MapModel(

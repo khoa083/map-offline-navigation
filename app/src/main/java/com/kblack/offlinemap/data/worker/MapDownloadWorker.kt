@@ -244,7 +244,7 @@ class MapDownloadWorker(context: Context, params: WorkerParameters) :
         val intent =
             Intent(
                 applicationContext,
-                Class.forName("com.kblack.offlinemap.presentation.MainActivity")
+                Class.forName("com.kblack.offlinemap.ui.MainActivity")
             ).apply {
                 flags = Intent.FLAG_ACTIVITY_SINGLE_TOP
             }

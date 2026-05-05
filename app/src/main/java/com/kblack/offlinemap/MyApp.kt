@@ -4,7 +4,7 @@ import android.app.Application
 import android.content.Intent
 import android.util.Log
 import androidx.compose.runtime.Stable
-import com.kblack.offlinemap.presentation.BugHandlerActivity
+import com.kblack.offlinemap.ui.BugHandlerActivity
 import dagger.hilt.android.HiltAndroidApp
 import timber.log.Timber
 import kotlin.system.exitProcess

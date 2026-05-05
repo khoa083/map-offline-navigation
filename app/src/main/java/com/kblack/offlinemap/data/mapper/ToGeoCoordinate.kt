@@ -1,7 +1,7 @@
 package com.kblack.offlinemap.data.mapper
 
 import android.location.Location
-import com.kblack.offlinemap.domain.models.GeoCoordinate
+import com.kblack.offlinemap.models.GeoCoordinate
 
 fun Location.toDomain(): GeoCoordinate = GeoCoordinate(
     latitude = latitude,
