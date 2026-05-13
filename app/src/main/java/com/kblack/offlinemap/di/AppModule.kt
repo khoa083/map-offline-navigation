@@ -2,26 +2,31 @@ package com.kblack.offlinemap.di
 
 import android.content.Context
 import androidx.work.WorkManager
-import com.kblack.offlinemap.data.remote.api.MapListRemoteDataSource
+import com.kblack.offlinemap.data.remote.api.GhRemoteDataSource
+import com.kblack.offlinemap.data.remote.api.PlaceRemoteDataSource
+import com.kblack.offlinemap.data.remote.api.services.GhApiServices
+import com.kblack.offlinemap.data.remote.api.services.PlaceApiServices
 import com.kblack.offlinemap.data.repository.AppLifecycleProviderImpl
 import com.kblack.offlinemap.data.repository.LocationRepositoryImpl
-import com.kblack.offlinemap.data.repository.MapAllowlistRepositoryImpl
 import com.kblack.offlinemap.data.repository.MapDownloadRepositoryImpl
 import com.kblack.offlinemap.data.repository.RoutingRepositoryImpl
 import com.kblack.offlinemap.data.repository.AppLifecycleProvider
+import com.kblack.offlinemap.data.repository.GhRepository
+import com.kblack.offlinemap.data.repository.GhRepositoryImpl
 import com.kblack.offlinemap.data.repository.IOFileRepository
 import com.kblack.offlinemap.data.repository.IOFileRepositoryImpl
 import com.kblack.offlinemap.data.repository.LocationRepository
-import com.kblack.offlinemap.data.repository.MapAllowlistRepository
 import com.kblack.offlinemap.data.repository.MapDownloadRepository
+import com.kblack.offlinemap.data.repository.PlaceSearchRepository
+import com.kblack.offlinemap.data.repository.PlaceSearchRepositoryImpl
 import com.kblack.offlinemap.data.repository.RoutingRepository
 import com.kblack.offlinemap.usecase.routing.BuildNavigationUseCase
 import com.kblack.offlinemap.usecase.routing.InitializeRouterUseCase
+import com.squareup.moshi.Moshi
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
-import dagger.hilt.android.scopes.ViewModelScoped
 import dagger.hilt.components.SingletonComponent
 import javax.inject.Singleton
 
@@ -37,17 +42,35 @@ object AppModule {
 
     @Provides
     @Singleton
-    fun provideMapListRemoteDataSource(): MapListRemoteDataSource {
-        return MapListRemoteDataSource()
+    fun provideMapListRemoteDataSource(
+        ghApiServices: GhApiServices
+    ): GhRemoteDataSource {
+        return GhRemoteDataSource(ghApiServices)
     }
 
     @Provides
     @Singleton
-    fun provideMapAllowlistRepository(
-        remoteDataSource: MapListRemoteDataSource,
+    fun providePlaceRemoteDataSource(
+        placeApiServices: PlaceApiServices
+    ): PlaceRemoteDataSource {
+        return PlaceRemoteDataSource(placeApiServices)
+    }
+
+    @Provides
+    @Singleton
+    fun provideGhRepository(
+        remoteDataSource: GhRemoteDataSource,
         @ApplicationContext context: Context,
-    ): MapAllowlistRepository {
-        return MapAllowlistRepositoryImpl(remoteDataSource, context)
+    ): GhRepository {
+        return GhRepositoryImpl(remoteDataSource, context)
+    }
+
+    @Provides
+    @Singleton
+    fun providePlaceSearchRepository(
+        placeRemoteDataSource: PlaceRemoteDataSource
+    ): PlaceSearchRepository {
+        return PlaceSearchRepositoryImpl(placeRemoteDataSource)
     }
 
     @Provides
@@ -85,9 +108,10 @@ object AppModule {
     @Provides
     @Singleton
     fun provideIOFileRepository(
-        @ApplicationContext context: Context
+        @ApplicationContext context: Context,
+        moshi: Moshi
     ): IOFileRepository {
-        return IOFileRepositoryImpl(context)
+        return IOFileRepositoryImpl(context, moshi)
     }
 
     @Provides

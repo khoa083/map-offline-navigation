@@ -3,7 +3,8 @@ package com.kblack.offlinemap.data.repository
 import android.content.Context
 import com.kblack.offlinemap.data.models.DefaultLocation
 import com.kblack.offlinemap.models.MapModel
-import kotlinx.serialization.json.Json
+import com.squareup.moshi.Moshi
+import com.squareup.moshi.Types
 import java.io.File
 
 interface IOFileRepository {
@@ -12,9 +13,9 @@ interface IOFileRepository {
     fun loadDefaultLocations(): Map<String, DefaultLocation>
 }
 
-
 class IOFileRepositoryImpl(
-    private val context: Context
+    private val context: Context,
+    private val moshi: Moshi,
 ) : IOFileRepository {
 
     private val externalFilesDir = context.getExternalFilesDir(null)
@@ -32,6 +33,8 @@ class IOFileRepositoryImpl(
 
     override fun loadDefaultLocations(): Map<String, DefaultLocation> {
         val json = context.assets.open("default_location.json").bufferedReader().readText()
-        return Json.decodeFromString(json)
+        val type = Types.newParameterizedType(Map::class.java, String::class.java, DefaultLocation::class.java)
+        val adapter = moshi.adapter<Map<String, DefaultLocation>>(type)
+        return adapter.fromJson(json).orEmpty()
     }
 }

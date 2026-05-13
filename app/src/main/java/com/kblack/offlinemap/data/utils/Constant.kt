@@ -21,11 +21,4 @@ object Constant {
 
     //TODO: Since this is an open-source project, the URL is placed here.
     const val BASE_HUGGINGFACE_URL = "https://huggingface.co/datasets/kblack083/mapdata/resolve/main/"
-
-    val ALLOWLIST_URL = "https://raw.githubusercontent.com/khoa083/mapdata/refs/heads/main/${
-        when(BuildConfig.BUILD_TYPE) {
-            "debug" -> "map_lists_dev.json"
-            else -> "map_lists.json"
-        }
-    }"
 }

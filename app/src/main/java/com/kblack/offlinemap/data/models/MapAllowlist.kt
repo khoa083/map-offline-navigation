@@ -1,9 +1,13 @@
 package com.kblack.offlinemap.data.models
 
+import com.squareup.moshi.JsonClass
+
+@JsonClass(generateAdapter = true)
 data class MapAllowlist(
     val maps: List<MapListResponse> = emptyList()
 )
 
+@JsonClass(generateAdapter = true)
 data class MapListResponse(
     var mapId       : String  = "",
     var name        : String  = "",

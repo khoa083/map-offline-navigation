@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.kblack.offlinemap.data.repository.IOFileRepository
 import com.kblack.offlinemap.data.repository.LocationRepository
+import com.kblack.offlinemap.data.repository.PlaceSearchRepository
 import com.kblack.offlinemap.data.repository.RoutingRepository
 import com.kblack.offlinemap.models.GeoCoordinate
 import com.kblack.offlinemap.models.MapModel
@@ -47,6 +48,7 @@ class MapViewModel @Inject constructor(
     private val locationRepository: LocationRepository,
     private val initializeRouterUseCase: InitializeRouterUseCase,
     private val buildNavigationUseCase: BuildNavigationUseCase,
+    private val placeSearchRepository: PlaceSearchRepository
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow(MapUiState())

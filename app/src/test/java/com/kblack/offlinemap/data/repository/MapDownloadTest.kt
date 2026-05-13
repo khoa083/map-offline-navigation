@@ -4,6 +4,7 @@ import android.content.Context
 import androidx.work.WorkManager
 import com.kblack.offlinemap.models.MapDownloadStatusType
 import com.kblack.offlinemap.models.MapModel
+import com.squareup.moshi.Moshi
 import io.mockk.every
 import io.mockk.mockk
 import org.junit.After
@@ -19,6 +20,7 @@ class MapDownloadTest {
     //todo: It can be replaced by robolectric @RunWith(RobolectricTestRunner::class) | context = ApplicationProvider.getApplicationContext()
     // https://developer.android.com/training/testing/local-tests/robolectric
     private val context: Context = mockk(relaxed = true)
+    private val moshi: Moshi = mockk(relaxed = true)
     private val lifecycleProvider: AppLifecycleProvider = mockk(relaxed = true)
     private val workManager: WorkManager = mockk()
     private lateinit var mapDownloadRepo: MapDownloadRepositoryImpl
@@ -51,7 +53,7 @@ class MapDownloadTest {
             lifecycleProvider = lifecycleProvider,
             workManager = workManager
         )
-        ioFileRepo = IOFileRepositoryImpl(context)
+        ioFileRepo = IOFileRepositoryImpl(context,moshi)
     }
 
     @After

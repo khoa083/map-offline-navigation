@@ -1,0 +1,17 @@
+package com.kblack.offlinemap.data.mapper
+
+import com.kblack.offlinemap.data.models.Feature
+import com.kblack.offlinemap.models.PlaceSearch
+
+fun Feature.toDomain(): PlaceSearch = PlaceSearch(
+    osmValue = properties.osmValue,
+    name = properties.name,
+    street = properties.street,
+    locality = properties.locality,
+    district = properties.district,
+    city = properties.city,
+    country = properties.country,
+    postcode = properties.postcode,
+    lat = geometry.lat,
+    lng = geometry.lng,
+)
