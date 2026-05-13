@@ -20,6 +20,7 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         homeViewModel.loadMapAllowlist()
+        homeViewModel.checkUpdate()
         setContent {
             OfflinemapTheme {
                 val navController = rememberNavController()

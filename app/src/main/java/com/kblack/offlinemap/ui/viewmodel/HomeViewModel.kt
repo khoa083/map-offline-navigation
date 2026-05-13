@@ -2,11 +2,15 @@ package com.kblack.offlinemap.ui.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.kblack.offlinemap.data.repository.MapAllowlistRepository
+import com.kblack.offlinemap.BuildConfig
+import com.kblack.offlinemap.data.repository.GhRepository
 import com.kblack.offlinemap.data.repository.MapDownloadRepository
+import com.kblack.offlinemap.data.repository.PlaceSearchRepository
 import com.kblack.offlinemap.models.MapDownloadStatus
 import com.kblack.offlinemap.models.MapDownloadStatusType
 import com.kblack.offlinemap.models.MapModel
+import com.kblack.offlinemap.utils.UpdateChecker
+import com.kblack.offlinemap.utils.toVersionName
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.Dispatchers.Main
@@ -21,11 +25,15 @@ data class MapManagerUiState(
     val mapDownloadStatus: Map<String, MapDownloadStatus> = emptyMap(),
     val loadingMapAllowlist: Boolean = true,
     val loadingMapAllowlistError: String? = null,
+
+    val isShowDialogUpdate: Boolean = false,
+    val versionUpdate: String? = null,
+    val isShowDialogError: String? = null,
 )
 @HiltViewModel
 class HomeViewModel @Inject constructor(
     private val mapDownloadRepository: MapDownloadRepository,
-    private val mapAllowlistRepository: MapAllowlistRepository
+    private val ghRepository: GhRepository,
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow(MapManagerUiState())
@@ -63,7 +71,7 @@ class HomeViewModel @Inject constructor(
     }
 
     fun getMapUrlResponse(map: MapModel): Int {
-        return mapAllowlistRepository.getMapUrlResponse(map.url)
+        return ghRepository.getMapUrlResponse(map.url)
     }
 
     private fun setDownloadStatus(map: MapModel, status: MapDownloadStatus) {
@@ -87,7 +95,7 @@ class HomeViewModel @Inject constructor(
 
         viewModelScope.launch(IO) {
             try {
-                val maps = mapAllowlistRepository.loadMapAllowlist()
+                val maps = ghRepository.loadMapAllowlist()
                 if (maps == null) {
                     _uiState.update {
                        it.copy(
@@ -120,6 +128,30 @@ class HomeViewModel @Inject constructor(
                     )
                 }
             }
+        }
+    }
+
+    fun checkUpdate() {
+        viewModelScope.launch(IO) {
+            try {
+                val config = ghRepository.getConfig()
+                _uiState.update {
+                    it.copy(
+                        isShowDialogUpdate = UpdateChecker().isUpdateApp(config),
+                        versionUpdate = "v${(config?.version)?.toVersionName()}-${config?.version}"
+                    )
+                }
+            } catch (e: Exception) {
+                _uiState.update {
+                    it.copy(isShowDialogError = "Failed to check for updates")
+                }
+            }
+        }
+    }
+
+    fun closeUpdate(){
+        _uiState.update {
+            it.copy(isShowDialogUpdate = false, versionUpdate = null)
         }
     }
 

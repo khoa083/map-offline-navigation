@@ -3,6 +3,7 @@ package com.kblack.offlinemap.ui.screen.home
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -10,6 +11,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Celebration
 import androidx.compose.material.icons.rounded.Error
+import androidx.compose.material.icons.rounded.Update
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -19,6 +21,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
+import androidx.compose.material3.pulltorefresh.PullToRefreshBox
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -29,16 +32,19 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.graphicsLayer
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.kblack.offlinemap.R
 import com.kblack.offlinemap.models.MapModel
 import com.kblack.offlinemap.ui.screen.home.component.MapTopBar
 import com.kblack.offlinemap.ui.screen.home.component.MapList
+import com.kblack.offlinemap.ui.theme.onPrimaryLight
 import com.kblack.offlinemap.ui.utils.SimpleConfettiHost
 import com.kblack.offlinemap.ui.utils.rememberDelayedAnimationProgress
 import com.kblack.offlinemap.ui.utils.rememberSimpleConfettiController
 import com.kblack.offlinemap.ui.viewmodel.HomeViewModel
+import com.kblack.offlinemap.utils.UpdateChecker
 import kotlinx.coroutines.delay
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -49,6 +55,7 @@ fun HomeScreen(
 ) {
     val uiState by homeViewModel.uiState.collectAsState()
     var loadingMapAllowlistDelayed by remember { mutableStateOf(false) }
+    val context = LocalContext.current
 
     val confetti = rememberSimpleConfettiController()
 
@@ -81,6 +88,29 @@ fun HomeScreen(
             },
             dismissButton = {
                 TextButton(onClick = { homeViewModel.clearLoadMapAllowlistError() }) {
+                    Text("Cancel")
+                }
+            },
+        )
+    }
+
+    if (uiState.isShowDialogUpdate) {
+        AlertDialog(
+            icon = {
+                Icon(
+                    Icons.Rounded.Update,
+                    contentDescription = "Update",
+                    tint = onPrimaryLight,
+                )
+            },
+            title = { Text("New version") },
+            text = { Text("Please update to the latest version on GitHub.") },
+            onDismissRequest = { homeViewModel.closeUpdate() },
+            confirmButton = {
+                TextButton(onClick = { UpdateChecker().openGitHubRelease(context, uiState.versionUpdate) }) { Text("Ok") }
+            },
+            dismissButton = {
+                TextButton(onClick = { homeViewModel.closeUpdate() }) {
                     Text("Cancel")
                 }
             },
@@ -124,43 +154,49 @@ fun HomeScreen(
                 }
             }
         ) { paddingValues ->
-            Box(
-                contentAlignment = Alignment.TopCenter,
-                modifier = Modifier
-                    .fillMaxSize()
-                    .background(MaterialTheme.colorScheme.surfaceContainer),
+            PullToRefreshBox(
+                isRefreshing = uiState.loadingMapAllowlist,
+                onRefresh = { homeViewModel.loadMapAllowlist() },
+                modifier = Modifier.fillMaxSize().padding(paddingValues),
             ) {
                 Box(
                     contentAlignment = Alignment.TopCenter,
                     modifier = Modifier
                         .fillMaxSize()
-                        .padding(top = 16.dp),
+                        .background(MaterialTheme.colorScheme.surfaceContainer),
                 ) {
-                    MapList(
-                        contentPadding = paddingValues,
-                        maps = uiState.maps,
-                        mapDownloadStatus = uiState.mapDownloadStatus,
-                        homeViewModel = homeViewModel,
-                        onModelClicked = { map -> onClickMapView(map) }
-                    )
+                    Box(
+                        contentAlignment = Alignment.TopCenter,
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .padding(top = 16.dp),
+                    ) {
+                        MapList(
+                            contentPadding = PaddingValues(top = 6.dp, bottom = 16.dp),
+                            maps = uiState.maps,
+                            mapDownloadStatus = uiState.mapDownloadStatus,
+                            homeViewModel = homeViewModel,
+                            onModelClicked = { map -> onClickMapView(map) }
+                        )
+                    }
                 }
-            }
 
-            if (loadingMapAllowlistDelayed) {
-                Row(
-                    modifier = Modifier.fillMaxSize(),
-                    verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.Center,
-                ) {
-                    CircularProgressIndicator(
-                        trackColor = MaterialTheme.colorScheme.surfaceVariant,
-                        strokeWidth = 3.dp,
-                        modifier = Modifier.padding(end = 8.dp).size(20.dp),
-                    )
-                    Text(
-                        "Loading map list...",
-                        style = MaterialTheme.typography.bodyMedium,
-                    )
+                if (loadingMapAllowlistDelayed) {
+                    Row(
+                        modifier = Modifier.fillMaxSize(),
+                        verticalAlignment = Alignment.CenterVertically,
+                        horizontalArrangement = Arrangement.Center,
+                    ) {
+                        CircularProgressIndicator(
+                            trackColor = MaterialTheme.colorScheme.surfaceVariant,
+                            strokeWidth = 3.dp,
+                            modifier = Modifier.padding(end = 8.dp).size(20.dp),
+                        )
+                        Text(
+                            "Loading map list...",
+                            style = MaterialTheme.typography.bodyMedium,
+                        )
+                    }
                 }
             }
         }
