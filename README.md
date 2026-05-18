@@ -26,7 +26,7 @@
   <a href="https://apt.izzysoft.de/packages/com.kblack.offlinemap">
     <img src="https://gitlab.com/IzzyOnDroid/repo/-/raw/master/assets/IzzyOnDroid.png" height="80" alt="Get it at IzzyOnDroid">
   </a>
-  <a href="https://github.com/khoa083/map-offline-navigation/">
+  <a href="https://github.com/khoa083/map-offline-navigation/releases/latest">
     <img src="https://github.com/machiav3lli/oandbackupx/raw/034b226cea5c1b30eb4f6a6f313e4dadcbb0ece4/badge_github.png" alt="Get it on GitHub" height="80">
   </a>
 </div>
