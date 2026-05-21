@@ -1,6 +1,7 @@
 package com.kblack.offlinemap.models
 
 data class PlaceSearch(
+    val osmId: Long,
     val osmValue: String,
     val name: String,
     val street: String,

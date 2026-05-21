@@ -11,12 +11,13 @@ interface PlaceSearchRepository {
 class PlaceSearchRepositoryImpl(
     private val placeRemoteDataSource: PlaceRemoteDataSource
 ): PlaceSearchRepository {
+
     override suspend fun searchPlaces(
         query: String,
         limit: Int
     ): List<PlaceSearch>? {
         val place = placeRemoteDataSource.searchPlaces(query, limit)
         return place?.features?.map { it.toDomain() }
-
     }
+
 }

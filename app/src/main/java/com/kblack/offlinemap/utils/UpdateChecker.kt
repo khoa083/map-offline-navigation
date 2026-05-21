@@ -3,7 +3,6 @@ package com.kblack.offlinemap.utils
 import android.content.ActivityNotFoundException
 import android.content.Context
 import android.content.Intent
-import android.net.Uri
 import com.kblack.offlinemap.BuildConfig
 import com.kblack.offlinemap.data.models.Config
 import androidx.core.net.toUri

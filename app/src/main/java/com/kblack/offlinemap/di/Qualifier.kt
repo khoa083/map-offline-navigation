@@ -8,4 +8,12 @@ annotation class GhRetrofit
 
 @Qualifier
 @Retention(AnnotationRetention.RUNTIME)
+annotation class GhHttpClient
+
+@Qualifier
+@Retention(AnnotationRetention.RUNTIME)
 annotation class PhotonRetrofit
+
+@Qualifier
+@Retention(AnnotationRetention.RUNTIME)
+annotation class PhotonHttpClient

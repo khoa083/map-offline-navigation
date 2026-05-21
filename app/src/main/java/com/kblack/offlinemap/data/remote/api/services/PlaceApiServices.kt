@@ -11,7 +11,7 @@ interface PlaceApiServices {
     @GET(ApiUrl.PHOTON_SEARCH_ENDPOINT)
     suspend fun searchPlace(
         @Query("q") query: String,
-        @Query("limit") limit: Int? = 1,
+        @Query("limit") limit: Int,
     ): Response<GeoLocation>
 
 }

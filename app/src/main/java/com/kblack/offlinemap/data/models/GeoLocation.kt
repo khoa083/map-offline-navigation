@@ -29,6 +29,7 @@ data class Geometry(
 
 @JsonClass(generateAdapter = true)
 data class LocationProperties(
+    @param:Json(name = "osm_id") val osmId: Long = 0L,
     @param:Json(name = "osm_value") val osmValue: String = "",
     @param:Json(name = "name") val name: String = "",
     @param:Json(name = "street") val street: String = "",
