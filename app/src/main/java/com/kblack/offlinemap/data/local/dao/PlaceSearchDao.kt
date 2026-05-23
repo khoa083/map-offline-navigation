@@ -2,8 +2,6 @@ package com.kblack.offlinemap.data.local.dao
 
 import androidx.room.Dao
 import androidx.room.Delete
-import androidx.room.Insert
-import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Upsert
 import com.kblack.offlinemap.data.local.entity.PlaceSearchEntity
@@ -18,8 +16,16 @@ interface PlaceSearchDao {
     @Upsert
     suspend fun upsertPlaceSearch(placeSearchEntity: PlaceSearchEntity)
 
-//    @Insert(onConflict = OnConflictStrategy.REPLACE)
-//    suspend fun insertPlaceSearch(placeSearchEntity: PlaceSearchEntity)
+    @Query("SELECT * FROM place_search_entity WHERE osmId = :id LIMIT 1")
+    suspend fun getOsmId(id: String): PlaceSearchEntity?
+
+    @Query("""
+    SELECT * FROM place_search_entity
+    WHERE name LIKE :pattern OR city LIKE :pattern OR district LIKE :pattern OR country LIKE :pattern
+    ORDER BY name ASC
+    LIMIT :limit
+    """)
+    fun searchLikeFlow(pattern: String, limit: Int): Flow<List<PlaceSearchEntity>>
 
     @Delete
     suspend fun deletePlaceSearch(placeSearchEntity: PlaceSearchEntity)

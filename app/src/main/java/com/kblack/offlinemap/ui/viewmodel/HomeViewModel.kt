@@ -30,6 +30,7 @@ data class MapManagerUiState(
     val versionUpdate: String? = null,
     val isShowDialogError: String? = null,
 )
+
 @HiltViewModel
 class HomeViewModel @Inject constructor(
     private val mapDownloadRepository: MapDownloadRepository,

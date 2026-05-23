@@ -171,7 +171,7 @@ dependencies {
     implementation(libs.tar)
 
     //noinspection UseTomlInstead
-    implementation("com.github.luben:zstd-jni:1.5.7-7@aar")
+    implementation("com.github.luben:zstd-jni:1.5.7-8@aar")
     //todo: https://discuss.graphhopper.com/t/offlne-routing-on-android/9176/3
     implementation("com.graphhopper:graphhopper-core:1.0") {
         exclude(group = "com.google.protobuf", module = "protobuf-java")

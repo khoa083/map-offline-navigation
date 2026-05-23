@@ -4,6 +4,6 @@ import com.squareup.moshi.JsonClass
 
 @JsonClass(generateAdapter = true)
 data class Config(
-    val version: Int = 0,
-    val maintain: Boolean = false
+    val version  : Int = 0,
+    val maintain : Boolean = false
 )

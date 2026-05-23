@@ -12,11 +12,14 @@ class PlaceSearchRepositoryImpl(
     private val placeRemoteDataSource: PlaceRemoteDataSource
 ): PlaceSearchRepository {
 
+    //Offline-First Architecture
+    //Single Source of Truth (SSOT)
     override suspend fun searchPlaces(
         query: String,
         limit: Int
     ): List<PlaceSearch>? {
         val place = placeRemoteDataSource.searchPlaces(query, limit)
+
         return place?.features?.map { it.toDomain() }
     }
 

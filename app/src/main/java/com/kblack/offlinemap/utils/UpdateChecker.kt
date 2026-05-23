@@ -9,7 +9,7 @@ import androidx.core.net.toUri
 
 class UpdateChecker {
     private val currentVer = BuildConfig.VERSION_CODE
-    private val BASE_REPO_GITHUB_URL = "https://github.com/khoa083/map-offline-navigation/"
+    private val githubUrl = "https://github.com/khoa083/map-offline-navigation/"
 
     //todo: FIXME Currently, there is only one API configuration.
 //    fun isUpdateApp(config: Config): Boolean {
@@ -23,9 +23,9 @@ class UpdateChecker {
 //        }
 //    }
     fun isUpdateApp(config: Config?): Boolean = currentVer < (config?.version ?: return false)
-
+    // optional https://api.github.com/repos/khoa083/map-offline-navigation/releases/latest Redirect
     fun openGitHubRelease(context: Context, versionTag: String?) {
-        val url = "${BASE_REPO_GITHUB_URL}releases/tag/$versionTag"
+        val url = "${githubUrl}releases/tag/$versionTag"
         val intent = Intent(Intent.ACTION_VIEW, url.toUri()).apply {
             addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
         }

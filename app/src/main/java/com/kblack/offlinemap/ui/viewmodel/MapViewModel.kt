@@ -9,11 +9,14 @@ import com.kblack.offlinemap.data.repository.RoutingRepository
 import com.kblack.offlinemap.models.GeoCoordinate
 import com.kblack.offlinemap.models.MapModel
 import com.kblack.offlinemap.models.NavigationSnapshot
+import com.kblack.offlinemap.models.PlaceSearch
 import com.kblack.offlinemap.models.Route
 import com.kblack.offlinemap.models.RoutingOptions
 import com.kblack.offlinemap.usecase.routing.BuildNavigationUseCase
 import com.kblack.offlinemap.usecase.routing.InitializeRouterUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -21,6 +24,11 @@ import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.debounce
+import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.flow.transformLatest
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -37,6 +45,10 @@ data class MapUiState(
     val route: Route? = null,
     val routingOptions: RoutingOptions = RoutingOptions(),
     val navigationSnapshot: NavigationSnapshot? = null,
+
+    val searchQuery: String = "",
+    val isSearching: Boolean = false,
+    val searchResults: List<PlaceSearch> = emptyList(),
 
     val errorMessage: String? = null,
 )
@@ -60,12 +72,21 @@ class MapViewModel @Inject constructor(
     private val _centerOnCurrentLocation = MutableSharedFlow<GeoCoordinate>(extraBufferCapacity = 1)
     val centerOnCurrentLocation: SharedFlow<GeoCoordinate> = _centerOnCurrentLocation.asSharedFlow()
 
+    private val _place = MutableSharedFlow<PlaceSearch>(extraBufferCapacity = 1)
+    val place: SharedFlow<PlaceSearch> = _place.asSharedFlow()
+
     fun getStyleJsonPath(map: MapModel): String? = ioFileRepository.getStyleJsonPath(map)
     fun loadDefaultLocations(): Map<String, GeoCoordinate> = ioFileRepository.loadDefaultLocations().mapValues {
         (_, location) -> GeoCoordinate(location.lat, location.lng)
     }
 
     private var initializedGraphPath: String? = null
+
+    private val _searchQueryFlow = MutableStateFlow("")
+
+    init {
+        observeSearchQuery()
+    }
 
     fun initializeMap(map: MapModel) {
         val graphPath = ioFileRepository.getGraphPath(map) ?: run {
@@ -211,9 +232,46 @@ class MapViewModel @Inject constructor(
         val snapshot = buildNavigationUseCase(route, current)
         _uiState.update { it.copy(navigationSnapshot = snapshot) }
 
-        if (snapshot.isOffTrack) {
+        if (snapshot.isOffTrack && !_uiState.value.isRouting) {
             recalculateRoute()
         }
+    }
+
+    fun onSearchQueryChanged(query: String) {
+        _uiState.update { it.copy(searchQuery = query) }
+        _searchQueryFlow.value = query
+    }
+
+    @OptIn(FlowPreview::class, ExperimentalCoroutinesApi::class)
+    private fun observeSearchQuery() {
+        _searchQueryFlow
+            .debounce(500)
+            .distinctUntilChanged()
+            .transformLatest { query ->
+                val trimmed = query.trim()
+                if (trimmed.length < 2) {
+                    emit(emptyList())
+                    return@transformLatest
+                }
+
+                _uiState.update { it.copy(isSearching = true, errorMessage = null) }
+                try {
+                    val results = placeSearchRepository.searchPlaces(trimmed, limit = 5)
+                    emit(results ?: emptyList())
+                } catch (e: Exception) {
+                    _uiState.update { it.copy(errorMessage = e.message ?: "Search error") }
+                    emit(emptyList())
+                }
+            }
+            .onEach { results ->
+                _uiState.update { it.copy(searchResults = results, isSearching = false) }
+            }
+            .launchIn(viewModelScope)
+    }
+
+    fun selectPlace(place: PlaceSearch) = viewModelScope.launch {
+        _place.emit(place)
+        _searchQueryFlow.value = ""
     }
 
     override fun onCleared() {

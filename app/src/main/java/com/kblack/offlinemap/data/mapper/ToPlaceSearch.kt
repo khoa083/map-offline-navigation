@@ -11,6 +11,7 @@ fun Feature.toDomain(): PlaceSearch = PlaceSearch(
     locality = properties.locality,
     district = properties.district,
     city = properties.city,
+    state = properties.state,
     country = properties.country,
     postcode = properties.postcode,
     lat = geometry.lat,

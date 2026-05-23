@@ -33,6 +33,7 @@ import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.runtime.setValue
 import androidx.compose.runtime.snapshotFlow
 import androidx.activity.compose.BackHandler
+import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Text
 import androidx.compose.material3.Button
@@ -42,6 +43,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.rememberVectorPainter
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
@@ -50,6 +52,7 @@ import com.kblack.offlinemap.models.GeoCoordinate
 import com.kblack.offlinemap.models.MapModel
 import com.kblack.offlinemap.models.TravelMode
 import com.kblack.offlinemap.ui.base.BaseContainer
+import com.kblack.offlinemap.ui.screen.overview.component.FloatingSearchBar
 import com.kblack.offlinemap.ui.screen.overview.component.MapControls
 import com.kblack.offlinemap.ui.screen.overview.component.rememberMapLocationAccessState
 import com.kblack.offlinemap.ui.screen.overview.component.rememberMapLocationState
@@ -68,6 +71,7 @@ import com.kblack.offlinemap.ui.theme.customColors
 import com.kblack.offlinemap.ui.viewmodel.MapViewModel
 import org.maplibre.compose.camera.CameraPosition
 import org.maplibre.compose.camera.rememberCameraState
+import org.maplibre.compose.expressions.dsl.Feature.state
 import org.maplibre.compose.expressions.dsl.const
 import org.maplibre.compose.expressions.dsl.image
 import org.maplibre.compose.expressions.dsl.nil
@@ -157,6 +161,8 @@ fun MapViewScreen(
             Position(latitude = 21.0285, longitude = 105.8542) //Hanoi(VN)
     }
 
+    val focusManager = LocalFocusManager.current
+
     LaunchedEffect(routeCoords) {
         progress.snapTo(0f)
         if (routeCoords.size >= 2) {
@@ -243,6 +249,21 @@ fun MapViewScreen(
                     tilt = currentTilt
                 ),
                 duration = 3.seconds
+            )
+        }
+    }
+
+    LaunchedEffect(Unit) {
+        mapViewModel.place.collect { p ->
+            point = GeoCoordinate(latitude = p.lat, longitude = p.lng)
+//            showSelectPointSheet = !showEndFlagAndTopBar
+            camera.animateTo(
+                CameraPosition(
+                    target = Position(latitude = p.lat, longitude = p.lng),
+                    zoom = 12.5,
+                    tilt = currentTilt
+                ),
+                duration = 2.seconds
             )
         }
     }
@@ -338,7 +359,7 @@ fun MapViewScreen(
                         isLogoEnabled = false,
                         isAttributionEnabled = true,
                         isScaleBarEnabled = false,
-                        padding = PaddingValues(top = 84.dp)
+                        padding = PaddingValues(top = 120.dp)
                     )
                 ),
                 baseStyle = BaseStyle.Uri("file://${styleJsonPath}"),
@@ -452,6 +473,21 @@ fun MapViewScreen(
                 )
             }
 
+            if (!uiState.isNavigating && !showEndFlagAndTopBar) {
+                FloatingSearchBar(
+                    searchQuery = uiState.searchQuery,
+                    searchResults = uiState.searchResults,
+                    isSearching = uiState.isSearching,
+                    onSearchQueryChanged = { query -> mapViewModel.onSearchQueryChanged(query) },
+                    onLocationSelected = { location -> mapViewModel.selectPlace(location) },
+                    focusManager = focusManager,
+                    modifier = Modifier
+                        .statusBarsPadding()
+                        .padding(horizontal = 16.dp, vertical = 8.dp)
+                        .align(Alignment.TopCenter)
+                )
+            }
+
 
             MapControls(
                 zoom,
@@ -465,6 +501,7 @@ fun MapViewScreen(
             )
 
             if (showSelectPointSheet && !showEndFlagAndTopBar) {
+                focusManager.clearFocus()
                 SelectPointBottomSheet(
                     point = point,
                     uiState = uiState,
