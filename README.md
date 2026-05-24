@@ -38,6 +38,8 @@
 
 ## Screenshots
 
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/80aba45b69844be9ae1d40b21cd1a81f)](https://app.codacy.com/gh/khoa083/map-offline-navigation?utm_source=github.com&utm_medium=referral&utm_content=khoa083/map-offline-navigation&utm_campaign=Badge_Grade)
+
 <div align="center">
   <img src="https://github.com/khoa083/mapdata/blob/main/screen/1_map.png?raw=true" width="170" vertical-align="middle"/>
   <img src="https://github.com/khoa083/mapdata/blob/main/screen/2_map.png?raw=true" width="170" vertical-align="middle"/>
