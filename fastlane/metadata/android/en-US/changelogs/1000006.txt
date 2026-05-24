@@ -1,3 +1,4 @@
 - POI search (Hybrid Approach, SSOT, Search Vector).
 - In-app updates (Open the GitHub link).
-- Add pull to refresh to the home screen.
+- Add pull to refresh to the home screen (Temporarily disable pull-to-refresh due to HTTP Range requests issue).
+- Improve lag issues with compass mode.
