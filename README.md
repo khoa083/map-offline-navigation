@@ -14,6 +14,9 @@
 </p> -->
 
 <div align="center">
+    <a href="https://app.codacy.com/gh/khoa083/map-offline-navigation/dashboard?utm_source=gh&utm_medium=referral&utm_content=&utm_campaign=Badge_grade">
+      <img src="https://app.codacy.com/project/badge/Grade/b5159d1ccbc24e41a341b4714be7ccc4"/>
+    </a>
     <a href="https://github.com/khoa083/map-offline-navigation/releases">
     <img src="https://img.shields.io/github/v/release/khoa083/map-offline-navigation">
   </a>
