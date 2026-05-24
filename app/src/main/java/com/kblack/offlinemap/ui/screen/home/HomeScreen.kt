@@ -156,7 +156,9 @@ fun HomeScreen(
         ) { paddingValues ->
             PullToRefreshBox(
                 isRefreshing = uiState.loadingMapAllowlist,
-                onRefresh = { homeViewModel.loadMapAllowlist() },
+//                onRefresh = { homeViewModel.loadMapAllowlist() },
+                //fixme: Temporarily disable pull-to-refresh due to HTTP Range requests issue
+                onRefresh = { null },
                 modifier = Modifier.fillMaxSize().padding(paddingValues),
             ) {
                 Box(
