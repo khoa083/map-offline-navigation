@@ -1,0 +1,3 @@
+- POI search (Hybrid Approach, SSOT, Search Vector).
+- In-app updates (Open the GitHub link).
+- Add pull to refresh to the home screen.

@@ -63,7 +63,6 @@
 | **Voice Guidance** | 🟡 In Progress |
 | **Speed Limits** | 🔴 Planned |
 | **Lock Screen Navigation** | 🔴 Planned |
-| **POI Search** | 🔴 Planned |
 
 ## Credits
 
@@ -72,6 +71,7 @@
 * [OpenStreetMap](https://www.openstreetmap.org/) contributors for the map data.
 * [OpenFreeMap](https://openfreemap.org/) for the map tile hosting and styles.
 * This project is referenced from and inspired by [PocketMaps](https://github.com/junjunguo/PocketMaps) by [junjunguo](https://github.com/junjunguo). It has been modernized and completely rewritten using **Clean Architecture**, **MVVM**, **Kotlin**, and **Jetpack Compose**.
+* [Photon](https://photon.komoot.io/) for the POI and geocoding search API.
 
 ## Architecture
 
