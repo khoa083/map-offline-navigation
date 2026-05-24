@@ -14,18 +14,24 @@ interface PlaceSearchDao {
     fun getAllPlaceSearch(): Flow<List<PlaceSearchEntity>>
 
     @Upsert
-    suspend fun upsertPlaceSearch(placeSearchEntity: PlaceSearchEntity)
+    suspend fun upsertAllPlaceSearch(placeSearchEntity: List<PlaceSearchEntity>)
 
     @Query("SELECT * FROM place_search_entity WHERE osmId = :id LIMIT 1")
     suspend fun getOsmId(id: String): PlaceSearchEntity?
 
-    @Query("""
+    //todo: Consider using FTS instead of LIKE.
+    @Query(
+        """
     SELECT * FROM place_search_entity
-    WHERE name LIKE :pattern OR city LIKE :pattern OR district LIKE :pattern OR country LIKE :pattern
+    WHERE name LIKE :pattern ESCAPE '\'
+        OR city LIKE :pattern ESCAPE '\'
+        OR state LIKE :pattern ESCAPE '\'
+        OR country LIKE :pattern ESCAPE '\'
     ORDER BY name ASC
     LIMIT :limit
-    """)
-    fun searchLikeFlow(pattern: String, limit: Int): Flow<List<PlaceSearchEntity>>
+    """
+    )
+    fun queryPlaceDatabase(pattern: String, limit: Int): Flow<List<PlaceSearchEntity>>
 
     @Delete
     suspend fun deletePlaceSearch(placeSearchEntity: PlaceSearchEntity)

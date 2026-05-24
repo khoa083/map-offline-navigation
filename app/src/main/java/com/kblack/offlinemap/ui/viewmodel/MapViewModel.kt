@@ -18,6 +18,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.Job
+import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharedFlow
@@ -26,11 +27,13 @@ import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.transformLatest
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import java.io.IOException
 import javax.inject.Inject
 
 data class MapUiState(
@@ -255,16 +258,19 @@ class MapViewModel @Inject constructor(
                 }
 
                 _uiState.update { it.copy(isSearching = true, errorMessage = null) }
-                try {
-                    val results = placeSearchRepository.searchPlaces(trimmed, limit = 5)
-                    emit(results ?: emptyList())
-                } catch (e: Exception) {
-                    _uiState.update { it.copy(errorMessage = e.message ?: "Search error") }
-                    emit(emptyList())
+                val localCache = placeSearchRepository.getPlaceFromRoom(trimmed, limit = 5).first()
+                if (localCache.isEmpty()) {
+                    try {
+                        placeSearchRepository.searchPlaces(trimmed, limit = 5)
+                    } catch (e: IOException) {
+                        _uiState.update { it.copy(errorMessage = e.message ?: "Network error") }
+                    }
                 }
-            }
-            .onEach { results ->
-                _uiState.update { it.copy(searchResults = results, isSearching = false) }
+
+                placeSearchRepository.getPlaceFromRoom(trimmed, limit = 5).collect { roomResults ->
+                    _uiState.update { it.copy(searchResults = roomResults, isSearching = false) }
+                    emit(roomResults)
+                }
             }
             .launchIn(viewModelScope)
     }

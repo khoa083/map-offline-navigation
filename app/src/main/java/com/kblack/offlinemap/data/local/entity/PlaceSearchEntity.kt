@@ -14,6 +14,7 @@ data class PlaceSearchEntity(
     val locality: String = "",
     val district: String = "",
     val city: String = "",
+    val state: String = "",
     val country: String = "",
     val postcode: String = "",
     val lat: Double = 0.0,

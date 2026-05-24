@@ -2,6 +2,7 @@ package com.kblack.offlinemap.di
 
 import android.content.Context
 import androidx.work.WorkManager
+import com.kblack.offlinemap.data.local.dao.PlaceSearchDao
 import com.kblack.offlinemap.data.remote.api.GhRemoteDataSource
 import com.kblack.offlinemap.data.remote.api.PlaceRemoteDataSource
 import com.kblack.offlinemap.data.remote.api.services.GhApiServices
@@ -68,9 +69,10 @@ object AppModule {
     @Provides
     @Singleton
     fun providePlaceSearchRepository(
-        placeRemoteDataSource: PlaceRemoteDataSource
+        placeRemoteDataSource: PlaceRemoteDataSource,
+        placeSearchDao: PlaceSearchDao
     ): PlaceSearchRepository {
-        return PlaceSearchRepositoryImpl(placeRemoteDataSource)
+        return PlaceSearchRepositoryImpl(placeRemoteDataSource,placeSearchDao)
     }
 
     @Provides

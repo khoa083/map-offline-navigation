@@ -3,6 +3,7 @@ package com.kblack.offlinemap.di
 import android.content.Context
 import androidx.room.Room
 import com.kblack.offlinemap.data.local.AppDatabase
+import com.kblack.offlinemap.data.local.Migrations
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
