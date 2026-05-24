@@ -14,11 +14,11 @@ import com.kblack.offlinemap.models.Route
 import com.kblack.offlinemap.models.RoutingOptions
 import com.kblack.offlinemap.usecase.routing.BuildNavigationUseCase
 import com.kblack.offlinemap.usecase.routing.InitializeRouterUseCase
+import com.kblack.offlinemap.utils.containsNonLatin
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.Job
-import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharedFlow
@@ -29,7 +29,6 @@ import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.launchIn
-import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.transformLatest
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
@@ -79,9 +78,10 @@ class MapViewModel @Inject constructor(
     val place: SharedFlow<PlaceSearch> = _place.asSharedFlow()
 
     fun getStyleJsonPath(map: MapModel): String? = ioFileRepository.getStyleJsonPath(map)
-    fun loadDefaultLocations(): Map<String, GeoCoordinate> = ioFileRepository.loadDefaultLocations().mapValues {
-        (_, location) -> GeoCoordinate(location.lat, location.lng)
-    }
+    fun loadDefaultLocations(): Map<String, GeoCoordinate> =
+        ioFileRepository.loadDefaultLocations().mapValues { (_, location) ->
+            GeoCoordinate(location.lat, location.lng)
+        }
 
     private var initializedGraphPath: String? = null
 
@@ -131,9 +131,16 @@ class MapViewModel @Inject constructor(
         val fresh = locationRepository.getCurrentLocation()
         when {
             fresh != null -> {
-                _uiState.update { it.copy(currentLocation = fresh, startPoint = fresh, errorMessage = null) }
+                _uiState.update {
+                    it.copy(
+                        currentLocation = fresh,
+                        startPoint = fresh,
+                        errorMessage = null
+                    )
+                }
                 _centerOnCurrentLocation.emit(fresh)
             }
+
             cached == null -> {
                 _uiState.update { it.copy(errorMessage = "Current location is not available") }
             }
@@ -258,6 +265,20 @@ class MapViewModel @Inject constructor(
                 }
 
                 _uiState.update { it.copy(isSearching = true, errorMessage = null) }
+
+                //fixme: refactor: viewmodel only takes a string as input and returns a list; the logic should be in the repository.
+                if (trimmed.containsNonLatin()) {
+                    try {
+                        val remoteResults = placeSearchRepository.searchPlaces(trimmed, limit = 5) ?: emptyList()
+                        _uiState.update { it.copy(searchResults = remoteResults, isSearching = false) }
+                        emit(remoteResults)
+                    } catch (e: IOException) {
+                        _uiState.update { it.copy(errorMessage = e.message ?: "Network error", isSearching = false) }
+                        emit(emptyList())
+                    }
+                    return@transformLatest
+                }
+
                 val localCache = placeSearchRepository.getPlaceFromRoom(trimmed, limit = 5).first()
                 if (localCache.isEmpty()) {
                     try {
@@ -278,6 +299,13 @@ class MapViewModel @Inject constructor(
     fun selectPlace(place: PlaceSearch) = viewModelScope.launch {
         _place.emit(place)
         _searchQueryFlow.value = ""
+        _uiState.update {
+            it.copy(
+//                searchQuery = "",
+                searchResults = emptyList(),
+                errorMessage = null
+            )
+        }
     }
 
     override fun onCleared() {

@@ -19,7 +19,7 @@ object DataLocalModule {
     @Singleton
     fun providesAppDatabase(@ApplicationContext context: Context) =
         Room.databaseBuilder(context, AppDatabase::class.java, AppDatabase.DATABASE_NAME)
-//            .addMigrations()
+            .addMigrations(Migrations.MIGRATION_1_2)
             .build()
 
     @Provides

@@ -1,5 +1,6 @@
 package com.kblack.offlinemap.data.local.entity
 
+import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 
@@ -16,6 +17,8 @@ data class PlaceSearchEntity(
     val city: String = "",
     val state: String = "",
     val country: String = "",
+    @ColumnInfo(index = true)
+    val searchVector: String = "",
     val postcode: String = "",
     val lat: Double = 0.0,
     val lng: Double = 0.0,

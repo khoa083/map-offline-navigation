@@ -23,12 +23,9 @@ interface PlaceSearchDao {
     @Query(
         """
     SELECT * FROM place_search_entity
-    WHERE name LIKE :pattern ESCAPE '\'
-        OR city LIKE :pattern ESCAPE '\'
-        OR state LIKE :pattern ESCAPE '\'
-        OR country LIKE :pattern ESCAPE '\'
-    ORDER BY name ASC
-    LIMIT :limit
+        WHERE searchVector LIKE :pattern ESCAPE '\'
+        ORDER BY name ASC
+        LIMIT :limit
     """
     )
     fun queryPlaceDatabase(pattern: String, limit: Int): Flow<List<PlaceSearchEntity>>
