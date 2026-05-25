@@ -58,6 +58,7 @@
 * Fully offline navigation — no internet required after map download.
 * Auto-recalculate route when off track (> 30m deviation).
 * Supports car, motorcycle profiles, foot.
+* POI search (Hybrid Approach, SSOT, Search Vector)
   
 ## Project Status
 
