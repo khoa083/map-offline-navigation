@@ -52,13 +52,14 @@
 
 ## Features
 
-* View maps offline without an internet connection.
-* Supports rotate, zoom, and 2D/3D compass mode toggles.
-* Find routes using the GraphHopper.
-* Fully offline navigation — no internet required after map download.
-* Auto-recalculate route when off track (> 30m deviation).
-* Supports car, motorcycle profiles, foot.
-* POI search (Hybrid Approach, SSOT, Search Vector)
+* View maps and route directions completely offline. 
+* Download via WorkManager with HTTP-Range support 
+* Compress directories in tar.zst format to reduce size. 
+* Supports rotate, zoom, and 2D/3D compass mode toggles. 
+* Auto-recalculate route when off track (> 30m deviation). 
+* Supports car, motorcycle profiles, foot. 
+* POI search (Hybrid Approach, SSOT, Search Vector). 
+* In-app updates.
   
 ## Project Status
 

@@ -3,6 +3,7 @@ package com.kblack.offlinemap.ui.screen.overview
 import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.pm.ActivityInfo
+import android.view.WindowManager
 import androidx.compose.animation.core.Animatable
 import androidx.compose.animation.core.LinearEasing
 import androidx.compose.animation.core.tween
@@ -53,6 +54,7 @@ import com.kblack.offlinemap.models.MapModel
 import com.kblack.offlinemap.models.TravelMode
 import com.kblack.offlinemap.ui.base.BaseContainer
 import com.kblack.offlinemap.ui.screen.overview.component.FloatingSearchBar
+import com.kblack.offlinemap.ui.screen.overview.component.KeepScreenOn
 import com.kblack.offlinemap.ui.screen.overview.component.MapControls
 import com.kblack.offlinemap.ui.screen.overview.component.rememberMapLocationAccessState
 import com.kblack.offlinemap.ui.screen.overview.component.rememberMapLocationState
@@ -120,6 +122,7 @@ fun MapViewScreen(
     var showExitDialog by remember { mutableStateOf(false) }
 
     val uiState by mapViewModel.uiState.collectAsStateWithLifecycle()
+
     val styleJsonPath = remember(map.mapId) { mapViewModel.getStyleJsonPath(map) }
     var showSelectPointSheet by remember { mutableStateOf(false) }
     var point by remember { mutableStateOf<GeoCoordinate?>(null) }
@@ -488,6 +491,10 @@ fun MapViewScreen(
                 )
             }
 
+            // https://stackoverflow.com/questions/69039723/is-there-a-jetpack-compose-equivalent-for-androidkeepscreenon-to-keep-screen-al
+            if (uiState.isNavigating) {
+                KeepScreenOn()
+            }
 
             MapControls(
                 zoom,
