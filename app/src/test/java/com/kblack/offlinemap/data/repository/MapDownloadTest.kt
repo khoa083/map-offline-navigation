@@ -7,6 +7,7 @@ import com.kblack.offlinemap.models.MapModel
 import com.squareup.moshi.Moshi
 import io.mockk.every
 import io.mockk.mockk
+import kotlinx.coroutines.flow.MutableStateFlow
 import org.junit.After
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNull
@@ -46,7 +47,7 @@ class MapDownloadTest {
         mockDir = Files.createTempDirectory(mockMap.normalizedName).toFile()
 
         every { context.getExternalFilesDir(null) } returns mockDir
-        every { lifecycleProvider.isAppInForeground } returns false
+        every { lifecycleProvider.isAppInForeground } returns MutableStateFlow(false)
 
         mapDownloadRepo = MapDownloadRepositoryImpl(
             context = context,
