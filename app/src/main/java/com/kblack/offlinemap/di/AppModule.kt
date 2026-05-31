@@ -38,7 +38,7 @@ object AppModule {
     @Provides
     @Singleton
     fun provideAppLifecycleProvider(): AppLifecycleProvider {
-        return AppLifecycleProviderImpl()
+        return AppLifecycleProviderImpl().apply { startTracking() }
     }
 
     @Provides

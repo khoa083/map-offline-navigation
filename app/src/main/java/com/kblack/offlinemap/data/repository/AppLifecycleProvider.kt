@@ -1,15 +1,30 @@
 package com.kblack.offlinemap.data.repository
 
+import androidx.lifecycle.DefaultLifecycleObserver
+import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.ProcessLifecycleOwner
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asStateFlow
+
 interface AppLifecycleProvider {
-    var isAppInForeground: Boolean
+    val isAppInForeground: StateFlow<Boolean>
 }
 
-class AppLifecycleProviderImpl : AppLifecycleProvider {
-    private var _isAppInForeground = false
+class AppLifecycleProviderImpl : AppLifecycleProvider, DefaultLifecycleObserver {
+    private val _isAppInForeground = MutableStateFlow(false)
+    override val isAppInForeground: StateFlow<Boolean> = _isAppInForeground.asStateFlow()
 
-    override var isAppInForeground: Boolean
-        get() = _isAppInForeground
-        set(value) {
-            _isAppInForeground = value
-        }
+    fun startTracking() {
+        ProcessLifecycleOwner.get().lifecycle.addObserver(this)
+    }
+
+    override fun onStart(owner: LifecycleOwner) {
+        _isAppInForeground.value = true
+    }
+
+    override fun onStop(owner: LifecycleOwner) {
+        _isAppInForeground.value = false
+    }
+
 }
