@@ -238,9 +238,9 @@ class MapDownloadRepositoryImpl(
     }
 
     private fun sendNotification(title: String, text: String, mapName: String) {
-        if (lifecycleProvider.isAppInForeground) {
-            return
-        }
+//        if (lifecycleProvider.isAppInForeground.value) {
+//            return
+//        }
 
         val channelId = "download_notification"
         val channelName = "Download notification"

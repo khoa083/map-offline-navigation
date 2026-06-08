@@ -3,11 +3,14 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <!-- USE GPS AND NETWORK - EXCLUDE NON-GPS DEVICES -->
-    <uses-feature android:name="android.hardware.location.gps" android:required="true" />
+    <uses-feature android:name="android.hardware.location.gps" android:required="true"
+        tools:ignore="UnnecessaryRequiredFeature" />
     <uses-feature android:name="android.hardware.location.network" />
 
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE_LOCATION" />
-    <uses-permission android:name="android.permission.FOREGROUND_SERVICE"/>
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE"
+        tools:ignore="ForegroundServicesPolicy" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE_SPECIAL_USE" />
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE_DATA_SYNC"/>
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
@@ -50,6 +53,14 @@
             android:foregroundServiceType="dataSync"
             android:exported="false"
             tools:node="merge">
+        </service>
+        <service
+            android:name=".data.service.NavigationForegroundService"
+            android:foregroundServiceType="specialUse"
+            android:exported="false">
+            <property
+                android:name="android.app.PROPERTY_SPECIAL_USE_FGS_SUBTYPE"
+                android:value="navigation_notification_manager" />
         </service>
         <activity
             android:name=".ui.BugHandlerActivity"

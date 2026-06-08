@@ -1,11 +1,14 @@
 package com.kblack.offlinemap.ui.viewmodel
 
+import android.content.Context
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.kblack.offlinemap.data.repository.AppLifecycleProvider
 import com.kblack.offlinemap.data.repository.IOFileRepository
 import com.kblack.offlinemap.data.repository.LocationRepository
 import com.kblack.offlinemap.data.repository.PlaceSearchRepository
 import com.kblack.offlinemap.data.repository.RoutingRepository
+import com.kblack.offlinemap.data.service.NavigationServiceHelper
 import com.kblack.offlinemap.models.GeoCoordinate
 import com.kblack.offlinemap.models.MapModel
 import com.kblack.offlinemap.models.NavigationSnapshot
@@ -16,6 +19,7 @@ import com.kblack.offlinemap.usecase.routing.BuildNavigationUseCase
 import com.kblack.offlinemap.usecase.routing.InitializeRouterUseCase
 import com.kblack.offlinemap.utils.containsNonLatin
 import dagger.hilt.android.lifecycle.HiltViewModel
+import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.Job
@@ -62,7 +66,9 @@ class MapViewModel @Inject constructor(
     private val locationRepository: LocationRepository,
     private val initializeRouterUseCase: InitializeRouterUseCase,
     private val buildNavigationUseCase: BuildNavigationUseCase,
-    private val placeSearchRepository: PlaceSearchRepository
+    private val placeSearchRepository: PlaceSearchRepository,
+    @ApplicationContext private val context: Context,
+    private val appLifecycleProvider: AppLifecycleProvider
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow(MapUiState())
@@ -70,6 +76,8 @@ class MapViewModel @Inject constructor(
 
     private var locationJob: Job? = null
     private var routeJob: Job? = null
+
+    private var lifecycleJob: Job? = null
 
     private val _centerOnCurrentLocation = MutableSharedFlow<GeoCoordinate>(extraBufferCapacity = 1)
     val centerOnCurrentLocation: SharedFlow<GeoCoordinate> = _centerOnCurrentLocation.asSharedFlow()
@@ -88,6 +96,11 @@ class MapViewModel @Inject constructor(
     private val _searchQueryFlow = MutableStateFlow("")
 
     init {
+        viewModelScope.launch {
+            NavigationServiceHelper.stopRequestedFlow.collect {
+                stopNavigation()
+            }
+        }
         observeSearchQuery()
     }
 
@@ -203,9 +216,9 @@ class MapViewModel @Inject constructor(
         }
     }
 
-
     fun startNavigation() {
-        if (_uiState.value.route == null) {
+        val route = _uiState.value.route
+        if (route == null) {
             _uiState.update { it.copy(errorMessage = "Route is not available") }
             return
         }
@@ -217,7 +230,12 @@ class MapViewModel @Inject constructor(
     fun stopNavigation() {
         locationJob?.cancel()
         locationJob = null
+        lifecycleJob?.cancel()
+        lifecycleJob = null
+
         _uiState.update { it.copy(isNavigating = false, navigationSnapshot = null) }
+
+        NavigationServiceHelper.stop(context)
     }
 
     fun clearErrorMessage() {
@@ -226,6 +244,20 @@ class MapViewModel @Inject constructor(
 
     private fun observeLocation() {
         if (locationJob != null) return
+
+        lifecycleJob?.cancel()
+        lifecycleJob = viewModelScope.launch {
+            appLifecycleProvider.isAppInForeground.collect { inForeground ->
+                if (!_uiState.value.isNavigating) return@collect
+                val snapshot = _uiState.value.navigationSnapshot ?: return@collect
+                if (inForeground) {
+                    NavigationServiceHelper.hide(context)
+                } else {
+                    NavigationServiceHelper.show(context, snapshot)
+                }
+            }
+        }
+
         locationJob = viewModelScope.launch {
             locationRepository.observeCurrentLocation(1000L).collect { location ->
                 _uiState.update { it.copy(currentLocation = location) }
@@ -241,6 +273,10 @@ class MapViewModel @Inject constructor(
 
         val snapshot = buildNavigationUseCase(route, current)
         _uiState.update { it.copy(navigationSnapshot = snapshot) }
+
+        if (!appLifecycleProvider.isAppInForeground.value) {
+            NavigationServiceHelper.update(context, snapshot)
+        }
 
         if (snapshot.isOffTrack && !_uiState.value.isRouting) {
             recalculateRoute()
@@ -301,7 +337,6 @@ class MapViewModel @Inject constructor(
         _searchQueryFlow.value = ""
         _uiState.update {
             it.copy(
-//                searchQuery = "",
                 searchResults = emptyList(),
                 errorMessage = null
             )
@@ -311,8 +346,8 @@ class MapViewModel @Inject constructor(
     override fun onCleared() {
         super.onCleared()
         locationJob?.cancel()
+        lifecycleJob?.cancel()
         routeJob?.cancel()
         routingRepository.close()
     }
-
 }

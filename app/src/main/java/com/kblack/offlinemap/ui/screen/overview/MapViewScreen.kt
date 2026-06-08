@@ -98,6 +98,7 @@ import org.maplibre.geojson.Feature
 import org.maplibre.geojson.LineString
 import org.maplibre.geojson.Point
 import org.maplibre.spatialk.geojson.Position
+import org.maplibre.spatialk.units.LengthUnit
 import timber.log.Timber
 import kotlin.math.abs
 import kotlin.time.Duration.Companion.milliseconds
@@ -187,7 +188,7 @@ fun MapViewScreen(
     val canUseMapLibreLocation =
         locationAccessState.hasPermission && locationAccessState.isLocationServiceOn
     val locationStateMaplibre = rememberMapLocationState(canUseMapLibreLocation)
-    val hasMapLibreLocation = locationStateMaplibre?.location != null
+    val hasMapLibreLocation = locationStateMaplibre != null
     val sheetState = rememberBottomSheetScaffoldState()
 
     val shouldInterceptBack = uiState.isNavigating || activity?.isTaskRoot == true
@@ -283,11 +284,13 @@ fun MapViewScreen(
                 enabled = true,
             ) {
                 Timber.d("[CAPTURE] update: $currentLocation")
-                val speed = currentLocation.speed?.toFloat() ?: 0f
+                val speed = currentLocation.location?.speed?.distancePerSecond?.toDouble(LengthUnit(
+                    1.0,"m"
+                )) ?: 0.0
                 val speedThreshold = 1f  // 2 m/s (~7.2 km/h)
-
+                Timber.d("[CAPTURE] update speed: $speed")
                 val updateMode = if (speed >= speedThreshold) {
-                    BearingUpdate.TRACK_LOCATION
+                    BearingUpdate.TRACK_COURSE
                 } else {
                     BearingUpdate.ALWAYS_NORTH
                 }
@@ -437,9 +440,10 @@ fun MapViewScreen(
                     hasMapLibreLocation
                 ) {
                     // https://maplibre.org/maplibre-compose/api/lib/maplibre-compose/org.maplibre.compose.location/-location-puck.html
+                    // new: https://github.com/maplibre/maplibre-compose/issues/707 (0.13.0)
                     LocationPuck(
                         idPrefix = "location-accuracy",
-                        locationState = locationStateMaplibre,
+                        location = locationStateMaplibre.location,
                         cameraState = camera,
                         oldLocationThreshold = 10.seconds,
                         accuracyThreshold = 0f,

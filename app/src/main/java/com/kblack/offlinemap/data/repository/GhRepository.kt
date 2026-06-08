@@ -7,6 +7,7 @@ import com.kblack.offlinemap.data.models.Config
 import com.kblack.offlinemap.data.models.MapAllowlist
 import com.kblack.offlinemap.data.remote.api.GhRemoteDataSource
 import com.kblack.offlinemap.models.MapModel
+import timber.log.Timber
 import java.io.File
 
 interface GhRepository {

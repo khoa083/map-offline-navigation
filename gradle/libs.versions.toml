@@ -38,7 +38,7 @@ work_manager = "2.11.2"
 #todo https://github.com/maplibre/maplibre-plugins-android?tab=readme-ov-file
 #maplibre = "13.0.1"
 #maplibre-plugin = "3.0.2"
-maplibreCompose = "0.12.1"
+maplibreCompose = "0.13.0"
 # navigation compose
 navigationCompose = "2.9.8"
 
@@ -52,10 +52,12 @@ konfettiCompose = "2.0.5"
 # https://github.com/luben/ZstdAndroidExample
 tar_version = "1.28.0"
 #mockk
-mockk = "1.14.9"
+mockk = "1.14.11"
 slf4jAndroid = "1.7.36"
 coroutines-test = "1.11.0"
 turbine-test = "1.2.1"
+
+lifecycleProcess = "2.10.0"
 
 [libraries]
 androidx-core-ktx = { module = "androidx.core:core-ktx", version.ref = "coreKtx" }
@@ -128,6 +130,7 @@ konfetti-compose = { module = "nl.dionsegijn:konfetti-compose", version.ref = "k
 mockk = { module = "io.mockk:mockk", version.ref = "mockk" }
 coroutines-test = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-test", version.ref = "coroutines-test" }
 turbine-test = { module = "app.cash.turbine:turbine", version.ref = "turbine-test" }
+androidx-lifecycle-process = { group = "androidx.lifecycle", name = "lifecycle-process", version.ref = "lifecycleProcess" }
 
 [bundles]
 hilt = ["hilt-android", "hilt-navigation-compose"]
