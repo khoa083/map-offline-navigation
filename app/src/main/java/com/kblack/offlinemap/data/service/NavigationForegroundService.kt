@@ -14,6 +14,7 @@ import androidx.core.graphics.drawable.IconCompat
 import com.kblack.offlinemap.R
 import com.kblack.offlinemap.ui.MainActivity
 
+// Notification, NotificationCompat
 class NavigationForegroundService : Service() {
 
     private val notificationManager by lazy {
@@ -21,6 +22,11 @@ class NavigationForegroundService : Service() {
     }
 
     override fun onBind(intent: Intent?) = null
+
+    override fun onCreate() {
+        super.onCreate()
+        createNotificationChannel()
+    }
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
         if (intent == null) return START_STICKY
@@ -90,13 +96,13 @@ class NavigationForegroundService : Service() {
             PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
         )
 
-        val views = RemoteViews(packageName, R.layout.noti_navigation).apply {
-            setTextViewText(R.id.tv_instruction, instruction)
-            setFloat(R.id.iv_maneuver, "setRotation", rotation)
-            setInt(R.id.iv_maneuver, "setColorFilter", Color.WHITE)
-            setProgressBar(R.id.progress_distance, 100, progress, false)
-//            setOnClickPendingIntent(R.id.btn_exit_navigation, exitIntent)
-        }
+//        val views = RemoteViews(packageName, R.layout.noti_navigation).apply {
+//            setTextViewText(R.id.tv_instruction, instruction)
+//            setFloat(R.id.iv_maneuver, "setRotation", rotation)
+//            setInt(R.id.iv_maneuver, "setColorFilter", Color.WHITE)
+//            setProgressBar(R.id.progress_distance, 100, progress, false)
+////            setOnClickPendingIntent(R.id.btn_exit_navigation, exitIntent)
+//        }
 
         val exitAction = NotificationCompat.Action.Builder(
             IconCompat.createWithResource(this, R.drawable.d_off),
@@ -104,12 +110,12 @@ class NavigationForegroundService : Service() {
             exitIntent
         ).build()
 
-        return NotificationCompat.Builder(this, CHANNEL_ID)
-            .setSmallIcon(R.drawable.d_on)
+        val builder = NotificationCompat.Builder(this, CHANNEL_ID)
+            .setSmallIcon(R.drawable.ic_navi_noti)
             .setContentTitle(instruction)
             .setContentText("Navigation in progress")
-            .setCustomBigContentView(views)
-            .setStyle(NotificationCompat.DecoratedCustomViewStyle())
+//            .setCustomBigContentView(views)
+//            .setStyle(NotificationCompat.DecoratedCustomViewStyle())
             .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
             .setOngoing(true)
             .setPriority(NotificationCompat.PRIORITY_MAX)
@@ -117,7 +123,33 @@ class NavigationForegroundService : Service() {
             .addAction(exitAction)
             .setContentIntent(openAppIntent)
             .setForegroundServiceBehavior(NotificationCompat.FOREGROUND_SERVICE_IMMEDIATE)
-            .build()
+
+        try {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.BAKLAVA) {
+                builder.setStyle(
+                    NotificationCompat.ProgressStyle()
+                        .setProgress(progress)
+                        .setStyledByProgress(true)
+                        .addProgressSegment(
+                            NotificationCompat.ProgressStyle.Segment(progress)
+                                .setColor(0xFF4FC3F7.toInt())
+                        )
+                        .addProgressSegment(
+                            NotificationCompat.ProgressStyle.Segment(100 - progress)
+                                .setColor(0x44FFFFFF)
+                        )
+                        .setProgressTrackerIcon(
+                            IconCompat.createWithResource(this, R.drawable.ic_navi_noti)
+                        )
+                )
+            } else {
+                builder.setProgress(100, progress, false)
+            }
+        } catch (e: Throwable) {
+            builder.setProgress(100, progress, false)
+        }
+
+        return builder.build()
     }
 
     private fun createNotificationChannel() {

@@ -9,7 +9,7 @@ plugins {
 
 val configSDK = mapOf(
     "min_sdk" to 26,
-    "target_sdk" to 36,
+    "target_sdk" to 37,
 
     )
 
