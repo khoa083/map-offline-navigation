@@ -65,9 +65,9 @@
 
 | Feature | Status |
 | :--- | :---: |
-| **Voice Guidance** | 🟡 In Progress |
+| **Lock Screen Navigation** | 🟡 In Progress |
 | **Speed Limits** | 🔴 Planned |
-| **Lock Screen Navigation** | 🔴 Planned |
+| **Voice Guidance** | 🔴 Planned |
 
 ## Credits
 
