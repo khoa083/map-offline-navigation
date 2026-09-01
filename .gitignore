@@ -18,3 +18,9 @@ build_error.txt
 *.keystore
 *.jks
 release.properties
+
+# Claude Code — local only, never push
+/.claude/
+/CLAUDE.md
+/CLAUDE.local.md
+/implementation-notes.md

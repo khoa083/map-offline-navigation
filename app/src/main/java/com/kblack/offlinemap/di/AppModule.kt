@@ -62,8 +62,9 @@ object AppModule {
     fun provideGhRepository(
         remoteDataSource: GhRemoteDataSource,
         @ApplicationContext context: Context,
+        moshi: Moshi,
     ): GhRepository {
-        return GhRepositoryImpl(remoteDataSource, context)
+        return GhRepositoryImpl(remoteDataSource, context, moshi)
     }
 
     @Provides

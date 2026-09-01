@@ -3,12 +3,10 @@ package com.kblack.offlinemap.ui.screen.overview
 import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.pm.ActivityInfo
-import android.view.WindowManager
-import androidx.compose.animation.core.Animatable
-import androidx.compose.animation.core.LinearEasing
-import androidx.compose.animation.core.tween
-import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Flag
@@ -24,21 +22,14 @@ import androidx.compose.material3.rememberBottomSheetScaffoldState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableDoubleStateOf
-import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.runtime.setValue
-import androidx.compose.runtime.snapshotFlow
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.layout.statusBarsPadding
-import androidx.compose.material3.AlertDialog
-import androidx.compose.material3.Text
-import androidx.compose.material3.Button
-import androidx.compose.runtime.withFrameMillis
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -51,10 +42,11 @@ import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.kblack.offlinemap.models.GeoCoordinate
 import com.kblack.offlinemap.models.MapModel
-import com.kblack.offlinemap.models.TravelMode
 import com.kblack.offlinemap.ui.base.BaseContainer
+import com.kblack.offlinemap.ui.screen.overview.component.ExitConfirmationDialog
 import com.kblack.offlinemap.ui.screen.overview.component.FloatingSearchBar
 import com.kblack.offlinemap.ui.screen.overview.component.KeepScreenOn
+import com.kblack.offlinemap.ui.screen.overview.component.MapCameraEffects
 import com.kblack.offlinemap.ui.screen.overview.component.MapControls
 import com.kblack.offlinemap.ui.screen.overview.component.rememberMapLocationAccessState
 import com.kblack.offlinemap.ui.screen.overview.component.rememberMapLocationState
@@ -63,9 +55,7 @@ import com.kblack.offlinemap.ui.screen.overview.component.NavigationMode
 import com.kblack.offlinemap.ui.screen.overview.component.RouteInstructionsBottomSheet
 import com.kblack.offlinemap.ui.screen.overview.component.SelectPointBottomSheet
 import com.kblack.offlinemap.ui.screen.overview.component.UpdateRoutingVehicle
-import com.kblack.offlinemap.ui.screen.overview.component.normalizeDegree
-import com.kblack.offlinemap.ui.screen.overview.component.rememberCompassMode
-import com.kblack.offlinemap.ui.screen.overview.component.shortestAngleDelta
+import com.kblack.offlinemap.ui.screen.overview.component.rememberAnimatedRouteLine
 import com.kblack.offlinemap.ui.utils.Constant.INITIAL_ZOOM
 import com.kblack.offlinemap.ui.utils.Constant.MAX_ZOOM
 import com.kblack.offlinemap.ui.utils.Constant.MIN_ZOOM
@@ -73,7 +63,6 @@ import com.kblack.offlinemap.ui.theme.customColors
 import com.kblack.offlinemap.ui.viewmodel.MapViewModel
 import org.maplibre.compose.camera.CameraPosition
 import org.maplibre.compose.camera.rememberCameraState
-import org.maplibre.compose.expressions.dsl.Feature.state
 import org.maplibre.compose.expressions.dsl.const
 import org.maplibre.compose.expressions.dsl.image
 import org.maplibre.compose.expressions.dsl.nil
@@ -82,26 +71,22 @@ import org.maplibre.compose.expressions.value.LineJoin
 import org.maplibre.compose.layers.CircleLayer
 import org.maplibre.compose.layers.LineLayer
 import org.maplibre.compose.layers.SymbolLayer
-import org.maplibre.compose.location.BearingUpdate
 import org.maplibre.compose.location.LocationPuck
 import org.maplibre.compose.location.LocationPuckColors
 import org.maplibre.compose.location.LocationPuckSizes
-import org.maplibre.compose.location.LocationTrackingEffect
-import org.maplibre.compose.map.MapOptions
 import org.maplibre.compose.map.MaplibreMap
-import org.maplibre.compose.map.OrnamentOptions
+import org.maplibre.compose.overlay.ExpandingAttributionButton
+import org.maplibre.compose.overlay.MapOverlay
 import org.maplibre.compose.sources.GeoJsonData
 import org.maplibre.compose.sources.rememberGeoJsonSource
 import org.maplibre.compose.style.BaseStyle
 import org.maplibre.compose.util.ClickResult
-import org.maplibre.geojson.Feature
-import org.maplibre.geojson.LineString
-import org.maplibre.geojson.Point
+import org.maplibre.spatialk.geojson.Feature
+import org.maplibre.spatialk.geojson.Point
 import org.maplibre.spatialk.geojson.Position
-import org.maplibre.spatialk.units.LengthUnit
+import org.maplibre.spatialk.geojson.toJson
+import kotlinx.serialization.json.JsonObject
 import timber.log.Timber
-import kotlin.math.abs
-import kotlin.time.Duration.Companion.milliseconds
 import kotlin.time.Duration.Companion.seconds
 
 @SuppressLint("SourceLockedOrientationActivity")
@@ -129,14 +114,12 @@ fun MapViewScreen(
     var point by remember { mutableStateOf<GeoCoordinate?>(null) }
     var zoom by remember { mutableDoubleStateOf(INITIAL_ZOOM) }
 
-    val routePoints = remember(uiState.route) {
-        mutableStateListOf<GeoCoordinate>().apply { addAll(uiState.route?.points.orEmpty()) }
-    }
-
     val showEndFlagAndTopBar = uiState.startPoint != null && uiState.endPoint != null
     val selectedTravelMode = uiState.routingOptions.travelMode
     val canStartNavigation = uiState.route != null && !uiState.isRouting
     val snackBarHostState = remember { SnackbarHostState() }
+
+    val animatedRoute = rememberAnimatedRouteLine(route = uiState.route, travelMode = selectedTravelMode)
 
     LaunchedEffect(showEndFlagAndTopBar) {
         if (showEndFlagAndTopBar) {
@@ -148,16 +131,6 @@ fun MapViewScreen(
     var mapMode3d by remember { mutableStateOf(false) }
     val currentTilt by rememberUpdatedState(if (mapMode3d) 55.0 else 0.0)
 
-    val routeCoords = remember(routePoints) {
-        routePoints.map { Point.fromLngLat(it.longitude, it.latitude) }
-    }
-
-    val progress = remember(routeCoords) { Animatable(0f) }
-
-    val isDashLine = remember(uiState.route) {
-        uiState.routingOptions.travelMode == TravelMode.Foot
-    }
-
     val defaultLocations = remember { mapViewModel.loadDefaultLocations() }
     val defaultLocation = remember(map.mapId) {
         val l = defaultLocations[map.mapId]
@@ -166,20 +139,6 @@ fun MapViewScreen(
     }
 
     val focusManager = LocalFocusManager.current
-
-    LaunchedEffect(routeCoords) {
-        progress.snapTo(0f)
-        if (routeCoords.size >= 2) {
-            progress.animateTo(
-                targetValue = 1f,
-                animationSpec = tween(
-                    durationMillis = 1000,
-                    easing = LinearEasing
-                )
-            )
-        }
-    }
-
 
     val locationAccessState = rememberMapLocationAccessState(
         context = context,
@@ -197,23 +156,12 @@ fun MapViewScreen(
     }
 
     if (showExitDialog) {
-        AlertDialog(
-            onDismissRequest = { showExitDialog = false },
-            title = { Text("Exit Application") },
-            text = { Text("Are you sure you want to exit the application?") },
-            confirmButton = {
-                Button(onClick = {
-                    showExitDialog = false
-                    activity?.finish()
-                }) {
-                    Text("Exit")
-                }
+        ExitConfirmationDialog(
+            onConfirm = {
+                showExitDialog = false
+                activity?.finish()
             },
-            dismissButton = {
-                Button(onClick = { showExitDialog = false }) {
-                    Text("Cancel")
-                }
-            }
+            onDismiss = { showExitDialog = false },
         )
     }
 
@@ -226,120 +174,42 @@ fun MapViewScreen(
                 )
         )
 
-    LaunchedEffect(zoom) {
-        if (abs(camera.position.zoom - zoom) < 0.01) return@LaunchedEffect
-        camera.animateTo(
-            finalPosition =
-                camera.position.copy(
-                    zoom = zoom
-                ),
-        )
-    }
-
-    LaunchedEffect(mapMode3d) {
-        camera.animateTo(
-            finalPosition = camera.position.copy(tilt = if (mapMode3d) 55.0 else 0.0),
-            duration = 700.milliseconds
-        )
+    // v0.15.0 dropped MapOptions.ornamentOptions (native-view ornaments) in favor of a Compose
+    // overlay. This reproduces the old isLogoEnabled=false / isAttributionEnabled=true /
+    // isScaleBarEnabled=false intent: only the attribution button, nothing else.
+    val mapOverlay = remember {
+        MapOverlay {
+            // Read before entering Row: RowScope shadows MapOverlayScope's implicit receiver,
+            // so cameraState/styleState must be captured to locals first (same pattern as
+            // MapOverlay.Default in the library itself).
+            val overlayCamera = cameraState
+            val overlayStyle = styleState
+            Row(
+                Modifier.align(Alignment.BottomStart).fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceBetween,
+            ) {
+                ExpandingAttributionButton(cameraState = overlayCamera, styleState = overlayStyle)
+            }
+        }
     }
 
     LaunchedEffect(Unit) {
         mapViewModel.initializeMap(map)
-        mapViewModel.centerOnCurrentLocation.collect { p ->
-            camera.animateTo(
-                CameraPosition(
-                    target = Position(latitude = p.latitude, longitude = p.longitude),
-                    zoom = 16.5,
-                    tilt = currentTilt
-                ),
-                duration = 3.seconds
-            )
-        }
     }
 
-    LaunchedEffect(Unit) {
-        mapViewModel.place.collect { p ->
-            point = GeoCoordinate(latitude = p.lat, longitude = p.lng)
-//            showSelectPointSheet = !showEndFlagAndTopBar
-            camera.animateTo(
-                CameraPosition(
-                    target = Position(latitude = p.lat, longitude = p.lng),
-                    zoom = 12.5,
-                    tilt = currentTilt
-                ),
-                duration = 2.seconds
-            )
-        }
-    }
-
-    LaunchedEffect(uiState.isNavigating) {
-        if (uiState.isNavigating && !mapMode3d) mapMode3d = true
-    }
-
-    if (uiState.isNavigating) {
-        locationStateMaplibre?.let { safeLocationState ->
-            LocationTrackingEffect(
-                trackBearing = true,
-                locationState = safeLocationState,
-                enabled = true,
-            ) {
-                Timber.d("[CAPTURE] update: $currentLocation")
-                val speed = currentLocation.location?.speed?.distancePerSecond?.toDouble(LengthUnit(
-                    1.0,"m"
-                )) ?: 0.0
-                val speedThreshold = 1f  // 2 m/s (~7.2 km/h)
-                Timber.d("[CAPTURE] update speed: $speed")
-                val updateMode = if (speed >= speedThreshold) {
-                    BearingUpdate.TRACK_COURSE
-                } else {
-                    BearingUpdate.ALWAYS_NORTH
-                }
-
-                camera.updateFromLocation(updateBearing = updateMode)
-            }
-        }
-    }
-
-    if(compassMode) {
-
-        val targetHeading = remember { mutableStateOf<Float?>(null) }
-        val heading by rememberCompassMode()
-
-        DisposableEffect(Unit) {
-            onDispose { targetHeading.value = null }
-        }
-
-
-        LaunchedEffect(Unit) {
-            snapshotFlow { heading }.collect { h ->
-                targetHeading.value = h
-            }
-        }
-
-        LaunchedEffect(camera, uiState.isNavigating) {
-            if (uiState.isNavigating) return@LaunchedEffect
-            var current = camera.position.bearing.toFloat()
-            while (true) {
-                withFrameMillis {
-                    val target = targetHeading.value ?: return@withFrameMillis
-                    val delta = shortestAngleDelta(current, target)
-                    if (abs(delta) > 0.05f) {
-                        current = normalizeDegree(current + delta * 0.2f)
-                        camera.position = camera.position.copy(bearing = current.toDouble())
-                    }
-                }
-            }
-        }
-    }
-
-    val routeGeoJson by remember(routeCoords) {
-        derivedStateOf {
-            if (routeCoords.size < 2) return@derivedStateOf null
-            val count = ((routeCoords.size - 1) * progress.value).toInt().coerceAtLeast(1) + 1
-            Feature.fromGeometry(LineString.fromLngLats(routeCoords.take(count))).toJson()
-        }
-    }
-
+    MapCameraEffects(
+        camera = camera,
+        zoom = zoom,
+        mapMode3d = mapMode3d,
+        onMapMode3dChange = { mapMode3d = it },
+        compassMode = compassMode,
+        isNavigating = uiState.isNavigating,
+        currentTilt = currentTilt,
+        locationStateMaplibre = locationStateMaplibre,
+        centerOnCurrentLocation = mapViewModel.centerOnCurrentLocation,
+        place = mapViewModel.place,
+        onPointSelected = { point = it },
+    )
 
     LaunchedEffect(uiState.errorMessage) {
         uiState.errorMessage?.let { message ->
@@ -360,14 +230,7 @@ fun MapViewScreen(
         BaseContainer(modifier = Modifier.padding(it)) {
             MaplibreMap(
                 cameraState = camera,
-                options = MapOptions(
-                    ornamentOptions = OrnamentOptions(
-                        isLogoEnabled = false,
-                        isAttributionEnabled = true,
-                        isScaleBarEnabled = false,
-                        padding = PaddingValues(top = 120.dp)
-                    )
-                ),
+                overlay = mapOverlay,
                 baseStyle = BaseStyle.Uri("file://${styleJsonPath}"),
                 onMapClick = { p, dp ->
                     Timber.d("[CAPTURE] Map clicked at: $p , $dp")
@@ -385,34 +248,38 @@ fun MapViewScreen(
                 },
             ) {
 
-                if (routeCoords.size >= 2) {
-                    val json = routeGeoJson
-                    if (json != null) {
-                        val routeSource = rememberGeoJsonSource(
-                            data = GeoJsonData.JsonString(json)
-                        )
+                val routeJson = animatedRoute.geoJson
+                if (routeJson != null) {
+                    val routeSource = rememberGeoJsonSource(
+                        data = GeoJsonData.JsonString(routeJson)
+                    )
 
-                        LineLayer(
-                            id = "route-layer",
-                            source = routeSource,
-                            minZoom = 0.0f,
-                            maxZoom = 24.0f,
-                            color = const(MaterialTheme.customColors.tabHeaderBgColor),
-                            width = const(8.dp),
-                            opacity = const(0.6f),
-                            cap = const(LineCap.Round),
-                            join = const(LineJoin.Round),
-                            dasharray = if (isDashLine) const(listOf(1f, 1.5f)) else nil(),
-                        )
-                    }
+                    LineLayer(
+                        id = "route-layer",
+                        source = routeSource,
+                        minZoom = 0.0f,
+                        maxZoom = 24.0f,
+                        color = const(MaterialTheme.customColors.tabHeaderBgColor),
+                        width = const(8.dp),
+                        opacity = const(0.6f),
+                        cap = const(LineCap.Round),
+                        join = const(LineJoin.Round),
+                        dasharray = if (animatedRoute.isDashLine) const(listOf(1f, 1.5f)) else nil(),
+                    )
                 }
 
                 if (showEndFlagAndTopBar) {
 
                     FlagPointLayer(point = uiState.endPoint!!)
                 } else if (uiState.endPoint != null) {
+                    // Memoized on the point itself: without this, every recomposition (e.g. the
+                    // current-location update every second while navigating) re-serialized this
+                    // GeoJSON and pushed it to the native source even though the point hadn't moved.
+                    val endPointJson = remember(uiState.endPoint) {
+                        singlePointFeatureJson(uiState.endPoint!!)
+                    }
                     val endPointSource = rememberGeoJsonSource(
-                        data = GeoJsonData.JsonString(singlePointFeatureJson(uiState.endPoint!!))
+                        data = GeoJsonData.JsonString(endPointJson)
                     )
                     CircleLayer(
                         id = "end-point-layer",
@@ -423,8 +290,11 @@ fun MapViewScreen(
                     )
                 }
                 if (uiState.startPoint != null && uiState.startPoint != uiState.currentLocation) {
+                    val startPointJson = remember(uiState.startPoint) {
+                        singlePointFeatureJson(uiState.startPoint!!)
+                    }
                     val startPointSource = rememberGeoJsonSource(
-                        data = GeoJsonData.JsonString(singlePointFeatureJson(uiState.startPoint!!))
+                        data = GeoJsonData.JsonString(startPointJson)
                     )
                     CircleLayer(
                         id = "start-point-layer",
@@ -583,6 +453,6 @@ private fun FlagPointLayer(
 }
 
 private fun singlePointFeatureJson(point: GeoCoordinate): String {
-    val markerPoint = Point.fromLngLat(point.longitude, point.latitude)
-    return Feature.fromGeometry(markerPoint).toJson()
+    val markerPoint = Point(Position(longitude = point.longitude, latitude = point.latitude))
+    return Feature<Point, JsonObject?>(geometry = markerPoint, properties = null).toJson()
 }

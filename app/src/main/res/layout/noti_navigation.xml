@@ -19,7 +19,7 @@
             android:id="@+id/iv_maneuver"
             android:layout_width="36dp"
             android:layout_height="36dp"
-            android:src="@drawable/maplibre_compass_icon"
+            android:src="@drawable/ic_navigation_arrow"
             android:tint="@android:color/white" />
 
         <TextView

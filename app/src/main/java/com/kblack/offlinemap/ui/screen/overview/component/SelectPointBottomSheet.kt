@@ -14,7 +14,6 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
@@ -28,8 +27,6 @@ import androidx.compose.ui.unit.sp
 import com.kblack.offlinemap.R
 import com.kblack.offlinemap.models.GeoCoordinate
 import com.kblack.offlinemap.ui.viewmodel.MapUiState
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
 import java.util.Locale
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -42,8 +39,6 @@ fun SelectPointBottomSheet(
     onSelectEnd: (GeoCoordinate) -> Unit,
 
     ) {
-    val scope = rememberCoroutineScope()
-
     ModalBottomSheet(onDismissRequest = onDismissRequest) {
         Row(
             verticalAlignment = Alignment.Bottom,
@@ -58,11 +53,8 @@ fun SelectPointBottomSheet(
                 label = "ROUTE FROM",
                 onClick = {
                     val selectedPoint = point ?: return@RoutePointAction
-                    scope.launch {
-                        delay(200)
-                        onSelectStart(selectedPoint)
-                        onDismissRequest()
-                    }
+                    onSelectStart(selectedPoint)
+                    onDismissRequest()
                 }
             )
 
@@ -72,11 +64,8 @@ fun SelectPointBottomSheet(
                 label = "ROUTE TO",
                 onClick = {
                     val selectedPoint = point ?: return@RoutePointAction
-                    scope.launch {
-                        delay(200)
-                        onSelectEnd(selectedPoint)
-                        onDismissRequest()
-                    }
+                    onSelectEnd(selectedPoint)
+                    onDismissRequest()
                 }
             )
         }

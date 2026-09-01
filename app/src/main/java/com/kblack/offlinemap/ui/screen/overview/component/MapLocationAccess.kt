@@ -26,7 +26,7 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
 import androidx.lifecycle.compose.LocalLifecycleOwner
 import org.maplibre.compose.location.rememberDefaultLocationProvider
-import org.maplibre.compose.location.rememberUserLocationState
+import org.maplibre.compose.location.rememberLocationState
 import timber.log.Timber
 
 @Immutable
@@ -206,7 +206,7 @@ fun rememberMapLocationAccessState(
 fun rememberMapLocationState(hasPermission: Boolean) =
     if (hasPermission) {
         val locationProvider = rememberDefaultLocationProvider()
-        rememberUserLocationState(locationProvider)
+        rememberLocationState(provider = locationProvider)
     } else {
         null
     }

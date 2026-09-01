@@ -138,12 +138,16 @@ android {
 }
 
 dependencies {
+
+    val adxComposeBom = libs.androidx.compose.bom
+    val hiltCompile = libs.hilt.android.compiler
+
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.process)
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.lifecycle.viewmodel.compose)
     implementation(libs.androidx.activity.compose)
-    implementation(platform(libs.androidx.compose.bom))
+    implementation(platform(adxComposeBom))
     implementation(libs.androidx.compose.ui)
     implementation(libs.androidx.compose.ui.graphics)
     implementation(libs.androidx.compose.ui.tooling.preview)
@@ -155,9 +159,10 @@ dependencies {
     implementation(libs.bundles.dataStore)
     implementation(libs.work.runtime.ktx)
     implementation(libs.bundles.maplibre)
+    runtimeOnly(libs.maplibre.compose.runtime.opengl.android)
     implementation(libs.konfetti.compose)
 //    implementation(libs.maplibre.plugin.annotation)
-    ksp(libs.hilt.android.compiler)
+    ksp(hiltCompile)
     implementation(libs.bundles.hilt)
     implementation(libs.bundles.roomDb)
     ksp(libs.room.compiler)
@@ -172,7 +177,7 @@ dependencies {
     implementation(libs.tar)
 
     //noinspection UseTomlInstead
-    implementation("com.github.luben:zstd-jni:1.5.7-8@aar")
+    implementation("com.github.luben:zstd-jni:1.5.7-13@aar")
     //todo: https://discuss.graphhopper.com/t/offlne-routing-on-android/9176/3
     implementation("com.graphhopper:graphhopper-core:1.0") {
         exclude(group = "com.google.protobuf", module = "protobuf-java")

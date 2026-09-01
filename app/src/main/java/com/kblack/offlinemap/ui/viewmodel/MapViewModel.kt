@@ -20,6 +20,7 @@ import com.kblack.offlinemap.usecase.routing.InitializeRouterUseCase
 import com.kblack.offlinemap.utils.containsNonLatin
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.Job
@@ -36,6 +37,7 @@ import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.transformLatest
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import java.io.IOException
 import javax.inject.Inject
 
@@ -266,12 +268,21 @@ class MapViewModel @Inject constructor(
         }
     }
 
-    private fun updateNavigationSnapshot(currentLocation: GeoCoordinate?) {
+    private suspend fun updateNavigationSnapshot(currentLocation: GeoCoordinate?) {
         val route = _uiState.value.route ?: return
         val current = currentLocation ?: return
         if (!_uiState.value.isNavigating) return
 
-        val snapshot = buildNavigationUseCase(route, current)
+        // buildNavigationUseCase does 2-3 full O(n) haversine passes over every point in the
+        // route (nearest-point search, off-track segment distance, remaining-distance sum) plus
+        // an O(m) pass over the instructions. This runs once per second while navigating
+        // (see observeLocation's 1s cadence), and was running inline on the Main dispatcher
+        // (viewModelScope.launch defaults to Main.immediate) -- on a long route that's a
+        // recurring main-thread stall every second, which is what the residual jank while
+        // navigating was.
+        val snapshot = withContext(Dispatchers.Default) {
+            buildNavigationUseCase(route, current)
+        }
         _uiState.update { it.copy(navigationSnapshot = snapshot) }
 
         if (!appLifecycleProvider.isAppInForeground.value) {
