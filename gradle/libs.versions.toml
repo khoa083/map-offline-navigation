@@ -39,6 +39,9 @@ work_manager = "2.11.2"
 #maplibre = "13.0.1"
 #maplibre-plugin = "3.0.2"
 maplibreCompose = "0.15.0"
+# spatial-k turf (LineString.simplify) -- pinned to match the geojson-jvm version that
+# maplibre-compose 0.15.0 itself depends on transitively, so no version skew.
+spatialkTurf = "0.7.0"
 # navigation compose
 navigationCompose = "2.10.0"
 
@@ -120,6 +123,7 @@ work-runtime-ktx = { module = "androidx.work:work-runtime-ktx", version.ref = "w
 #maplibre-plugin-annotation = { module = "org.maplibre.gl:android-plugin-annotation-v9", version.ref = "maplibre-plugin" }
 maplibre-compose = { module = "org.maplibre.compose:maplibre-compose", version.ref = "maplibreCompose" }
 maplibre-compose-runtime-opengl-android = { module = "org.maplibre.compose:maplibre-compose-runtime-opengl-android", version.ref = "maplibreCompose" }
+spatialk-turf = { module = "org.maplibre.spatialk:turf", version.ref = "spatialkTurf" }
 # navigation compose
 navigation-compose = { module = "androidx.navigation:navigation-compose", version.ref = "navigationCompose" }
 
@@ -139,7 +143,7 @@ roomDb = ["room-runtime","room-ktx"]
 okhttp = ["okhttp", "logging-interceptor"]
 retrofit2 = ["retrofit2", "retrofit2-converter-moshi"]
 dataStore = ["data-store-preferences", "data-store-preferences-core"]
-maplibre = ["maplibre-compose"]
+maplibre = ["maplibre-compose", "spatialk-turf"]
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
