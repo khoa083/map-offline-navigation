@@ -36,7 +36,7 @@ jobs:
         uses: gradle/actions/setup-gradle@v6
 
       - name: Initialize CodeQL
-        uses: github/codeql-action/init@v3
+        uses: github/codeql-action/init@v4
         with:
           languages: java-kotlin
           # build-mode "none" skips analyzing Kotlin sources entirely (CodeQL only extracts Kotlin
@@ -48,6 +48,6 @@ jobs:
         run: ./gradlew :app:assembleDebug -x lint -x test --no-daemon
 
       - name: Perform CodeQL Analysis
-        uses: github/codeql-action/analyze@v3
+        uses: github/codeql-action/analyze@v4
         with:
           category: "/language:java-kotlin"
