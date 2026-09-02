@@ -6,7 +6,6 @@ on:
   pull_request:
     branches: [ 'main' ]
   schedule:
-    # Mondays 03:30 UTC — catches new CodeQL query-pack rules against unchanged code, not just new commits.
     - cron: '30 3 * * 1'
   workflow_dispatch: {}
 
@@ -39,9 +38,7 @@ jobs:
         uses: github/codeql-action/init@v4
         with:
           languages: java-kotlin
-          # build-mode "none" skips analyzing Kotlin sources entirely (CodeQL only extracts Kotlin
-          # from an actual compile) -- "manual" + a real Gradle build below is required to get
-          # Kotlin coverage, not just the small amount of Java in this codebase.
+
           build-mode: manual
 
       - name: Build debug APK for CodeQL extraction

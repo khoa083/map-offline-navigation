@@ -27,14 +27,9 @@ jobs:
       - name: Setup Gradle
         uses: gradle/actions/setup-gradle@v6
 
-      # ktlint first: fastest check, gives quick feedback before spending time on
-      # lint/test/build. ktlintCheck fails on anything NOT already in
-      # app/config/ktlint/baseline.xml (see CLAUDE.md Gotchas for how that baseline works).
       - name: Run ktlint
         run: ./gradlew ktlintCheck
 
-      # lintDebug fails on anything NOT already in app/lint-baseline.xml, same grandfathering
-      # approach as ktlint above.
       - name: Run Android Lint
         run: ./gradlew :app:lintDebug
 
@@ -122,45 +117,6 @@ jobs:
           sudo udevadm control --reload-rules
           sudo udevadm trigger --name-match=kvm
 
-      # AVD boot is the slow part (~2-3 min cold); caching a pre-booted snapshot cuts that to
-      # a few seconds on cache hits.
-      - name: AVD cache
-        uses: actions/cache@v6
-        id: avd-cache
-        with:
-          path: |
-            ~/.android/avd/*
-            ~/.android/adb*
-          key: avd-${{ matrix.api-level }}
-
-      - name: Create AVD and generate snapshot for caching
-        if: steps.avd-cache.outputs.cache-hit != 'true'
-        uses: reactivecircus/android-emulator-runner@v2
-        with:
-          api-level: ${{ matrix.api-level }}
-          arch: x86_64
-          target: default
-          profile: pixel_5
-          force-avd-creation: false
-          emulator-options: -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim -camera-back none
-          disable-animations: false
-          script: echo "Generated AVD snapshot for caching."
-
-      # disable-animations: false here (NOT true) is deliberate, matching the snapshot-creation
-      # step above -- with disable-animations: true, this action runs extra adb commands right
-      # after boot (force focus + actually disable animations via `adb shell input keyevent 82`
-      # and `settings put`) to make the device ready for those commands, but a snapshot-restored
-      # boot reports sys.boot_completed=1 in ~2s, well before every system service (e.g.
-      # InputManagerService) has actually finished starting. Those adb commands then race a
-      # half-initialized device and fail hard ("adb: device offline" / "No service published
-      # for: input"), aborting the whole job before gradlew ever runs -- this is a confirmed
-      # upstream issue (ReactiveCircus/android-emulator-runner#136: "Disabling animations fails
-      # with adb: device offline intermittently"), not something wrong with the app or the test
-      # itself. A cold boot (the snapshot-generation step) has ~2-3 minutes of real boot time, so
-      # it never races this way -- only the fast cache-hit path does. Setting this to false skips
-      # those extra adb commands entirely, trading "animations disabled during the test run" (not
-      # needed for this project's current, minimal instrumented test) for a boot that reliably
-      # reaches the test script.
       - name: Run instrumented tests
         uses: reactivecircus/android-emulator-runner@v2
         with:
@@ -169,7 +125,7 @@ jobs:
           target: default
           profile: pixel_5
           force-avd-creation: false
-          emulator-options: -no-snapshot-save -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim -camera-back none
+          emulator-options: -no-snapshot -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim -camera-back none
           disable-animations: false
           script: ./gradlew :app:connectedDebugAndroidTest
 
