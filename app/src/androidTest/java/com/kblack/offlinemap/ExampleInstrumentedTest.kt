@@ -18,7 +18,12 @@ class ExampleInstrumentedTest {
     @Test
     fun useAppContext() {
         // Context of the app under test.
+        // Compared against BuildConfig.APPLICATION_ID (not a hardcoded string) because the
+        // debug build type applies applicationIdSuffix = ".dev" (see app/build.gradle.kts),
+        // so the real package name at runtime is "com.kblack.offlinemap.dev", not
+        // "com.kblack.offlinemap". A hardcoded expected value here silently drifts from the
+        // build config the moment a suffix/flavor is introduced -- as it did previously.
         val appContext = InstrumentationRegistry.getInstrumentation().targetContext
-        assertEquals("com.kblack.offlinemap", appContext.packageName)
+        assertEquals(BuildConfig.APPLICATION_ID, appContext.packageName)
     }
 }
