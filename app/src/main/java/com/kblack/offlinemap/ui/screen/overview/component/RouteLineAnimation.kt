@@ -12,7 +12,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import com.kblack.offlinemap.models.Route
 import com.kblack.offlinemap.models.TravelMode
-import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Dispatchers.Default
 import kotlinx.coroutines.withContext
 import kotlinx.serialization.json.JsonObject
 import org.maplibre.spatialk.geojson.Feature
@@ -100,7 +100,7 @@ fun rememberAnimatedRouteLine(
         // Coordinate mapping, simplification and decimation all happen off the main thread. This
         // only affects how the line is *drawn* -- Route.points itself (turn instructions,
         // distance, etc.) is never touched.
-        val coords = withContext(Dispatchers.Default) {
+        val coords = withContext(Default) {
             val rawPositions = route.points.map {
                 Position(longitude = it.longitude, latitude = it.latitude)
             }

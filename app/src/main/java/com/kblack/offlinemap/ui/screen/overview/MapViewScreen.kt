@@ -56,6 +56,7 @@ import com.kblack.offlinemap.ui.screen.overview.component.RouteInstructionsBotto
 import com.kblack.offlinemap.ui.screen.overview.component.SelectPointBottomSheet
 import com.kblack.offlinemap.ui.screen.overview.component.UpdateRoutingVehicle
 import com.kblack.offlinemap.ui.screen.overview.component.rememberAnimatedRouteLine
+import com.kblack.offlinemap.ui.screen.overview.component.rememberAnimatedPuckLocation
 import com.kblack.offlinemap.ui.utils.Constant.INITIAL_ZOOM
 import com.kblack.offlinemap.ui.utils.Constant.MAX_ZOOM
 import com.kblack.offlinemap.ui.utils.Constant.MIN_ZOOM
@@ -313,7 +314,7 @@ fun MapViewScreen(
                     // new: https://github.com/maplibre/maplibre-compose/issues/707 (0.13.0)
                     LocationPuck(
                         idPrefix = "location-accuracy",
-                        location = locationStateMaplibre.location,
+                        location = rememberAnimatedPuckLocation(locationStateMaplibre.location),
                         cameraState = camera,
                         oldLocationThreshold = 10.seconds,
                         accuracyThreshold = 0f,
