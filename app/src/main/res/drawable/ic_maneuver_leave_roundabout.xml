@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Maneuver glyph: LEAVE ROUNDABOUT (GraphHopper Instruction.LEAVE_ROUNDABOUT, sign -6).
+
+     The partner of ic_maneuver_use_roundabout.xml - read that file's header first. It carries
+     the full rationale for the ring, for the tangent (never radial) approach road, for why the
+     ring keeps full weight in both glyphs, and for the handedness decision.
+
+     This file is the LEAVE half of the pair. Same geometry, opposite emphasis:
+       * The approach road drops to 42% alpha and a lighter 2.2 stroke - the driver is already
+         past it, so it is context rather than instruction.
+       * The ring stays at full 2.6 weight, exactly as in the ENTER glyph. Fading it was tried
+         and rejected: at 24dp a faded ring vanishes and the glyph collapses into a plain up
+         arrow, which is the glyph for "continue straight" - the single most dangerous confusion
+         this icon could cause.
+       * The solid arrowhead sits at the TOP, clear of the ring, pointing up and away:
+         "take the exit now".
+     Against the ENTER glyph the silhouette is identical and the solid arrowhead has moved from
+     the bottom-right of the icon to the top, which is what separates them at a glance.
+
+     Colorless by design: the values below are neutral placeholders, NEVER the displayed color.
+     Always render through ManeuverIcon.kt, which applies a theme-derived tint. -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="24dp"
+    android:height="24dp"
+    android:viewportWidth="32"
+    android:viewportHeight="32">
+
+    <!-- Approach road on the ring's right tangent (x=20), de-emphasised: already travelled. -->
+    <path
+        android:pathData="M20 29V13"
+        android:strokeColor="#FF1B1B1B"
+        android:strokeAlpha="0.42"
+        android:strokeWidth="2.2"
+        android:strokeLineCap="round"
+        android:fillColor="#00000000" />
+
+    <!-- The roundabout ring. Centre (15,13), r=5. Full weight - see header. -->
+    <path
+        android:pathData="M15 8 A 5 5 0 0 1 15 18 A 5 5 0 0 1 15 8"
+        android:strokeColor="#FF1B1B1B"
+        android:strokeWidth="2.6"
+        android:strokeLineCap="round"
+        android:fillColor="#00000000" />
+
+    <!-- Arrowhead leaving the top of the ring, with a 1dp gap so it never fuses into the ring. -->
+    <path
+        android:pathData="M15 1.4L11.6 7.0L18.4 7.0Z"
+        android:fillColor="#FF1B1B1B" />
+</vector>

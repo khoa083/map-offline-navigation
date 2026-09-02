@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Maneuver glyph: ENTER ROUNDABOUT (GraphHopper Instruction.USE_ROUNDABOUT, sign 6).
+
+     Construction, and why it is built this way - read before editing:
+
+     1. THE RING IS NON-NEGOTIABLE. It is the only element that makes a glyph read as
+        "roundabout" rather than "turn". Earlier attempts drew a hooked arrow with no ring and
+        were indistinguishable from ic_maneuver_uturn_*.xml at 24dp.
+
+     2. THE APPROACH ROAD IS TANGENT TO THE RING, NEVER RADIAL. The ring is centred at (15,13)
+        with r=5, so its right tangent is exactly x=20 - which is where the approach road sits.
+        This matters: a closed circle with a straight line through its centre reads as the Venus
+        or Mars symbol, not as a road layout. Two earlier drafts failed exactly that way. Keep
+        the road on the tangent.
+
+     3. THE RING STAYS FULL WEIGHT IN BOTH ROUNDABOUT GLYPHS. An earlier draft de-emphasised the
+        ring on this icon and on the LEAVE variant; at 24dp the faded ring disappeared and the
+        glyph collapsed into a plain arrow, i.e. into "continue straight". ENTER and LEAVE are
+        told apart by WHERE THE SOLID ARROWHEAD SITS, not by fading the ring:
+          - ENTER (this file): arrowhead low, on the approach road, pointing up INTO the ring.
+          - LEAVE (ic_maneuver_leave_roundabout.xml): arrowhead at the top, pointing up OUT of
+            the ring; the approach road is the faded element instead.
+        At 24dp the eye finds which END of the glyph carries the solid arrow well before it
+        resolves any detail, so the pair separates even in peripheral vision.
+
+     4. EXIT DIRECTION IS DRAWN STRAIGHT THROUGH, ON PURPOSE. This app cannot draw a specific
+        exit: RouteInstruction carries only (sign, name, distanceMeters, durationMillis, points)
+        - there is no exit-number field, so no per-exit variant could be selected even if one
+        were drawn. If an exit number is added to that model later, this glyph is the base for a
+        right / straight / left family.
+
+     5. TRAFFIC HANDEDNESS. This app's primary market drives on the right, where roundabouts
+        circulate counter-clockwise; entering on the right tangent and travelling up is exactly
+        that direction. A left-hand-traffic build would need this pair mirrored horizontally.
+        Record that decision rather than mirroring casually - mirroring a roundabout glyph
+        changes the implied direction of travel, which is a different instruction.
+
+     Colorless by design: the values below are neutral placeholders, NEVER the displayed color.
+     Always render through ManeuverIcon.kt, which applies a theme-derived tint. A hardcoded
+     Color.White / Color.Black at the call site is the exact bug this asset set exists to
+     remove. -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="24dp"
+    android:height="24dp"
+    android:viewportWidth="32"
+    android:viewportHeight="32">
+
+    <!-- Onward road leaving the top of the ring, de-emphasised: it exists so the geometry reads
+         as a through-route, but the instruction is about entering, not exiting. -->
+    <path
+        android:pathData="M15 8V4.6"
+        android:strokeColor="#FF1B1B1B"
+        android:strokeAlpha="0.42"
+        android:strokeWidth="2.2"
+        android:strokeLineCap="round"
+        android:fillColor="#00000000" />
+
+    <!-- The roundabout ring. Centre (15,13), r=5. Full weight in both roundabout glyphs. -->
+    <path
+        android:pathData="M15 8 A 5 5 0 0 1 15 18 A 5 5 0 0 1 15 8"
+        android:strokeColor="#FF1B1B1B"
+        android:strokeWidth="2.6"
+        android:strokeLineCap="round"
+        android:fillColor="#00000000" />
+
+    <!-- Approach road, on the ring's right tangent (x=20). Full weight. -->
+    <path
+        android:pathData="M20 29V21.5"
+        android:strokeColor="#FF1B1B1B"
+        android:strokeWidth="2.6"
+        android:strokeLineCap="round"
+        android:fillColor="#00000000" />
+
+    <!-- Arrowhead travelling up the approach road toward the ring: "you are about to enter". -->
+    <path
+        android:pathData="M20 15.5L16.6 21.5L23.4 21.5Z"
+        android:fillColor="#FF1B1B1B" />
+</vector>

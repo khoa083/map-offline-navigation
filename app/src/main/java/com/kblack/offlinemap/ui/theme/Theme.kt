@@ -33,6 +33,16 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalView
 import androidx.core.view.WindowCompat
 
+// -------------------------------------------------------------------------------------------
+// M3 ColorScheme — built from Color.kt's "Cartography Teal" tokens.
+//
+// amoledScheme is built with darkColorScheme() (M3 still calls its dark variant "dark"
+// internally) but every value fed into it comes from the *Amoled tokens in Color.kt, i.e. a
+// real #000000 background, not a derived dim of lightScheme. See Color.kt's file header for
+// why these are two independent hand-authored palettes rather than one generated from the
+// other.
+// -------------------------------------------------------------------------------------------
+
 private val lightScheme =
     lightColorScheme(
         primary = primaryLight,
@@ -70,47 +80,96 @@ private val lightScheme =
         surfaceContainer = surfaceContainerLight,
         surfaceContainerHigh = surfaceContainerHighLight,
         surfaceContainerHighest = surfaceContainerHighestLight,
+        surfaceTint = surfaceTintLight,
+        // The twelve M3 Fixed roles. Identical in both schemes by contract - see the block
+        // comment in Color.kt. Unused by this app's own screens; populated so a stock component
+        // that asks for one gets an in-palette answer rather than Baseline purple.
+        primaryFixed = primaryFixed,
+        primaryFixedDim = primaryFixedDim,
+        onPrimaryFixed = onPrimaryFixed,
+        onPrimaryFixedVariant = onPrimaryFixedVariant,
+        secondaryFixed = secondaryFixed,
+        secondaryFixedDim = secondaryFixedDim,
+        onSecondaryFixed = onSecondaryFixed,
+        onSecondaryFixedVariant = onSecondaryFixedVariant,
+        tertiaryFixed = tertiaryFixed,
+        tertiaryFixedDim = tertiaryFixedDim,
+        onTertiaryFixed = onTertiaryFixed,
+        onTertiaryFixedVariant = onTertiaryFixedVariant,
     )
 
-private val darkScheme =
+private val amoledScheme =
     darkColorScheme(
-        primary = primaryDark,
-        onPrimary = onPrimaryDark,
-        primaryContainer = primaryContainerDark,
-        onPrimaryContainer = onPrimaryContainerDark,
-        secondary = secondaryDark,
-        onSecondary = onSecondaryDark,
-        secondaryContainer = secondaryContainerDark,
-        onSecondaryContainer = onSecondaryContainerDark,
-        tertiary = tertiaryDark,
-        onTertiary = onTertiaryDark,
-        tertiaryContainer = tertiaryContainerDark,
-        onTertiaryContainer = onTertiaryContainerDark,
-        error = errorDark,
-        onError = onErrorDark,
-        errorContainer = errorContainerDark,
-        onErrorContainer = onErrorContainerDark,
-        background = backgroundDark,
-        onBackground = onBackgroundDark,
-        surface = surfaceDark,
-        onSurface = onSurfaceDark,
-        surfaceVariant = surfaceVariantDark,
-        onSurfaceVariant = onSurfaceVariantDark,
-        outline = outlineDark,
-        outlineVariant = outlineVariantDark,
-        scrim = scrimDark,
-        inverseSurface = inverseSurfaceDark,
-        inverseOnSurface = inverseOnSurfaceDark,
-        inversePrimary = inversePrimaryDark,
-        surfaceDim = surfaceDimDark,
-        surfaceBright = surfaceBrightDark,
-        surfaceContainerLowest = surfaceContainerLowestDark,
-        surfaceContainerLow = surfaceContainerLowDark,
-        surfaceContainer = surfaceContainerDark,
-        surfaceContainerHigh = surfaceContainerHighDark,
-        surfaceContainerHighest = surfaceContainerHighestDark,
+        primary = primaryAmoled,
+        onPrimary = onPrimaryAmoled,
+        primaryContainer = primaryContainerAmoled,
+        onPrimaryContainer = onPrimaryContainerAmoled,
+        secondary = secondaryAmoled,
+        onSecondary = onSecondaryAmoled,
+        secondaryContainer = secondaryContainerAmoled,
+        onSecondaryContainer = onSecondaryContainerAmoled,
+        tertiary = tertiaryAmoled,
+        onTertiary = onTertiaryAmoled,
+        tertiaryContainer = tertiaryContainerAmoled,
+        onTertiaryContainer = onTertiaryContainerAmoled,
+        error = errorAmoled,
+        onError = onErrorAmoled,
+        errorContainer = errorContainerAmoled,
+        onErrorContainer = onErrorContainerAmoled,
+        background = backgroundAmoled,
+        onBackground = onBackgroundAmoled,
+        surface = surfaceAmoled,
+        onSurface = onSurfaceAmoled,
+        surfaceVariant = surfaceVariantAmoled,
+        onSurfaceVariant = onSurfaceVariantAmoled,
+        outline = outlineAmoled,
+        outlineVariant = outlineVariantAmoled,
+        scrim = scrimAmoled,
+        inverseSurface = inverseSurfaceAmoled,
+        inverseOnSurface = inverseOnSurfaceAmoled,
+        inversePrimary = inversePrimaryAmoled,
+        surfaceDim = surfaceDimAmoled,
+        surfaceBright = surfaceBrightAmoled,
+        surfaceContainerLowest = surfaceContainerLowestAmoled,
+        surfaceContainerLow = surfaceContainerLowAmoled,
+        surfaceContainer = surfaceContainerAmoled,
+        surfaceContainerHigh = surfaceContainerHighAmoled,
+        surfaceContainerHighest = surfaceContainerHighestAmoled,
+        surfaceTint = surfaceTintAmoled,
+        // The twelve M3 Fixed roles. Identical in both schemes by contract - see the block
+        // comment in Color.kt. Unused by this app's own screens; populated so a stock component
+        // that asks for one gets an in-palette answer rather than Baseline purple.
+        primaryFixed = primaryFixed,
+        primaryFixedDim = primaryFixedDim,
+        onPrimaryFixed = onPrimaryFixed,
+        onPrimaryFixedVariant = onPrimaryFixedVariant,
+        secondaryFixed = secondaryFixed,
+        secondaryFixedDim = secondaryFixedDim,
+        onSecondaryFixed = onSecondaryFixed,
+        onSecondaryFixedVariant = onSecondaryFixedVariant,
+        tertiaryFixed = tertiaryFixed,
+        tertiaryFixedDim = tertiaryFixedDim,
+        onTertiaryFixed = onTertiaryFixed,
+        onTertiaryFixedVariant = onTertiaryFixedVariant,
     )
 
+/**
+ * Extra roles the M3 ColorScheme has no slot for. Field names are kept from the pre-reskin
+ * palette on purpose — taskCardBgColor, tabHeaderBgColor, modelInfoIconColor, linkColor and the
+ * rest are read by call sites across the app (NavigationMode, RouteInstructionsBottomSheet,
+ * UpdateRoutingVehicle, MapControls, MapViewScreen, MapNameAndStatus, MarkdownText) that this
+ * reskin does not touch — only the *values* behind each name change here.
+ *
+ * New fields added for the v2 system design, appended rather than interleaved so the diff
+ * against the pre-reskin file stays readable:
+ *  - warning / onWarning / warningContainer / onWarningContainer — the sharp-turn / caution
+ *    role from Color.kt's warningLight/warningAmoled group. Not a standard ColorScheme slot (M3
+ *    has no "warning" tier), so it lives here like the rest of this class.
+ *  - turnCardFixed / onTurnCardFixed / hudNumeralFixed / sharpTurnAmberFixed /
+ *    onSharpTurnAmberFixed / endNavigationFixed / onEndNavigationFixed — the "personalization
+ *    ceiling" tokens (see Color.kt). Identical in both lightCustomColors and amoledCustomColors
+ *    on purpose: these must never vary by theme or by a user accent choice.
+ */
 @Immutable
 data class CustomColors(
     val appTitleGradientColors: List<Color> = listOf(),
@@ -132,78 +191,124 @@ data class CustomColors(
     val errorTextColor: Color = Color.Transparent,
     val newFeatureContainerColor: Color = Color.Transparent,
     val newFeatureTextColor: Color = Color.Transparent,
+    // --- v2 system design additions ---
+    val warning: Color = Color.Transparent,
+    val onWarning: Color = Color.Transparent,
+    val warningContainer: Color = Color.Transparent,
+    val onWarningContainer: Color = Color.Transparent,
+    val mapSurface: Color = Color.Transparent,
+    val navSurface: Color = Color.Transparent,
+    val onNavSurface: Color = Color.Transparent,
+    val outlineVariantOnNav: Color = Color.Transparent,
+    val turnCardFixed: Color = Color.Transparent,
+    val onTurnCardFixed: Color = Color.Transparent,
+    val hudNumeralFixed: Color = Color.Transparent,
+    val sharpTurnAmberFixed: Color = Color.Transparent,
+    val onSharpTurnAmberFixed: Color = Color.Transparent,
+    val endNavigationFixed: Color = Color.Transparent,
+    val onEndNavigationFixed: Color = Color.Transparent,
 )
 
 val LocalCustomColors = staticCompositionLocalOf { CustomColors() }
 
 val lightCustomColors =
     CustomColors(
-        appTitleGradientColors = listOf(Color(0xFF85B1F8), Color(0xFF3174F1)),
-        tabHeaderBgColor = Color(0xFF3174F1),
+        appTitleGradientColors = listOf(primaryLight, secondaryLight),
+        tabHeaderBgColor = primaryLight,
         taskCardBgColor = surfaceContainerLowestLight,
         taskBgColors =
             listOf(
                 // Shared task color (no task-specific palette)
-                Color(0xFFF1F6FE),
+                primaryContainerLight,
             ),
         taskBgGradientColors =
             listOf(
                 // Shared task gradient (no task-specific palette)
-                listOf(Color(0xFF669DF6), Color(0xFF3174F1)),
+                listOf(secondaryLight, primaryLight),
             ),
         taskIconColors =
             listOf(
                 // Shared task icon color (no task-specific palette)
-                Color(0xFF3174F1),
+                primaryLight,
             ),
-        agentBubbleBgColor = Color(0xFFe9eef6),
-        userBubbleBgColor = Color(0xFF32628D),
-        linkColor = Color(0xFF32628D),
-        successColor = Color(0xff3d860b),
-        recordButtonBgColor = Color(0xFFEE675C),
-        waveFormBgColor = Color(0xFFaaaaaa),
-        modelInfoIconColor = Color(0xFFCCCCCC),
-        warningContainerColor = Color(0xfffef7e0),
-        warningTextColor = Color(0xffe37400),
-        errorContainerColor = Color(0xfffce8e6),
-        errorTextColor = Color(0xffd93025),
-        newFeatureContainerColor = Color(0xFFEEDCFE),
-        newFeatureTextColor = Color(0xFF400B84),
+        agentBubbleBgColor = surfaceContainerLight,
+        userBubbleBgColor = secondaryContainerLight,
+        linkColor = primaryLight,
+        successColor = Color(0xFF3D860B),
+        recordButtonBgColor = errorLight,
+        waveFormBgColor = outlineVariantLight,
+        modelInfoIconColor = outlineLight,
+        warningContainerColor = warningContainerLight,
+        warningTextColor = onWarningContainerLight,
+        errorContainerColor = errorContainerLight,
+        errorTextColor = onErrorContainerLight,
+        newFeatureContainerColor = secondaryContainerLight,
+        newFeatureTextColor = onSecondaryContainerLight,
+        warning = warningLight,
+        onWarning = onWarningLight,
+        warningContainer = warningContainerLight,
+        onWarningContainer = onWarningContainerLight,
+        mapSurface = mapSurfaceLight,
+        navSurface = navSurfaceLight,
+        onNavSurface = onNavSurfaceLight,
+        outlineVariantOnNav = outlineVariantOnNavLight,
+        turnCardFixed = turnCardFixed,
+        onTurnCardFixed = onTurnCardFixed,
+        hudNumeralFixed = hudNumeralFixed,
+        sharpTurnAmberFixed = sharpTurnAmberFixed,
+        onSharpTurnAmberFixed = onSharpTurnAmberFixed,
+        endNavigationFixed = endNavigationFixed,
+        onEndNavigationFixed = onEndNavigationFixed,
     )
 
-val darkCustomColors =
+val amoledCustomColors =
     CustomColors(
-        appTitleGradientColors = listOf(Color(0xFF85B1F8), Color(0xFF3174F1)),
-        tabHeaderBgColor = Color(0xFF3174F1),
-        taskCardBgColor = surfaceContainerHighDark,
+        appTitleGradientColors = listOf(primaryAmoled, secondaryAmoled),
+        tabHeaderBgColor = primaryContainerAmoled,
+        taskCardBgColor = surfaceContainerHighAmoled,
         taskBgColors =
             listOf(
                 // Shared task color (no task-specific palette)
-                Color(0xFF191924),
+                surfaceContainerAmoled,
             ),
         taskBgGradientColors =
             listOf(
                 // Shared task gradient (no task-specific palette)
-                listOf(Color(0xFF669DF6), Color(0xFF3174F1)),
+                listOf(secondaryAmoled, primaryAmoled),
             ),
         taskIconColors =
             listOf(
                 // Shared task icon color (no task-specific palette)
-                Color(0xFF669DF6),
+                primaryAmoled,
             ),
-        agentBubbleBgColor = Color(0xFF1b1c1d),
-        userBubbleBgColor = Color(0xFF1f3760),
-        linkColor = Color(0xFF9DCAFC),
+        agentBubbleBgColor = surfaceContainerLowAmoled,
+        userBubbleBgColor = secondaryContainerAmoled,
+        linkColor = primaryAmoled,
         successColor = Color(0xFFA1CE83),
-        recordButtonBgColor = Color(0xFFEE675C),
-        waveFormBgColor = Color(0xFFaaaaaa),
-        modelInfoIconColor = Color(0xFFCCCCCC),
-        warningContainerColor = Color(0xff554c33),
-        warningTextColor = Color(0xfffcc934),
-        errorContainerColor = Color(0xff523a3b),
-        errorTextColor = Color(0xffee675c),
-        newFeatureContainerColor = Color(0xFFEEDCFE),
-        newFeatureTextColor = Color(0xFF400B84),
+        recordButtonBgColor = errorAmoled,
+        waveFormBgColor = outlineVariantAmoled,
+        modelInfoIconColor = outlineAmoled,
+        warningContainerColor = warningContainerAmoled,
+        warningTextColor = onWarningContainerAmoled,
+        errorContainerColor = errorContainerAmoled,
+        errorTextColor = onErrorContainerAmoled,
+        newFeatureContainerColor = secondaryContainerAmoled,
+        newFeatureTextColor = onSecondaryContainerAmoled,
+        warning = warningAmoled,
+        onWarning = onWarningAmoled,
+        warningContainer = warningContainerAmoled,
+        onWarningContainer = onWarningContainerAmoled,
+        mapSurface = mapSurfaceAmoled,
+        navSurface = navSurfaceAmoled,
+        onNavSurface = onNavSurfaceAmoled,
+        outlineVariantOnNav = outlineVariantOnNavAmoled,
+        turnCardFixed = turnCardFixed,
+        onTurnCardFixed = onTurnCardFixed,
+        hudNumeralFixed = hudNumeralFixed,
+        sharpTurnAmberFixed = sharpTurnAmberFixed,
+        onSharpTurnAmberFixed = onSharpTurnAmberFixed,
+        endNavigationFixed = endNavigationFixed,
+        onEndNavigationFixed = onEndNavigationFixed,
     )
 
 val MaterialTheme.customColors: CustomColors
@@ -227,30 +332,55 @@ fun StatusBarColorController(useDarkTheme: Boolean) {
     }
 }
 
-
+/**
+ * @param darkTheme Selects amoledScheme vs lightScheme. Defaults to the system setting via
+ *   isSystemInDarkTheme and, unlike the pre-reskin build, is no longer overridden — the
+ *   previous val darkTheme: Boolean = true //todo: fixme forced Amoled regardless of this
+ *   parameter or the system setting; that bug is fixed here. Pass AppThemeMode through this
+ *   boolean at the call site (themeMode == AppThemeMode.Amoled) once a persisted user setting
+ *   exists — see ThemeSettings.kt for why "follow system" isn't wired in by default.
+ * @param dynamicColor Android 12+ dynamic (wallpaper-derived) color, sampled and clamped per
+ *   the spec's "Personalization ceiling" note — see DynamicColor.kt for the full contract. Only
+ *   the primary/secondary/tertiary triad (the roles behind map controls, the FAB, the route
+ *   line, settings accents and list selection) is ever replaced by a wallpaper tone, and only
+ *   when that tone clears the app's own contrast floor against its on-color; everything else,
+ *   including background/surface/error and the fixed tokens, always stays Cartography Teal.
+ *   Below API 31, or when this is false, the static scheme is used unchanged.
+ */
 @Composable
 fun OfflinemapTheme(
     darkTheme: Boolean = isSystemInDarkTheme(),
-    // Dynamic color is available on Android 12+
     dynamicColor: Boolean = true,
     content: @Composable () -> Unit
 ) {
-    // currently not supporting dynamic color, and defaulting to dark theme, but we will add support for both in the future.
-    val darkTheme: Boolean = true //todo: fixme
     val view = LocalView.current
 
     StatusBarColorController(useDarkTheme = darkTheme)
 
-    val colorScheme =
+    val staticScheme =
         when {
-            darkTheme -> darkScheme
+            darkTheme -> amoledScheme
             else -> lightScheme
         }
+    val colorScheme =
+        rememberEffectiveColorScheme(
+            darkTheme = darkTheme,
+            dynamicColor = dynamicColor,
+            staticScheme = staticScheme,
+        )
 
-    val customColorsPalette = if (dynamicColor) darkCustomColors else lightCustomColors
+    val customColorsPalette = if (darkTheme) amoledCustomColors else lightCustomColors
 
-    CompositionLocalProvider(LocalCustomColors provides customColorsPalette) {
-        MaterialTheme(colorScheme = colorScheme, typography = Typography, content = content)
+    CompositionLocalProvider(
+        LocalCustomColors provides customColorsPalette,
+        LocalSpacing provides Spacing(),
+    ) {
+        MaterialTheme(
+            colorScheme = colorScheme,
+            typography = Typography,
+            shapes = Shapes,
+            content = content,
+        )
     }
 
     // Make sure the navigation bar stays transparent on manual theme changes.

@@ -1,6 +1,8 @@
 package com.kblack.offlinemap.ui.utils
 
+import androidx.annotation.DrawableRes
 import com.graphhopper.util.Instruction
+import com.kblack.offlinemap.R
 
 //todo: FIXME
 object NavigationInstructionFormat {
@@ -61,5 +63,70 @@ object NavigationInstructionFormat {
 
         val streetName = name.trim()
         return if (streetName.isEmpty()) action else "$action $streetName"
+    }
+
+    /**
+     * Dedicated maneuver glyph for [sign], ported 1:1 from the design spec's "4e Maneuver icon
+     * set" (`res/drawable/ic_maneuver_*.xml`) — replaces the old "rotate one generic arrow"
+     * approach for every sign that has a real drawn glyph.
+     *
+     * The roundabout pair ([Instruction.USE_ROUNDABOUT] / [Instruction.LEAVE_ROUNDABOUT]) is now
+     * drawn and wired — see the header comments in `ic_maneuver_use_roundabout.xml` for the
+     * construction rules (ring mandatory, approach road tangent not radial, ring at full weight
+     * in both, the pair told apart by arrowhead position). Before those assets existed this
+     * function returned `null` for both signs, and [ManeuverIcon] fell back to a generic arrow
+     * rotated by [rotationDegrees] — which is `0f` for both roundabout signs, so a roundabout
+     * rendered on-device as a plain upward arrow: pixel-identical to "continue straight". That
+     * was a safety defect, not a cosmetic gap.
+     *
+     * Callers must still handle `null`: the public-transit signs below have no glyph. See
+     * [ManeuverIcon] in `ui/screen/overview/component/ManeuverIcon.kt`, which already does.
+     *
+     * Public-transit signs ([Instruction.PT_START_TRIP] etc.) also return `null` — this app has
+     * no transit UI to draw them for.
+     */
+    @DrawableRes
+    fun iconRes(sign: Int): Int? = when (sign) {
+        Instruction.UNKNOWN,
+        Instruction.CONTINUE_ON_STREET,
+        Instruction.IGNORE -> R.drawable.ic_maneuver_continue_straight
+
+        Instruction.KEEP_LEFT -> R.drawable.ic_maneuver_keep_left
+        Instruction.KEEP_RIGHT -> R.drawable.ic_maneuver_keep_right
+        Instruction.TURN_SLIGHT_LEFT -> R.drawable.ic_maneuver_turn_slight_left
+        Instruction.TURN_SLIGHT_RIGHT -> R.drawable.ic_maneuver_turn_slight_right
+        Instruction.TURN_LEFT -> R.drawable.ic_maneuver_turn_left
+        Instruction.TURN_RIGHT -> R.drawable.ic_maneuver_turn_right
+        Instruction.TURN_SHARP_LEFT -> R.drawable.ic_maneuver_turn_sharp_left
+        Instruction.TURN_SHARP_RIGHT -> R.drawable.ic_maneuver_turn_sharp_right
+        Instruction.U_TURN_LEFT -> R.drawable.ic_maneuver_uturn_left
+        Instruction.U_TURN_RIGHT -> R.drawable.ic_maneuver_uturn_right
+        Instruction.U_TURN_UNKNOWN -> R.drawable.ic_maneuver_uturn_unknown
+        Instruction.FINISH -> R.drawable.ic_maneuver_arrive
+        Instruction.REACHED_VIA -> R.drawable.ic_maneuver_reached_via
+
+        Instruction.USE_ROUNDABOUT -> R.drawable.ic_maneuver_use_roundabout
+        Instruction.LEAVE_ROUNDABOUT -> R.drawable.ic_maneuver_leave_roundabout
+
+        else -> null
+    }
+
+    /**
+     * Maneuvers the spec marks as needing the rider to slow before committing — sharp turns and
+     * all three U-turns. These get the fixed warning treatment ([sharpTurnAmberFixed] /
+     * [onSharpTurnAmberFixed][com.kblack.offlinemap.ui.theme.CustomColors]) regardless of
+     * light/AMOLED theme, so the color — not the neutral glyph — carries the warning. Every other
+     * maneuver — roundabouts included — stays in the normal neutral/theme-following treatment.
+     * Entering a roundabout is a yield, not a manoeuvre that needs the rider to slow abruptly,
+     * so it deliberately does NOT get the amber warning treatment.
+     */
+    fun isWarningManeuver(sign: Int): Boolean = when (sign) {
+        Instruction.TURN_SHARP_LEFT,
+        Instruction.TURN_SHARP_RIGHT,
+        Instruction.U_TURN_LEFT,
+        Instruction.U_TURN_RIGHT,
+        Instruction.U_TURN_UNKNOWN -> true
+
+        else -> false
     }
 }

@@ -26,7 +26,6 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.vectorResource
@@ -67,7 +66,6 @@ fun BoxScope.MapControls(
                     onClick = onZoomIn,
                     enabled = zoom < MAX_ZOOM,
                     modifier = Modifier
-                        .alpha(0.8f)
                         .width(52.dp)
                         .height(56.dp)
                         .clip(RoundedCornerShape(28.dp, 28.dp, 8.dp, 8.dp))
@@ -86,7 +84,6 @@ fun BoxScope.MapControls(
                     onClick = onZoomOut,
                     enabled = zoom > MIN_ZOOM,
                     modifier = Modifier
-                        .alpha(0.8f)
                         .width(52.dp)
                         .height(56.dp)
                         .clip(RoundedCornerShape(8.dp, 8.dp, 28.dp, 28.dp))
@@ -117,7 +114,6 @@ fun BoxScope.MapControls(
                         IconButton(
                             onClick = onClickMapMode3d,
                             modifier = Modifier
-                                .alpha(0.8f)
                                 .size(52.dp)
                                 .clip(CircleShape)
                                 .background(MaterialTheme.customColors.taskCardBgColor)
@@ -133,7 +129,6 @@ fun BoxScope.MapControls(
                         IconButton(
                             onClick = onClickCompass,
                             modifier = Modifier
-                                .alpha(0.8f)
                                 .size(52.dp)
                                 .clip(CircleShape)
                                 .background(MaterialTheme.customColors.taskCardBgColor)
@@ -148,7 +143,6 @@ fun BoxScope.MapControls(
                     IconButton(
                         onClick = onClickLocation,
                         modifier = Modifier
-                            .alpha(0.8f)
                             .size(52.dp)
                             .clip(CircleShape)
                             .background(MaterialTheme.customColors.taskCardBgColor)

@@ -24,3 +24,6 @@ release.properties
 /CLAUDE.md
 /CLAUDE.local.md
 /implementation-notes.md
+
+# Build-check logs from scripts/check-build.ps1 — local only, never push
+/scripts/build-log/

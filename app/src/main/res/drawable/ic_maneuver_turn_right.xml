@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Maneuver glyph, ported 1:1 (pathData copied verbatim) from the design spec's "4e Maneuver
+     icon set" - the 16-glyph GraphHopper maneuver family ("Sixteen maneuvers, sixteen drawings,
+     never one arrow rotated by heading"). Deliberately colorless: fillColor/strokeColor below are
+     neutral placeholders only, NEVER the real displayed color.
+     ALWAYS render this via Icon(painter = painterResource(...), tint = ...) from ManeuverIcon.kt
+     - never Image(), and never a hardcoded Color.White/Color.Black at the call site. That
+     hardcoded-tint pattern is the exact bug (icon looks black/white/teal at random depending on
+     which screen + theme it's on) this asset set and ManeuverIcon.kt replace.
+     Enter roundabout / Leave roundabout complete this set - see the header of
+     ic_maneuver_use_roundabout.xml for their construction rules. -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="24dp"
+    android:height="24dp"
+    android:viewportWidth="32"
+    android:viewportHeight="32">
+    <group
+        android:pivotX="16"
+        android:pivotY="0"
+        android:scaleX="-1">
+        <path
+            android:pathData="M16 29V19C16 14.5 15 13 12 13"
+            android:strokeColor="#FF1B1B1B"
+            android:strokeWidth="2.6"
+            android:strokeLineCap="round"
+            android:strokeLineJoin="round"
+            android:fillColor="#00000000" />
+        <group
+            android:pivotX="0"
+            android:pivotY="0"
+            android:translateX="5"
+            android:translateY="13"
+            android:rotation="-90">
+            <path
+                android:pathData="M0 0L-4.6 7.4L4.6 7.4Z"
+                android:fillColor="#FF1B1B1B" />
+        </group>
+    </group>
+</vector>

@@ -10,12 +10,9 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowUpward
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.HorizontalDivider
-import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -23,7 +20,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -48,8 +44,12 @@ fun NavigationMode(
             .padding(horizontal = 12.dp, vertical = 8.dp),
         horizontalArrangement = Arrangement.spacedBy(8.dp)
     ) {
+        // The active-navigation "turn card" is a fixed-always-dark HUD surface by design (spec's
+        // "personalization ceiling" fixed roles), independent of the light/AMOLED theme toggle --
+        // NOT the theme-following taskCardBgColor it was using before, which is exactly why the
+        // white icon/text used to disappear whenever taskCardBgColor happened to render light.
         Surface(
-            color = MaterialTheme.customColors.taskCardBgColor,
+            color = MaterialTheme.customColors.turnCardFixed,
             shape = RoundedCornerShape(14.dp),
             modifier = Modifier.weight(0.28f)
         ) {
@@ -58,17 +58,14 @@ fun NavigationMode(
                 horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.spacedBy(6.dp)
             ) {
-                Icon(
-                    imageVector = Icons.Filled.ArrowUpward,
-                    contentDescription = null,
-                    tint = Color.White,
-                    modifier = Modifier
-                        .size(28.dp)
-                        .rotate(NavigationInstructionFormat.rotationDegrees(instruction.sign))
+                ManeuverIcon(
+                    sign = instruction.sign,
+                    tint = MaterialTheme.customColors.onTurnCardFixed,
+                    modifier = Modifier.size(28.dp),
                 )
                 Text(
                     text = RouteTextFormatter.formatDistanceMeters(instruction.distanceMeters),
-                    color = Color.White,
+                    color = MaterialTheme.customColors.onTurnCardFixed,
                     style = MaterialTheme.typography.titleMedium,
                     fontWeight = FontWeight.Bold
                 )
@@ -76,14 +73,14 @@ fun NavigationMode(
         }
 
         Surface(
-            color = MaterialTheme.customColors.taskCardBgColor,
+            color = MaterialTheme.customColors.turnCardFixed,
             shape = RoundedCornerShape(14.dp),
             modifier = Modifier.weight(0.72f)
         ) {
             Text(
                 text = NavigationInstructionFormat.title(instruction.sign, instruction.name),
                 modifier = Modifier.padding(horizontal = 14.dp, vertical = 12.dp),
-                color = Color.White,
+                color = MaterialTheme.customColors.onTurnCardFixed,
                 style = MaterialTheme.typography.titleMedium,
                 fontWeight = FontWeight.SemiBold,
                 maxLines = 2

@@ -30,7 +30,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.focus.FocusDirection
 import androidx.compose.ui.focus.FocusManager
 import androidx.compose.ui.graphics.Color
@@ -102,8 +101,7 @@ fun FloatingSearchBar(
             onValueChange = onSearchQueryChanged,
             modifier = Modifier
                 .fillMaxWidth()
-                .heightIn(min = 48.dp)
-                .alpha(0.8f),
+                .heightIn(min = 48.dp),
             placeholder = { Text("Search for a location...") },
             colors = OutlinedTextFieldDefaults.colors(
                 focusedContainerColor = surfaceContainerColor,
@@ -154,7 +152,6 @@ fun FloatingSearchBar(
                     modifier = Modifier
                         .width(maxSearchWidth)
                         .heightIn(max = 280.dp)
-                        .alpha(0.8f)
                         .padding(top = 2.dp),
                     elevation = CardDefaults.cardElevation(defaultElevation = 8.dp),
                     colors = CardDefaults.cardColors(

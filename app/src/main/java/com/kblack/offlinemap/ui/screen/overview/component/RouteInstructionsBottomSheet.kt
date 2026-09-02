@@ -18,7 +18,6 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AccessTime
-import androidx.compose.material.icons.filled.ArrowUpward
 import androidx.compose.material.icons.filled.Straighten
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
@@ -28,7 +27,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -178,23 +176,32 @@ private fun RouteInstructionRow(instruction: RouteInstruction) {
 
 @Composable
 private fun RouteSignIcon(sign: Int) {
-    val rotation = NavigationInstructionFormat.rotationDegrees(sign)
+    // Sharp turns and all three U-turns get the fixed amber warning treatment regardless of
+    // light/AMOLED theme (spec: "colour carries the warning so the glyph itself stays neutral").
+    // Every other maneuver follows the normal theme-following neutral card + onSurface glyph.
+    val isWarning = NavigationInstructionFormat.isWarningManeuver(sign)
+    val containerColor = if (isWarning) {
+        MaterialTheme.customColors.sharpTurnAmberFixed
+    } else {
+        MaterialTheme.customColors.taskCardBgColor
+    }
+    val contentColor = if (isWarning) {
+        MaterialTheme.customColors.onSharpTurnAmberFixed
+    } else {
+        MaterialTheme.colorScheme.onSurface
+    }
 
     Box(
         modifier = Modifier
             .size(28.dp)
             .clip(CircleShape)
-            .background(MaterialTheme.customColors.taskCardBgColor),
+            .background(containerColor),
         contentAlignment = Alignment.Center
     ) {
-        // todo: I will revise it later. The icon should depend on the sign type, not just an arrow.
-        Icon(
-            imageVector = Icons.Filled.ArrowUpward,
-            contentDescription = null,
-            tint = Color.White,
-            modifier = Modifier
-                .size(16.dp)
-                .rotate(rotation)
+        ManeuverIcon(
+            sign = sign,
+            tint = contentColor,
+            modifier = Modifier.size(16.dp),
         )
     }
 }
