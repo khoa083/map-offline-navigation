@@ -34,7 +34,7 @@ jobs:
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
         with:
           # workflow_run always executes using the workflow FILE from the default branch, but
           # github.sha/github.ref in that context still point at the default branch tip, not the
