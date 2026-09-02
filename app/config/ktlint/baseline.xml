@@ -1,0 +1,1490 @@
+<?xml version="1.0" encoding="utf-8"?>
+<baseline version="1.0">
+    <file name="build.gradle.kts">
+        <error line="36" column="78" source="standard:trailing-comma-on-call-site" />
+        <error line="41" column="66" source="standard:trailing-comma-on-call-site" />
+        <error line="51" column="7" source="standard:keyword-spacing" />
+        <error line="74" column="34" source="standard:trailing-comma-on-call-site" />
+        <error line="99" column="25" source="standard:multiline-expression-wrapping" />
+        <error line="101" column="37" source="standard:trailing-comma-on-call-site" />
+        <error line="114" column="37" source="standard:trailing-comma-on-call-site" />
+        <error line="134" column="1" source="standard:no-consecutive-blank-lines" />
+        <error line="153" column="1" source="standard:no-blank-line-before-rbrace" />
+        <error line="197" column="5" source="standard:comment-spacing" />
+        <error line="226" column="39" source="standard:final-newline" />
+    </file>
+    <file name="jacoco.gradle.kts">
+        <error line="9" column="23" source="standard:multiline-expression-wrapping" />
+        <error line="10" column="11" source="standard:trailing-comma-on-call-site" />
+        <error line="14" column="24" source="standard:multiline-expression-wrapping" />
+        <error line="15" column="19" source="standard:argument-list-wrapping" />
+        <error line="15" column="35" source="standard:argument-list-wrapping" />
+        <error line="15" column="55" source="standard:argument-list-wrapping" />
+        <error line="16" column="27" source="standard:argument-list-wrapping" />
+        <error line="18" column="17" source="standard:argument-list-wrapping" />
+        <error line="18" column="34" source="standard:argument-list-wrapping" />
+        <error line="19" column="30" source="standard:argument-list-wrapping" />
+        <error line="19" column="53" source="standard:argument-list-wrapping" />
+        <error line="20" column="31" source="standard:argument-list-wrapping" />
+        <error line="20" column="60" source="standard:argument-list-wrapping" />
+        <error line="21" column="22" source="standard:argument-list-wrapping" />
+        <error line="21" column="37" source="standard:argument-list-wrapping" />
+        <error line="22" column="26" source="standard:argument-list-wrapping" />
+        <error line="23" column="26" source="standard:argument-list-wrapping" />
+        <error line="23" column="45" source="standard:argument-list-wrapping" />
+        <error line="23" column="65" source="standard:argument-list-wrapping" />
+        <error line="24" column="30" source="standard:argument-list-wrapping" />
+        <error line="24" column="52" source="standard:argument-list-wrapping" />
+        <error line="25" column="25" source="standard:argument-list-wrapping" />
+        <error line="25" column="46" source="standard:argument-list-wrapping" />
+        <error line="26" column="29" source="standard:argument-list-wrapping" />
+        <error line="26" column="51" source="standard:argument-list-wrapping" />
+        <error line="27" column="17" source="standard:argument-list-wrapping" />
+        <error line="27" column="34" source="standard:argument-list-wrapping" />
+        <error line="27" column="50" source="standard:argument-list-wrapping" />
+        <error line="28" column="24" source="standard:argument-list-wrapping" />
+        <error line="28" column="39" source="standard:argument-list-wrapping" />
+        <error line="28" column="54" source="standard:argument-list-wrapping" />
+        <error line="28" column="70" source="standard:argument-list-wrapping" />
+        <error line="29" column="24" source="standard:argument-list-wrapping" />
+        <error line="29" column="43" source="standard:argument-list-wrapping" />
+        <error line="30" column="36" source="standard:argument-list-wrapping" />
+        <error line="31" column="28" source="standard:argument-list-wrapping" />
+        <error line="31" column="43" source="standard:argument-list-wrapping" />
+        <error line="31" column="66" source="standard:argument-list-wrapping" />
+        <error line="32" column="5" source="standard:comment-spacing" />
+        <error line="33" column="20" source="standard:argument-list-wrapping" />
+        <error line="33" column="36" source="standard:argument-list-wrapping" />
+        <error line="33" column="56" source="standard:argument-list-wrapping" />
+        <error line="50" column="21" source="standard:multiline-expression-wrapping" />
+        <error line="58" column="22" source="standard:multiline-expression-wrapping" />
+        <error line="59" column="25" source="standard:property-wrapping" />
+        <error line="59" column="31" source="standard:argument-list-wrapping" />
+        <error line="59" column="141" source="standard:max-line-length" />
+        <error line="59" column="152" source="standard:argument-list-wrapping" />
+        <error line="60" column="25" source="standard:property-wrapping" />
+        <error line="60" column="31" source="standard:argument-list-wrapping" />
+        <error line="60" column="141" source="standard:max-line-length" />
+        <error line="60" column="152" source="standard:argument-list-wrapping" />
+        <error line="65" column="26" source="standard:trailing-comma-on-call-site" />
+        <error line="70" column="19" source="standard:multiline-expression-wrapping" />
+        <error line="80" column="1" source="standard:final-newline" />
+    </file>
+    <file name="src/androidTest/java/com/kblack/offlinemap/ExampleInstrumentedTest.kt">
+        <error line="3" column="1" source="standard:import-ordering" />
+        <error line="9" column="1" source="standard:no-wildcard-imports" />
+        <error line="24" column="1" source="standard:final-newline" />
+    </file>
+    <file name="src/main/java/com/kblack/offlinemap/MyApp.kt">
+        <error line="14" column="12" source="standard:colon-spacing" />
+        <error line="14" column="14" source="standard:class-signature" />
+        <error line="14" column="29" source="standard:class-signature" />
+        <error line="14" column="61" source="standard:no-multi-spaces" />
+        <error line="14" column="62" source="standard:class-signature" />
+        <error line="15" column="1" source="standard:no-empty-first-line-in-class-body" />
+        <error line="20" column="36" source="standard:function-signature" />
+        <error line="20" column="47" source="standard:function-signature" />
+        <error line="20" column="59" source="standard:function-signature" />
+        <error line="24" column="11" source="standard:keyword-spacing" />
+        <error line="41" column="1" source="standard:no-blank-line-before-rbrace" />
+        <error line="42" column="1" source="standard:final-newline" />
+    </file>
+    <file name="src/main/java/com/kblack/offlinemap/data/local/AppDatabase.kt">
+        <error line="10" column="33" source="standard:trailing-comma-on-call-site" />
+        <error line="13" column="25" source="standard:trailing-comma-on-call-site" />
+        <error line="14" column="2" source="standard:modifier-list-spacing" />
+        <error line="16" column="9" source="standard:annotation-spacing" />
+        <error line="16" column="27" source="standard:colon-spacing" />
+        <error line="16" column="44" source="standard:no-multi-spaces" />
+        <error line="16" column="45" source="standard:class-signature" />
+        <error line="17" column="1" source="standard:no-empty-first-line-in-class-body" />
+        <error line="23" column="1" source="standard:no-blank-line-before-rbrace" />
+        <error line="24" column="1" source="standard:final-newline" />
+    </file>
+    <file name="src/main/java/com/kblack/offlinemap/data/local/Migrations.kt">
+        <error line="9" column="25" source="standard:multiline-expression-wrapping" />
+        <error line="9" column="46" source="standard:comma-spacing" />
+        <error line="12" column="99" source="standard:trailing-comma-on-call-site" />
+        <error line="23" column="33" source="standard:trailing-comma-on-call-site" />
+        <error line="28" column="1" source="standard:final-newline" />
+    </file>
+    <file name="src/main/java/com/kblack/offlinemap/data/local/dao/PlaceSearchDao.kt">
+        <error line="12" column="1" source="standard:no-empty-first-line-in-class-body" />
+        <error line="22" column="5" source="standard:comment-spacing" />
+        <error line="29" column="8" source="standard:trailing-comma-on-call-site" />
+        <error line="31" column="28" source="standard:function-signature" />
+        <error line="31" column="45" source="standard:function-signature" />
+        <error line="31" column="55" source="standard:function-signature" />
+        <error line="38" column="1" source="standard:final-newline" />
+    </file>
+    <file name="src/main/java/com/kblack/offlinemap/data/local/entity/PlaceSearchEntity.kt">
+        <error line="11" column="1" source="standard:no-blank-line-in-list" />
+    </file>
+    <file name="src/main/java/com/kblack/offlinemap/data/mapper/ToGeoCoordinate.kt">
+        <error line="6" column="42" source="standard:multiline-expression-wrapping" />
+        <error line="6" column="42" source="standard:function-signature" />
+        <error line="14" column="16" source="standard:trailing-comma-on-call-site" />
+        <error line="15" column="1" source="standard:final-newline" />
+    </file>
+    <file name="src/main/java/com/kblack/offlinemap/data/mapper/ToMapModel.kt">
+        <error line="3" column="1" source="standard:import-ordering" />
+        <error line="7" column="44" source="standard:multiline-expression-wrapping" />
+        <error line="7" column="44" source="standard:function-signature" />
+        <error line="17" column="21" source="standard:string-template" />
+        <error line="20" column="1" source="standard:final-newline" />
+    </file>
+    <file name="src/main/java/com/kblack/offlinemap/data/mapper/ToPlaceSearch.kt">
+        <error line="7" column="1" source="standard:no-unused-imports" />
+        <error line="8" column="1" source="standard:no-unused-imports" />
+        <error line="10" column="44" source="standard:multiline-expression-wrapping" />
+        <error line="10" column="44" source="standard:function-signature" />
+        <error line="26" column="25" source="standard:multiline-expression-wrapping" />
+        <error line="45" column="18" source="standard:trailing-comma-on-call-site" />
+        <error line="49" column="54" source="standard:multiline-expression-wrapping" />
+        <error line="49" column="54" source="standard:function-signature" />
+        <error line="61" column="14" source="standard:trailing-comma-on-call-site" />
+        <error line="62" column="1" source="standard:final-newline" />
+    </file>
+    <file name="src/main/java/com/kblack/offlinemap/data/models/Config.kt">
+        <error line="8" column="16" source="standard:parameter-list-spacing" />
+        <error line="8" column="17" source="standard:no-multi-spaces" />
+        <error line="8" column="18" source="standard:colon-spacing" />
+        <error line="9" column="17" source="standard:parameter-list-spacing" />
+        <error line="9" column="18" source="standard:colon-spacing" />
+    </file>
+    <file name="src/main/java/com/kblack/offlinemap/data/models/DefaultLocation.kt">
+        <error line="7" column="13" source="standard:parameter-list-spacing" />
+        <error line="7" column="14" source="standard:no-multi-spaces" />
+        <error line="7" column="15" source="standard:colon-spacing" />
+        <error line="8" column="12" source="standard:parameter-list-spacing" />
+        <error line="8" column="13" source="standard:no-multi-spaces" />
+        <error line="8" column="15" source="standard:colon-spacing" />
+        <error line="9" column="12" source="standard:parameter-list-spacing" />
+        <error line="9" column="13" source="standard:no-multi-spaces" />
+        <error line="9" column="15" source="standard:colon-spacing" />
+    </file>
+    <file name="src/main/java/com/kblack/offlinemap/data/models/GeoLocation.kt">
+        <error line="10" column="13" source="standard:parameter-list-spacing" />
+        <error line="10" column="14" source="standard:no-multi-spaces" />
+        <error line="10" column="18" source="standard:colon-spacing" />
+        <error line="11" column="17" source="standard:parameter-list-spacing" />
+        <error line="11" column="18" source="standard:colon-spacing" />
+        <error line="11" column="33" source="standard:trailing-comma-on-declaration-site" />
+        <error line="16" column="13" source="standard:parameter-list-spacing" />
+        <error line="16" column="14" source="standard:no-multi-spaces" />
+        <error line="16" column="20" source="standard:colon-spacing" />
+        <error line="17" column="17" source="standard:parameter-list-spacing" />
+        <error line="17" column="18" source="standard:no-multi-spaces" />
+        <error line="17" column="20" source="standard:colon-spacing" />
+        <error line="18" column="19" source="standard:parameter-list-spacing" />
+        <error line="18" column="20" source="standard:colon-spacing" />
+        <error line="18" column="40" source="standard:trailing-comma-on-declaration-site" />
+        <error line="24" column="34" source="standard:trailing-comma-on-declaration-site" />
+        <error line="43" column="30" source="standard:trailing-comma-on-declaration-site" />
+    </file>
+    <file name="src/main/java/com/kblack/offlinemap/data/models/MapAllowlist.kt">
+        <error line="7" column="50" source="standard:trailing-comma-on-declaration-site" />
+        <error line="12" column="14" source="standard:parameter-list-spacing" />
+        <error line="12" column="15" source="standard:no-multi-spaces" />
+        <error line="12" column="21" source="standard:colon-spacing" />
+        <error line="12" column="30" source="standard:no-multi-spaces" />
+        <error line="13" column="13" source="standard:parameter-list-spacing" />
+        <error line="13" column="14" source="standard:no-multi-spaces" />
+        <error line="13" column="21" source="standard:colon-spacing" />
+        <error line="13" column="30" source="standard:no-multi-spaces" />
+        <error line="14" column="13" source="standard:parameter-list-spacing" />
+        <error line="14" column="14" source="standard:no-multi-spaces" />
+        <error line="14" column="21" source="standard:colon-spacing" />
+        <error line="14" column="30" source="standard:no-multi-spaces" />
+        <error line="15" column="20" source="standard:parameter-list-spacing" />
+        <error line="15" column="21" source="standard:colon-spacing" />
+        <error line="15" column="30" source="standard:no-multi-spaces" />
+        <error line="16" column="20" source="standard:parameter-list-spacing" />
+        <error line="16" column="21" source="standard:colon-spacing" />
+        <error line="16" column="28" source="standard:no-multi-spaces" />
+        <error line="17" column="18" source="standard:parameter-list-spacing" />
+        <error line="17" column="19" source="standard:no-multi-spaces" />
+        <error line="17" column="21" source="standard:colon-spacing" />
+        <error line="17" column="30" source="standard:no-multi-spaces" />
+        <error line="18" column="14" source="standard:parameter-list-spacing" />
+        <error line="18" column="15" source="standard:no-multi-spaces" />
+        <error line="18" column="21" source="standard:colon-spacing" />
+    </file>
+    <file name="src/main/java/com/kblack/offlinemap/data/remote/api/GhRemoteDataSource.kt">
+        <error line="10" column="25" source="standard:annotation" />
+        <error line="10" column="33" source="standard:annotation" />
+        <error line="11" column="45" source="standard:trailing-comma-on-declaration-site" />
+        <error line="36" column="1" source="standard:final-newline" />
+    </file>
+    <file name="src/main/java/com/kblack/offlinemap/data/remote/api/PlaceRemoteDataSource.kt">
+        <error line="7" column="28" source="standard:annotation" />
+        <error line="7" column="36" source="standard:annotation" />
+        <error line="8" column="51" source="standard:trailing-comma-on-declaration-site" />
+        <error line="10" column="30" source="standard:function-signature" />
+        <error line="10" column="45" source="standard:function-signature" />
+        <error line="10" column="55" source="standard:function-signature" />
+        <error line="16" column="1" source="standard:final-newline" />
+    </file>
+    <file name="src/main/java/com/kblack/offlinemap/data/remote/api/interceptor/PhotonInterceptor.kt">
+        <error line="8" column="24" source="standard:class-signature" />
+        <error line="8" column="26" source="standard:colon-spacing" />
+        <error line="9" column="1" source="standard:no-empty-first-line-in-class-body" />
+        <error line="10" column="21" source="standard:multiline-expression-wrapping" />
+        <error line="11" column="1" source="standard:indent" />
+        <error line="15" column="36" source="standard:multiline-expression-wrapping" />
+        <error line="15" column="51" source="standard:chain-method-continuation" />
+        <error line="20" column="1" source="standard:no-blank-line-before-rbrace" />
+        <error line="21" column="1" source="standard:final-newline" />
+    </file>
+    <file name="src/main/java/com/kblack/offlinemap/data/remote/api/services/GhApiServices.kt">
+        <error line="10" column="1" source="standard:no-empty-first-line-in-class-body" />
+        <error line="16" column="1" source="standard:no-blank-line-before-rbrace" />
+        <error line="17" column="1" source="standard:final-newline" />
+    </file>
+    <file name="src/main/java/com/kblack/offlinemap/data/remote/api/services/PlaceApiServices.kt">
+        <error line="10" column="1" source="standard:no-empty-first-line-in-class-body" />
+        <error line="16" column="1" source="standard:no-blank-line-before-rbrace" />
+        <error line="17" column="1" source="standard:final-newline" />
+    </file>
+    <file name="src/main/java/com/kblack/offlinemap/data/repository/AppLifecycleProvider.kt">
+        <error line="3" column="1" source="standard:import-ordering" />
+        <error line="14" column="34" source="standard:class-signature" />
+        <error line="14" column="56" source="standard:class-signature" />
+        <error line="29" column="1" source="standard:no-blank-line-before-rbrace" />
+        <error line="30" column="1" source="standard:final-newline" />
+    </file>
+    <file name="src/main/java/com/kblack/offlinemap/data/repository/GhRepository.kt">
+        <error line="14" column="5" source="standard:blank-line-before-declaration" />
+        <error line="15" column="5" source="standard:blank-line-before-declaration" />
+        <error line="23" column="1" source="standard:no-empty-first-line-in-class-body" />
+        <error line="46" column="54" source="standard:function-expression-body" />
+        <error line="54" column="33" source="standard:try-catch-finally-spacing" />
+        <error line="54" column="33" source="standard:try-catch-finally-spacing" />
+        <error line="57" column="59" source="standard:function-expression-body" />
+        <error line="66" column="61" source="standard:function-expression-body" />
+        <error line="68" column="41" source="standard:chain-method-continuation" />
+        <error line="68" column="65" source="standard:chain-method-continuation" />
+        <error line="68" column="82" source="standard:chain-method-continuation" />
+        <error line="76" column="1" source="standard:no-consecutive-blank-lines" />
+    </file>
+    <file name="src/main/java/com/kblack/offlinemap/data/repository/IOFileRepository.kt">
+        <error line="12" column="5" source="standard:blank-line-before-declaration" />
+        <error line="13" column="5" source="standard:blank-line-before-declaration" />
+        <error line="20" column="1" source="standard:no-empty-first-line-in-class-body" />
+        <error line="23" column="1" source="standard:no-consecutive-blank-lines" />
+        <error line="35" column="34" source="standard:chain-method-continuation" />
+        <error line="35" column="64" source="standard:chain-method-continuation" />
+        <error line="35" column="81" source="standard:chain-method-continuation" />
+        <error line="40" column="1" source="standard:final-newline" />
+    </file>
+    <file name="src/main/java/com/kblack/offlinemap/data/repository/LocationRepository.kt">
+        <error line="16" column="5" source="standard:blank-line-before-declaration" />
+        <error line="20" column="24" source="standard:trailing-comma-on-declaration-site" />
+        <error line="32" column="82" source="standard:multiline-expression-wrapping" />
+        <error line="32" column="82" source="standard:function-signature" />
+        <error line="33" column="24" source="standard:multiline-expression-wrapping" />
+        <error line="50" column="29" source="standard:multiline-expression-wrapping" />
+        <error line="53" column="49" source="standard:trailing-comma-on-call-site" />
+        <error line="85" column="26" source="standard:multiline-expression-wrapping" />
+        <error line="88" column="45" source="standard:trailing-comma-on-call-site" />
+        <error line="93" column="23" source="standard:multiline-expression-wrapping" />
+        <error line="107" column="1" source="standard:final-newline" />
+    </file>
+    <file name="src/main/java/com/kblack/offlinemap/data/repository/MapDownloadRepository.kt">
+        <error line="3" column="1" source="standard:import-ordering" />
+        <error line="41" column="1" source="standard:no-empty-first-line-in-class-body" />
+        <error line="54" column="1" source="standard:no-blank-line-before-rbrace" />
+        <error line="62" column="1" source="standard:no-empty-first-line-in-class-body" />
+        <error line="70" column="76" source="standard:trailing-comma-on-declaration-site" />
+        <error line="72" column="1" source="standard:no-empty-first-line-in-method-block" />
+        <error line="123" column="27" source="standard:multiline-expression-wrapping" />
+        <error line="125" column="78" source="standard:trailing-comma-on-call-site" />
+        <error line="154" column="76" source="standard:trailing-comma-on-declaration-site" />
+        <error line="198" column="88" source="standard:trailing-comma-on-call-site" />
+        <error line="210" column="45" source="standard:trailing-comma-on-declaration-site" />
+        <error line="240" column="34" source="standard:function-signature" />
+        <error line="240" column="49" source="standard:function-signature" />
+        <error line="240" column="63" source="standard:function-signature" />
+        <error line="240" column="78" source="standard:function-signature" />
+        <error line="254" column="22" source="standard:multiline-expression-wrapping" />
+        <error line="266" column="31" source="standard:chain-method-continuation" />
+        <error line="278" column="59" source="standard:trailing-comma-on-call-site" />
+        <error line="294" column="23" source="standard:multiline-expression-wrapping" />
+        <error line="296" column="74" source="standard:trailing-comma-on-call-site" />
+        <error line="300" column="1" source="standard:no-blank-line-before-rbrace" />
+        <error line="301" column="1" source="standard:final-newline" />
+    </file>
+    <file name="src/main/java/com/kblack/offlinemap/data/repository/PlaceSearchRepository.kt">
+        <error line="16" column="26" source="standard:function-signature" />
+        <error line="16" column="41" source="standard:function-signature" />
+        <error line="16" column="51" source="standard:function-signature" />
+        <error line="17" column="5" source="standard:blank-line-before-declaration" />
+        <error line="17" column="30" source="standard:function-signature" />
+        <error line="17" column="45" source="standard:function-signature" />
+        <error line="17" column="55" source="standard:function-signature" />
+        <error line="22" column="47" source="standard:trailing-comma-on-declaration-site" />
+        <error line="23" column="2" source="standard:colon-spacing" />
+        <error line="26" column="19" source="standard:trailing-comma-on-declaration-site" />
+        <error line="27" column="6" source="standard:function-return-type-spacing" />
+        <error line="27" column="7" source="standard:colon-spacing" />
+        <error line="27" column="33" source="standard:function-expression-body" />
+        <error line="28" column="30" source="standard:chain-method-continuation" />
+        <error line="34" column="5" source="standard:comment-spacing" />
+        <error line="35" column="5" source="standard:comment-spacing" />
+        <error line="38" column="19" source="standard:trailing-comma-on-declaration-site" />
+        <error line="39" column="29" source="standard:multiline-expression-wrapping" />
+        <error line="39" column="29" source="standard:function-signature" />
+        <error line="57" column="23" source="standard:multiline-expression-wrapping" />
+        <error line="61" column="19" source="standard:string-template" />
+        <error line="63" column="1" source="standard:no-blank-line-before-rbrace" />
+        <error line="64" column="1" source="standard:final-newline" />
+    </file>
+    <file name="src/main/java/com/kblack/offlinemap/data/repository/RoutingRepository.kt">
+        <error line="27" column="5" source="standard:blank-line-before-declaration" />
+        <error line="28" column="5" source="standard:blank-line-before-declaration" />
+        <error line="31" column="32" source="standard:trailing-comma-on-declaration-site" />
+        <error line="33" column="5" source="standard:blank-line-before-declaration" />
+        <error line="37" column="55" source="standard:trailing-comma-on-declaration-site" />
+        <error line="39" column="1" source="standard:no-empty-first-line-in-class-body" />
+        <error line="53" column="13" source="standard:comment-spacing" />
+        <error line="59" column="80" source="standard:trailing-comma-on-call-site" />
+        <error line="61" column="17" source="standard:chain-method-continuation" />
+        <error line="61" column="38" source="standard:chain-method-continuation" />
+        <error line="63" column="44" source="standard:trailing-comma-on-call-site" />
+        <error line="65" column="17" source="standard:chain-method-continuation" />
+        <error line="77" column="5" source="standard:comment-spacing" />
+        <error line="78" column="5" source="standard:comment-spacing" />
+        <error line="82" column="32" source="standard:trailing-comma-on-declaration-site" />
+        <error line="83" column="16" source="standard:multiline-expression-wrapping" />
+        <error line="83" column="16" source="standard:function-signature" />
+        <error line="85" column="23" source="standard:multiline-expression-wrapping" />
+        <error line="86" column="28" source="standard:argument-list-wrapping" />
+        <error line="87" column="26" source="standard:argument-list-wrapping" />
+        <error line="87" column="38" source="standard:trailing-comma-on-call-site" />
+        <error line="89" column="13" source="standard:chain-method-continuation" />
+        <error line="108" column="30" source="standard:multiline-expression-wrapping" />
+        <error line="116" column="1" source="standard:no-blank-line-before-rbrace" />
+        <error line="125" column="5" source="standard:comment-spacing" />
+        <error line="163" column="42" source="standard:trailing-comma-on-call-site" />
+        <error line="164" column="18" source="standard:trailing-comma-on-call-site" />
+        <error line="180" column="50" source="standard:trailing-comma-on-call-site" />
+        <error line="181" column="18" source="standard:trailing-comma-on-call-site" />
+        <error line="197" column="45" source="standard:trailing-comma-on-call-site" />
+        <error line="219" column="59" source="standard:trailing-comma-on-call-site" />
+        <error line="220" column="18" source="standard:trailing-comma-on-call-site" />
+        <error line="228" column="36" source="standard:trailing-comma-on-declaration-site" />
+        <error line="242" column="31" source="standard:trailing-comma-on-declaration-site" />
+        <error line="247" column="24" source="standard:multiline-expression-wrapping" />
+        <error line="255" column="27" source="standard:multiline-expression-wrapping" />
+        <error line="260" column="28" source="standard:trailing-comma-on-call-site" />
+        <error line="270" column="42" source="standard:trailing-comma-on-call-site" />
+        <error line="273" column="1" source="standard:final-newline" />
+    </file>
+    <file name="src/main/java/com/kblack/offlinemap/data/service/NavigationForegroundService.kt">
+        <error line="9" column="1" source="standard:no-unused-imports" />
+        <error line="11" column="1" source="standard:no-unused-imports" />
+        <error line="19" column="1" source="standard:no-empty-first-line-in-class-body" />
+        <error line="31" column="33" source="standard:function-signature" />
+        <error line="31" column="50" source="standard:function-signature" />
+        <error line="31" column="62" source="standard:function-signature" />
+        <error line="31" column="74" source="standard:function-signature" />
+        <error line="37" column="36" source="standard:multiline-expression-wrapping" />
+        <error line="39" column="30" source="standard:no-multi-spaces" />
+        <error line="40" column="30" source="standard:no-multi-spaces" />
+        <error line="40" column="72" source="standard:trailing-comma-on-call-site" />
+        <error line="46" column="36" source="standard:multiline-expression-wrapping" />
+        <error line="48" column="30" source="standard:no-multi-spaces" />
+        <error line="49" column="30" source="standard:no-multi-spaces" />
+        <error line="49" column="72" source="standard:trailing-comma-on-call-site" />
+        <error line="66" column="36" source="standard:multiline-expression-wrapping" />
+        <error line="68" column="30" source="standard:no-multi-spaces" />
+        <error line="69" column="30" source="standard:no-multi-spaces" />
+        <error line="69" column="72" source="standard:trailing-comma-on-call-site" />
+        <error line="80" column="22" source="standard:trailing-comma-on-declaration-site" />
+        <error line="82" column="1" source="standard:no-empty-first-line-in-method-block" />
+        <error line="83" column="29" source="standard:multiline-expression-wrapping" />
+        <error line="84" column="19" source="standard:argument-list-wrapping" />
+        <error line="88" column="78" source="standard:trailing-comma-on-call-site" />
+        <error line="91" column="26" source="standard:multiline-expression-wrapping" />
+        <error line="92" column="19" source="standard:argument-list-wrapping" />
+        <error line="96" column="78" source="standard:trailing-comma-on-call-site" />
+        <error line="104" column="1" source="standard:comment-spacing" />
+        <error line="107" column="26" source="standard:multiline-expression-wrapping" />
+        <error line="107" column="51" source="standard:chain-method-continuation" />
+        <error line="110" column="23" source="standard:trailing-comma-on-call-site" />
+        <error line="113" column="23" source="standard:multiline-expression-wrapping" />
+        <error line="113" column="41" source="standard:chain-method-continuation" />
+        <error line="130" column="39" source="standard:chain-method-continuation" />
+        <error line="134" column="61" source="standard:chain-method-continuation" />
+        <error line="135" column="62" source="standard:trailing-comma-on-call-site" />
+        <error line="137" column="25" source="standard:chain-method-continuation" />
+        <error line="138" column="61" source="standard:chain-method-continuation" />
+        <error line="139" column="54" source="standard:trailing-comma-on-call-site" />
+        <error line="141" column="25" source="standard:chain-method-continuation" />
+        <error line="142" column="89" source="standard:trailing-comma-on-call-site" />
+        <error line="143" column="26" source="standard:trailing-comma-on-call-site" />
+        <error line="157" column="27" source="standard:multiline-expression-wrapping" />
+        <error line="160" column="52" source="standard:trailing-comma-on-call-site" />
+        <error line="176" column="30" source="standard:no-multi-spaces" />
+        <error line="177" column="35" source="standard:no-multi-spaces" />
+        <error line="178" column="32" source="standard:no-multi-spaces" />
+        <error line="179" column="33" source="standard:no-multi-spaces" />
+        <error line="180" column="31" source="standard:no-multi-spaces" />
+        <error line="181" column="31" source="standard:no-multi-spaces" />
+        <error line="182" column="31" source="standard:no-multi-spaces" />
+        <error line="184" column="34" source="standard:no-multi-spaces" />
+        <error line="185" column="34" source="standard:no-multi-spaces" />
+        <error line="187" column="1" source="standard:final-newline" />
+    </file>
+    <file name="src/main/java/com/kblack/offlinemap/data/service/NavigationServiceHelper.kt">
+        <error line="13" column="1" source="standard:no-empty-first-line-in-class-body" />
+        <error line="21" column="15" source="standard:function-signature" />
+        <error line="21" column="33" source="standard:function-signature" />
+        <error line="21" column="61" source="standard:function-signature" />
+        <error line="26" column="85" source="standard:trailing-comma-on-call-site" />
+        <error line="30" column="16" source="standard:function-signature" />
+        <error line="30" column="34" source="standard:function-signature" />
+        <error line="30" column="62" source="standard:function-signature" />
+        <error line="32" column="86" source="standard:trailing-comma-on-call-site" />
+        <error line="45" column="14" source="standard:trailing-comma-on-call-site" />
+        <error line="59" column="14" source="standard:trailing-comma-on-call-site" />
+        <error line="63" column="14" source="standard:function-signature" />
+        <error line="63" column="32" source="standard:function-signature" />
+        <error line="63" column="61" source="standard:function-signature" />
+        <error line="66" column="84" source="standard:trailing-comma-on-call-site" />
+        <error line="73" column="23" source="standard:trailing-comma-on-declaration-site" />
+        <error line="77" column="31" source="standard:multiline-expression-wrapping" />
+        <error line="78" column="13" source="standard:multiline-if-else" />
+        <error line="79" column="14" source="standard:if-else-wrapping" />
+        <error line="79" column="14" source="standard:multiline-if-else" />
+        <error line="81" column="24" source="standard:multiline-expression-wrapping" />
+        <error line="82" column="13" source="standard:multiline-if-else" />
+        <error line="83" column="14" source="standard:if-else-wrapping" />
+        <error line="83" column="14" source="standard:multiline-if-else" />
+        <error line="85" column="24" source="standard:multiline-expression-wrapping" />
+        <error line="86" column="13" source="standard:multiline-if-else" />
+        <error line="87" column="25" source="standard:chain-method-continuation" />
+        <error line="88" column="14" source="standard:if-else-wrapping" />
+        <error line="88" column="14" source="standard:multiline-if-else" />
+        <error line="97" column="1" source="standard:final-newline" />
+    </file>
+    <file name="src/main/java/com/kblack/offlinemap/data/utils/ApiUrl.kt">
+        <error line="3" column="1" source="standard:no-unused-imports" />
+        <error line="6" column="5" source="standard:comment-spacing" />
+        <error line="11" column="5" source="standard:comment-spacing" />
+        <error line="19" column="1" source="standard:no-blank-line-before-rbrace" />
+        <error line="20" column="1" source="standard:final-newline" />
+    </file>
+    <file name="src/main/java/com/kblack/offlinemap/data/utils/Constant.kt">
+        <error line="3" column="1" source="standard:no-unused-imports" />
+        <error line="22" column="5" source="standard:comment-spacing" />
+        <error line="24" column="1" source="standard:final-newline" />
+    </file>
+    <file name="src/main/java/com/kblack/offlinemap/data/worker/MapDownloadWorker.kt">
+        <error line="40" column="25" source="standard:class-signature" />
+        <error line="40" column="43" source="standard:class-signature" />
+        <error line="40" column="67" source="standard:class-signature" />
+        <error line="41" column="5" source="standard:class-signature" />
+        <error line="42" column="1" source="standard:no-empty-first-line-in-class-body" />
+        <error line="50" column="27" source="standard:multiline-expression-wrapping" />
+        <error line="53" column="51" source="standard:trailing-comma-on-call-site" />
+        <error line="61" column="1" source="standard:no-empty-first-line-in-method-block" />
+        <error line="73" column="1" source="standard:no-empty-first-line-in-method-block" />
+        <error line="76" column="37" source="standard:multiline-expression-wrapping" />
+        <error line="78" column="31" source="standard:trailing-comma-on-call-site" />
+        <error line="80" column="41" source="standard:multiline-expression-wrapping" />
+        <error line="82" column="42" source="standard:string-template" />
+        <error line="82" column="97" source="standard:trailing-comma-on-call-site" />
+        <error line="90" column="93" source="standard:trailing-comma-on-call-site" />
+        <error line="96" column="51" source="standard:trailing-comma-on-call-site" />
+        <error line="97" column="30" source="standard:trailing-comma-on-call-site" />
+        <error line="119" column="67" source="standard:string-template" />
+        <error line="143" column="77" source="standard:comment-wrapping" />
+        <error line="156" column="1" source="standard:no-empty-first-line-in-method-block" />
+        <error line="168" column="65" source="standard:chain-method-continuation" />
+        <error line="179" column="37" source="standard:chain-method-continuation" />
+        <error line="183" column="45" source="standard:trailing-comma-on-call-site" />
+        <error line="189" column="34" source="standard:trailing-comma-on-call-site" />
+        <error line="198" column="1" source="standard:no-consecutive-blank-lines" />
+        <error line="206" column="93" source="standard:trailing-comma-on-call-site" />
+        <error line="212" column="51" source="standard:trailing-comma-on-call-site" />
+        <error line="213" column="30" source="standard:trailing-comma-on-call-site" />
+        <error line="222" column="100" source="standard:trailing-comma-on-call-site" />
+        <error line="229" column="62" source="standard:function-expression-body" />
+        <error line="236" column="37" source="standard:trailing-comma-on-declaration-site" />
+        <error line="247" column="71" source="standard:trailing-comma-on-call-site" />
+        <error line="260" column="31" source="standard:chain-method-continuation" />
+        <error line="261" column="37" source="standard:argument-list-wrapping" />
+        <error line="261" column="71" source="standard:trailing-comma-on-call-site" />
+        <error line="263" column="17" source="standard:chain-method-continuation" />
+        <error line="278" column="31" source="standard:function-signature" />
+        <error line="278" column="46" source="standard:function-signature" />
+        <error line="278" column="59" source="standard:function-signature" />
+        <error line="282" column="58" source="standard:trailing-comma-on-call-site" />
+        <error line="304" column="32" source="standard:function-signature" />
+        <error line="304" column="50" source="standard:function-signature" />
+        <error line="304" column="63" source="standard:function-signature" />
+        <error line="305" column="27" source="standard:multiline-expression-wrapping" />
+        <error line="305" column="34" source="standard:chain-method-continuation" />
+        <error line="313" column="25" source="standard:multiline-expression-wrapping" />
+        <error line="322" column="1" source="standard:no-blank-line-before-rbrace" />
+        <error line="323" column="1" source="standard:no-consecutive-blank-lines" />
+        <error line="324" column="1" source="standard:final-newline" />
+    </file>
+    <file name="src/main/java/com/kblack/offlinemap/di/AppModule.kt">
+        <error line="3" column="1" source="standard:import-ordering" />
+        <error line="37" column="1" source="standard:no-empty-first-line-in-class-body" />
+        <error line="40" column="61" source="standard:function-expression-body" />
+        <error line="47" column="9" source="standard:function-signature" />
+        <error line="47" column="37" source="standard:function-signature" />
+        <error line="47" column="37" source="standard:trailing-comma-on-declaration-site" />
+        <error line="48" column="27" source="standard:function-expression-body" />
+        <error line="55" column="9" source="standard:function-signature" />
+        <error line="55" column="43" source="standard:function-signature" />
+        <error line="55" column="43" source="standard:trailing-comma-on-declaration-site" />
+        <error line="56" column="30" source="standard:function-expression-body" />
+        <error line="66" column="21" source="standard:function-expression-body" />
+        <error line="74" column="39" source="standard:trailing-comma-on-declaration-site" />
+        <error line="75" column="30" source="standard:function-expression-body" />
+        <error line="76" column="64" source="standard:comma-spacing" />
+        <error line="82" column="45" source="standard:trailing-comma-on-declaration-site" />
+        <error line="83" column="20" source="standard:function-expression-body" />
+        <error line="92" column="20" source="standard:parameter-list-spacing" />
+        <error line="92" column="21" source="standard:colon-spacing" />
+        <error line="92" column="34" source="standard:trailing-comma-on-declaration-site" />
+        <error line="93" column="30" source="standard:function-expression-body" />
+        <error line="100" column="45" source="standard:trailing-comma-on-declaration-site" />
+        <error line="101" column="27" source="standard:function-expression-body" />
+        <error line="107" column="55" source="standard:function-expression-body" />
+        <error line="115" column="21" source="standard:trailing-comma-on-declaration-site" />
+        <error line="116" column="25" source="standard:function-expression-body" />
+        <error line="123" column="9" source="standard:function-signature" />
+        <error line="123" column="45" source="standard:function-signature" />
+        <error line="123" column="45" source="standard:trailing-comma-on-declaration-site" />
+        <error line="124" column="32" source="standard:function-expression-body" />
+        <error line="130" column="65" source="standard:function-expression-body" />
+        <error line="133" column="1" source="standard:no-blank-line-before-rbrace" />
+    </file>
+    <file name="src/main/java/com/kblack/offlinemap/di/DataLocalModule.kt">
+        <error line="17" column="1" source="standard:no-empty-first-line-in-class-body" />
+        <error line="20" column="29" source="standard:parameter-list-wrapping" />
+        <error line="20" column="29" source="standard:function-signature" />
+        <error line="20" column="65" source="standard:parameter-list-wrapping" />
+        <error line="20" column="65" source="standard:function-signature" />
+        <error line="21" column="13" source="standard:chain-method-continuation" />
+        <error line="28" column="1" source="standard:no-blank-line-before-rbrace" />
+        <error line="29" column="1" source="standard:final-newline" />
+    </file>
+    <file name="src/main/java/com/kblack/offlinemap/di/NetworkModule.kt">
+        <error line="27" column="1" source="standard:no-empty-first-line-in-class-body" />
+        <error line="30" column="43" source="standard:multiline-expression-wrapping" />
+        <error line="30" column="43" source="standard:function-signature" />
+        <error line="31" column="17" source="standard:multiline-expression-wrapping" />
+        <error line="44" column="35" source="standard:parameter-list-wrapping" />
+        <error line="44" column="35" source="standard:function-signature" />
+        <error line="44" column="71" source="standard:parameter-list-wrapping" />
+        <error line="44" column="71" source="standard:function-signature" />
+        <error line="44" column="93" source="standard:function-expression-body" />
+        <error line="45" column="34" source="standard:chain-method-continuation" />
+        <error line="57" column="21" source="standard:chain-method-continuation" />
+        <error line="70" column="47" source="standard:trailing-comma-on-declaration-site" />
+        <error line="72" column="21" source="standard:chain-method-continuation" />
+        <error line="81" column="31" source="standard:function-expression-body" />
+        <error line="82" column="21" source="standard:chain-method-continuation" />
+        <error line="92" column="21" source="standard:trailing-comma-on-declaration-site" />
+        <error line="94" column="17" source="standard:chain-method-continuation" />
+        <error line="105" column="21" source="standard:trailing-comma-on-declaration-site" />
+        <error line="107" column="17" source="standard:chain-method-continuation" />
+        <error line="115" column="30" source="standard:parameter-list-wrapping" />
+        <error line="115" column="30" source="standard:function-signature" />
+        <error line="115" column="60" source="standard:parameter-list-wrapping" />
+        <error line="115" column="60" source="standard:function-signature" />
+        <error line="115" column="78" source="standard:function-signature" />
+        <error line="120" column="33" source="standard:parameter-list-wrapping" />
+        <error line="120" column="33" source="standard:function-signature" />
+        <error line="120" column="67" source="standard:parameter-list-wrapping" />
+        <error line="120" column="67" source="standard:function-signature" />
+        <error line="120" column="88" source="standard:function-signature" />
+        <error line="122" column="1" source="standard:no-blank-line-before-rbrace" />
+        <error line="123" column="1" source="standard:final-newline" />
+    </file>
+    <file name="src/main/java/com/kblack/offlinemap/di/Qualifier.kt">
+        <error line="19" column="33" source="standard:final-newline" />
+    </file>
+    <file name="src/main/java/com/kblack/offlinemap/models/GeoCoordinate.kt">
+        <error line="11" column="48" source="standard:trailing-comma-on-declaration-site" />
+    </file>
+    <file name="src/main/java/com/kblack/offlinemap/models/MapModel.kt">
+        <error line="21" column="1" source="standard:no-consecutive-blank-lines" />
+        <error line="35" column="1" source="standard:final-newline" />
+    </file>
+    <file name="src/main/java/com/kblack/offlinemap/models/NavigationSnapshot.kt">
+        <error line="8" column="43" source="standard:trailing-comma-on-declaration-site" />
+        <error line="9" column="1" source="standard:final-newline" />
+    </file>
+    <file name="src/main/java/com/kblack/offlinemap/models/PlaceSearch.kt">
+        <error line="15" column="20" source="standard:trailing-comma-on-declaration-site" />
+    </file>
+    <file name="src/main/java/com/kblack/offlinemap/models/Route.kt">
+        <error line="6" column="22" source="standard:trailing-comma-on-declaration-site" />
+        <error line="16" column="26" source="standard:trailing-comma-on-declaration-site" />
+    </file>
+    <file name="src/main/java/com/kblack/offlinemap/models/RouteInstruction.kt">
+        <error line="8" column="36" source="standard:trailing-comma-on-declaration-site" />
+    </file>
+    <file name="src/main/java/com/kblack/offlinemap/models/RoutingOptions.kt">
+        <error line="3" column="27" source="standard:class-signature" />
+        <error line="3" column="42" source="standard:class-signature" />
+        <error line="5" column="25" source="standard:trailing-comma-on-declaration-site" />
+        <error line="8" column="23" source="standard:class-signature" />
+        <error line="8" column="45" source="standard:class-signature" />
+        <error line="11" column="15" source="standard:trailing-comma-on-declaration-site" />
+        <error line="19" column="44" source="standard:trailing-comma-on-declaration-site" />
+    </file>
+    <file name="src/main/java/com/kblack/offlinemap/ui/BugHandlerActivity.kt">
+        <error line="47" column="1" source="standard:no-empty-first-line-in-class-body" />
+        <error line="62" column="58" source="standard:trailing-comma-on-call-site" />
+        <error line="80" column="39" source="standard:function-signature" />
+        <error line="80" column="58" source="standard:function-signature" />
+        <error line="80" column="74" source="standard:function-signature" />
+        <error line="80" column="84" source="standard:function-expression-body" />
+        <error line="86" column="35" source="standard:function-signature" />
+        <error line="86" column="61" source="standard:function-signature" />
+        <error line="86" column="79" source="standard:function-signature" />
+        <error line="110" column="34" source="standard:multiline-expression-wrapping" />
+        <error line="123" column="5" source="standard:function-naming" />
+        <error line="127" column="30" source="standard:trailing-comma-on-declaration-site" />
+        <error line="129" column="1" source="standard:no-empty-first-line-in-method-block" />
+        <error line="131" column="20" source="standard:multiline-expression-wrapping" />
+        <error line="141" column="56" source="standard:trailing-comma-on-call-site" />
+        <error line="149" column="18" source="standard:trailing-comma-on-call-site" />
+        <error line="157" column="51" source="standard:trailing-comma-on-call-site" />
+        <error line="159" column="10" source="standard:trailing-comma-on-call-site" />
+        <error line="162" column="24" source="standard:multiline-expression-wrapping" />
+        <error line="166" column="32" source="standard:trailing-comma-on-call-site" />
+        <error line="174" column="55" source="standard:trailing-comma-on-call-site" />
+        <error line="184" column="45" source="standard:function-signature" />
+        <error line="187" column="52" source="standard:function-signature" />
+        <error line="187" column="76" source="standard:function-signature" />
+        <error line="187" column="89" source="standard:function-signature" />
+        <error line="187" column="94" source="standard:function-expression-body" />
+        <error line="190" column="24" source="standard:if-else-wrapping" />
+        <error line="190" column="24" source="standard:multiline-if-else" />
+        <error line="190" column="31" source="standard:if-else-wrapping" />
+        <error line="191" column="17" source="standard:multiline-if-else" />
+        <error line="201" column="7" source="standard:if-else-wrapping" />
+        <error line="201" column="12" source="standard:if-else-bracing" />
+        <error line="201" column="12" source="standard:if-else-wrapping" />
+        <error line="201" column="12" source="standard:multiline-if-else" />
+        <error line="202" column="1" source="standard:final-newline" />
+    </file>
+    <file name="src/main/java/com/kblack/offlinemap/ui/MainActivity.kt">
+        <error line="3" column="1" source="standard:import-ordering" />
+        <error line="16" column="1" source="standard:no-empty-first-line-in-class-body" />
+        <error line="29" column="50" source="standard:trailing-comma-on-call-site" />
+        <error line="34" column="1" source="standard:no-blank-line-before-rbrace" />
+    </file>
+    <file name="src/main/java/com/kblack/offlinemap/ui/base/BaseContainer.kt">
+        <error line="10" column="5" source="standard:function-naming" />
+        <error line="16" column="26" source="standard:trailing-comma-on-call-site" />
+        <error line="18" column="1" source="standard:final-newline" />
+    </file>
+    <file name="src/main/java/com/kblack/offlinemap/ui/models/TopBarType.kt">
+        <error line="9" column="20" source="standard:class-signature" />
+        <error line="9" column="40" source="standard:final-newline" />
+        <error line="9" column="40" source="standard:class-signature" />
+    </file>
+    <file name="src/main/java/com/kblack/offlinemap/ui/navigation/MapDestination.kt">
+        <error line="13" column="5" source="standard:blank-line-before-declaration" />
+    </file>
+    <file name="src/main/java/com/kblack/offlinemap/ui/navigation/MapNavGraph.kt">
+        <error line="3" column="1" source="standard:import-ordering" />
+        <error line="16" column="5" source="standard:function-naming" />
+        <error line="18" column="33" source="standard:trailing-comma-on-declaration-site" />
+        <error line="22" column="38" source="standard:trailing-comma-on-call-site" />
+        <error line="29" column="30" source="standard:trailing-comma-on-call-site" />
+        <error line="34" column="82" source="standard:wrapping" />
+        <error line="34" column="83" source="standard:argument-list-wrapping" />
+        <error line="34" column="83" source="standard:trailing-comma-on-call-site" />
+        <error line="35" column="9" source="standard:curly-spacing" />
+        <error line="42" column="1" source="standard:no-blank-line-before-rbrace" />
+        <error line="43" column="1" source="standard:final-newline" />
+    </file>
+    <file name="src/main/java/com/kblack/offlinemap/ui/screen/home/HomeScreen.kt">
+        <error line="3" column="1" source="standard:import-ordering" />
+        <error line="52" column="5" source="standard:function-naming" />
+        <error line="54" column="33" source="standard:trailing-comma-on-declaration-site" />
+        <error line="122" column="42" source="standard:trailing-comma-on-call-site" />
+        <error line="138" column="26" source="standard:trailing-comma-on-call-site" />
+        <error line="155" column="14" source="standard:trailing-comma-on-call-site" />
+        <error line="160" column="17" source="standard:comment-spacing" />
+        <error line="166" column="32" source="standard:multiline-expression-wrapping" />
+        <error line="172" column="36" source="standard:multiline-expression-wrapping" />
+        <error line="181" column="76" source="standard:trailing-comma-on-call-site" />
+        <error line="208" column="1" source="standard:no-consecutive-blank-lines" />
+    </file>
+    <file name="src/main/java/com/kblack/offlinemap/ui/screen/home/component/DeleteMapButton.kt">
+        <error line="29" column="5" source="standard:function-naming" />
+        <error line="70" column="5" source="standard:function-naming" />
+        <error line="70" column="28" source="standard:function-signature" />
+        <error line="70" column="46" source="standard:function-signature" />
+        <error line="70" column="69" source="standard:function-signature" />
+        <error line="70" column="90" source="standard:function-signature" />
+        <error line="80" column="1" source="standard:final-newline" />
+    </file>
+    <file name="src/main/java/com/kblack/offlinemap/ui/screen/home/component/DownloadMapButton.kt">
+        <error line="3" column="1" source="standard:import-ordering" />
+        <error line="65" column="5" source="standard:function-naming" />
+        <error line="74" column="1" source="standard:no-empty-first-line-in-method-block" />
+        <error line="82" column="10" source="standard:wrapping" />
+        <error line="83" column="1" source="standard:indent" />
+        <error line="83" column="70" source="standard:wrapping" />
+        <error line="119" column="1" source="standard:no-consecutive-blank-lines" />
+        <error line="126" column="1" source="standard:no-empty-first-line-in-method-block" />
+        <error line="139" column="17" source="standard:if-else-wrapping" />
+        <error line="144" column="13" source="standard:if-else-wrapping" />
+        <error line="161" column="26" source="standard:multiline-expression-wrapping" />
+        <error line="169" column="26" source="standard:trailing-comma-on-call-site" />
+        <error line="177" column="18" source="standard:trailing-comma-on-call-site" />
+        <error line="190" column="50" source="standard:if-else-wrapping" />
+        <error line="190" column="50" source="standard:multiline-if-else" />
+        <error line="191" column="30" source="standard:if-else-wrapping" />
+        <error line="191" column="30" source="standard:multiline-if-else" />
+        <error line="212" column="52" source="standard:trailing-comma-on-call-site" />
+        <error line="216" column="1" source="standard:no-blank-line-before-rbrace" />
+        <error line="221" column="28" source="standard:multiline-expression-wrapping" />
+        <error line="221" column="36" source="standard:chain-method-continuation" />
+        <error line="221" column="51" source="standard:chain-method-continuation" />
+        <error line="226" column="63" source="standard:trailing-comma-on-call-site" />
+        <error line="227" column="1" source="standard:no-blank-line-in-list" />
+        <error line="252" column="63" source="standard:trailing-comma-on-call-site" />
+        <error line="267" column="36" source="standard:multiline-expression-wrapping" />
+        <error line="272" column="36" source="standard:multiline-expression-wrapping" />
+        <error line="286" column="92" source="standard:trailing-comma-on-call-site" />
+        <error line="323" column="1" source="standard:final-newline" />
+    </file>
+    <file name="src/main/java/com/kblack/offlinemap/ui/screen/home/component/MapList.kt">
+        <error line="3" column="1" source="standard:import-ordering" />
+        <error line="39" column="5" source="standard:function-naming" />
+        <error line="47" column="1" source="standard:no-empty-first-line-in-method-block" />
+        <error line="52" column="24" source="standard:multiline-expression-wrapping" />
+        <error line="59" column="35" source="standard:trailing-comma-on-call-site" />
+        <error line="76" column="38" source="standard:multiline-expression-wrapping" />
+        <error line="78" column="75" source="standard:trailing-comma-on-call-site" />
+        <error line="79" column="30" source="standard:trailing-comma-on-call-site" />
+        <error line="80" column="26" source="standard:trailing-comma-on-call-site" />
+        <error line="82" column="21" source="standard:chain-method-continuation" />
+        <error line="82" column="51" source="standard:trailing-comma-on-call-site" />
+        <error line="88" column="13" source="standard:function-naming" />
+        <error line="99" column="20" source="standard:multiline-expression-wrapping" />
+        <error line="102" column="76" source="standard:trailing-comma-on-call-site" />
+        <error line="105" column="24" source="standard:multiline-expression-wrapping" />
+        <error line="109" column="61" source="standard:trailing-comma-on-call-site" />
+        <error line="113" column="28" source="standard:multiline-expression-wrapping" />
+        <error line="115" column="18" source="standard:trailing-comma-on-call-site" />
+        <error line="128" column="75" source="standard:trailing-comma-on-call-site" />
+        <error line="154" column="28" source="standard:multiline-expression-wrapping" />
+        <error line="159" column="37" source="standard:trailing-comma-on-call-site" />
+        <error line="160" column="22" source="standard:trailing-comma-on-call-site" />
+        <error line="166" column="32" source="standard:multiline-expression-wrapping" />
+        <error line="171" column="70" source="standard:trailing-comma-on-call-site" />
+        <error line="175" column="1" source="standard:no-blank-line-before-rbrace" />
+        <error line="177" column="1" source="standard:final-newline" />
+    </file>
+    <file name="src/main/java/com/kblack/offlinemap/ui/screen/home/component/MapNameAndStatus.kt">
+        <error line="3" column="1" source="standard:import-ordering" />
+        <error line="38" column="5" source="standard:function-naming" />
+        <error line="57" column="52" source="standard:trailing-comma-on-call-site" />
+        <error line="62" column="56" source="standard:trailing-comma-on-call-site" />
+        <error line="72" column="1" source="standard:no-blank-line-before-rbrace" />
+        <error line="85" column="69" source="standard:trailing-comma-on-call-site" />
+        <error line="105" column="58" source="standard:trailing-comma-on-call-site" />
+        <error line="121" column="1" source="standard:no-blank-line-before-rbrace" />
+        <error line="125" column="5" source="standard:function-naming" />
+        <error line="179" column="1" source="standard:no-consecutive-blank-lines" />
+        <error line="182" column="5" source="standard:function-naming" />
+        <error line="184" column="18" source="standard:multiline-expression-wrapping" />
+        <error line="191" column="25" source="standard:trailing-comma-on-call-site" />
+        <error line="193" column="26" source="standard:multiline-expression-wrapping" />
+        <error line="199" column="35" source="standard:trailing-comma-on-call-site" />
+        <error line="200" column="10" source="standard:trailing-comma-on-call-site" />
+        <error line="202" column="1" source="standard:final-newline" />
+    </file>
+    <file name="src/main/java/com/kblack/offlinemap/ui/screen/home/component/MapTopBar.kt">
+        <error line="29" column="5" source="standard:function-naming" />
+        <error line="74" column="26" source="standard:curly-spacing" />
+        <error line="74" column="26" source="standard:statement-wrapping" />
+        <error line="74" column="30" source="standard:curly-spacing" />
+        <error line="74" column="30" source="standard:statement-wrapping" />
+        <error line="77" column="39" source="standard:op-spacing" />
+        <error line="77" column="41" source="standard:curly-spacing" />
+        <error line="86" column="26" source="standard:curly-spacing" />
+        <error line="86" column="26" source="standard:statement-wrapping" />
+        <error line="86" column="30" source="standard:curly-spacing" />
+        <error line="86" column="30" source="standard:statement-wrapping" />
+        <error line="88" column="10" source="standard:trailing-comma-on-call-site" />
+        <error line="90" column="1" source="standard:final-newline" />
+    </file>
+    <file name="src/main/java/com/kblack/offlinemap/ui/screen/home/component/MarkdownText.kt">
+        <error line="22" column="5" source="standard:function-naming" />
+        <error line="30" column="28" source="standard:if-else-wrapping" />
+        <error line="30" column="28" source="standard:multiline-if-else" />
+        <error line="31" column="14" source="standard:if-else-wrapping" />
+        <error line="31" column="14" source="standard:multiline-if-else" />
+        <error line="40" column="18" source="standard:trailing-comma-on-call-site" />
+        <error line="53" column="38" source="standard:trailing-comma-on-call-site" />
+    </file>
+    <file name="src/main/java/com/kblack/offlinemap/ui/screen/overview/MapViewScreen.kt">
+        <error line="3" column="1" source="standard:import-ordering" />
+        <error line="96" column="5" source="standard:function-naming" />
+        <error line="136" column="27" source="standard:multiline-expression-wrapping" />
+        <error line="138" column="24" source="standard:if-else-wrapping" />
+        <error line="138" column="24" source="standard:multiline-if-else" />
+        <error line="138" column="81" source="standard:if-else-wrapping" />
+        <error line="139" column="13" source="standard:multiline-if-else" />
+        <error line="139" column="64" source="standard:comment-spacing" />
+        <error line="144" column="31" source="standard:multiline-expression-wrapping" />
+        <error line="146" column="64" source="standard:trailing-comma-on-call-site" />
+        <error line="174" column="32" source="standard:trailing-comma-on-call-site" />
+        <error line="175" column="18" source="standard:trailing-comma-on-call-site" />
+        <error line="181" column="22" source="standard:multiline-expression-wrapping" />
+        <error line="219" column="41" source="standard:trailing-comma-on-call-site" />
+        <error line="228" column="71" source="standard:trailing-comma-on-call-site" />
+        <error line="230" column="5" source="standard:curly-spacing" />
+        <error line="235" column="46" source="standard:string-template" />
+        <error line="251" column="1" source="standard:no-empty-first-line-in-method-block" />
+        <error line="254" column="39" source="standard:multiline-expression-wrapping" />
+        <error line="255" column="65" source="standard:trailing-comma-on-call-site" />
+        <error line="273" column="1" source="standard:no-empty-first-line-in-method-block" />
+        <error line="279" column="40" source="standard:multiline-expression-wrapping" />
+        <error line="282" column="42" source="standard:multiline-expression-wrapping" />
+        <error line="283" column="68" source="standard:trailing-comma-on-call-site" />
+        <error line="289" column="45" source="standard:trailing-comma-on-call-site" />
+        <error line="290" column="1" source="standard:no-blank-line-in-list" />
+        <error line="294" column="42" source="standard:multiline-expression-wrapping" />
+        <error line="297" column="44" source="standard:multiline-expression-wrapping" />
+        <error line="298" column="70" source="standard:trailing-comma-on-call-site" />
+        <error line="304" column="45" source="standard:trailing-comma-on-call-site" />
+        <error line="305" column="1" source="standard:no-blank-line-in-list" />
+        <error line="321" column="34" source="standard:multiline-expression-wrapping" />
+        <error line="330" column="32" source="standard:multiline-expression-wrapping" />
+        <error line="331" column="49" source="standard:trailing-comma-on-call-site" />
+        <error line="335" column="1" source="standard:no-consecutive-blank-lines" />
+        <error line="346" column="75" source="standard:trailing-comma-on-call-site" />
+        <error line="350" column="60" source="standard:trailing-comma-on-call-site" />
+        <error line="362" column="32" source="standard:multiline-expression-wrapping" />
+        <error line="365" column="52" source="standard:trailing-comma-on-call-site" />
+        <error line="382" column="62" source="standard:trailing-comma-on-call-site" />
+        <error line="398" column="22" source="standard:trailing-comma-on-call-site" />
+        <error line="414" column="62" source="standard:trailing-comma-on-call-site" />
+        <error line="423" column="67" source="standard:trailing-comma-on-call-site" />
+        <error line="428" column="70" source="standard:trailing-comma-on-call-site" />
+        <error line="436" column="13" source="standard:function-naming" />
+        <error line="437" column="5" source="standard:function-signature" />
+        <error line="437" column="26" source="standard:function-signature" />
+        <error line="439" column="18" source="standard:multiline-expression-wrapping" />
+        <error line="440" column="69" source="standard:trailing-comma-on-call-site" />
+        <error line="452" column="1" source="standard:no-blank-line-in-list" />
+        <error line="453" column="1" source="standard:indent" />
+    </file>
+    <file name="src/main/java/com/kblack/offlinemap/ui/screen/overview/component/AnimatedLocationPuck.kt">
+        <error line="76" column="35" source="standard:multiline-expression-wrapping" />
+        <error line="99" column="24" source="standard:multiline-expression-wrapping" />
+        <error line="100" column="25" source="standard:multiline-expression-wrapping" />
+    </file>
+    <file name="src/main/java/com/kblack/offlinemap/ui/screen/overview/component/CompassMode.kt">
+        <error line="41" column="1" source="standard:comment-spacing" />
+        <error line="41" column="1" source="standard:no-consecutive-comments" />
+        <error line="59" column="29" source="standard:multiline-expression-wrapping" />
+        <error line="66" column="28" source="standard:multiline-expression-wrapping" />
+        <error line="76" column="39" source="standard:multiline-expression-wrapping" />
+        <error line="85" column="48" source="standard:function-signature" />
+        <error line="85" column="65" source="standard:function-signature" />
+        <error line="85" column="78" source="standard:function-signature" />
+        <error line="106" column="32" source="standard:multiline-expression-wrapping" />
+        <error line="132" column="35" source="standard:multiline-expression-wrapping" />
+        <error line="141" column="44" source="standard:function-signature" />
+        <error line="141" column="61" source="standard:function-signature" />
+        <error line="141" column="74" source="standard:function-signature" />
+        <error line="178" column="23" source="standard:multiline-expression-wrapping" />
+        <error line="197" column="12" source="standard:function-expression-body" />
+        <error line="199" column="32" source="standard:multiline-expression-wrapping" />
+        <error line="201" column="35" source="standard:argument-list-wrapping" />
+        <error line="204" column="33" source="standard:multiline-expression-wrapping" />
+        <error line="206" column="41" source="standard:argument-list-wrapping" />
+        <error line="209" column="33" source="standard:multiline-expression-wrapping" />
+        <error line="211" column="41" source="standard:argument-list-wrapping" />
+        <error line="226" column="55" source="standard:function-expression-body" />
+        <error line="233" column="16" source="standard:chain-method-continuation" />
+        <error line="234" column="29" source="standard:chain-method-continuation" />
+        <error line="245" column="24" source="standard:function-signature" />
+        <error line="245" column="40" source="standard:function-signature" />
+        <error line="245" column="52" source="standard:function-signature" />
+        <error line="245" column="62" source="standard:function-signature" />
+        <error line="246" column="44" source="standard:final-newline" />
+    </file>
+    <file name="src/main/java/com/kblack/offlinemap/ui/screen/overview/component/ExitConfirmationDialog.kt">
+        <error line="9" column="5" source="standard:function-naming" />
+        <error line="26" column="10" source="standard:trailing-comma-on-call-site" />
+    </file>
+    <file name="src/main/java/com/kblack/offlinemap/ui/screen/overview/component/FloatingSearchBar.kt">
+        <error line="34" column="1" source="standard:no-unused-imports" />
+        <error line="48" column="38" source="standard:function-signature" />
+        <error line="48" column="56" source="standard:function-signature" />
+        <error line="48" column="69" source="standard:function-signature" />
+        <error line="51" column="26" source="standard:multiline-expression-wrapping" />
+        <error line="53" column="28" source="standard:trailing-comma-on-call-site" />
+        <error line="61" column="30" source="standard:multiline-expression-wrapping" />
+        <error line="64" column="34" source="standard:trailing-comma-on-call-site" />
+        <error line="86" column="5" source="standard:function-naming" />
+        <error line="93" column="34" source="standard:trailing-comma-on-declaration-site" />
+        <error line="103" column="24" source="standard:multiline-expression-wrapping" />
+        <error line="108" column="22" source="standard:multiline-expression-wrapping" />
+        <error line="117" column="73" source="standard:trailing-comma-on-call-site" />
+        <error line="124" column="50" source="standard:trailing-comma-on-call-site" />
+        <error line="133" column="26" source="standard:trailing-comma-on-call-site" />
+        <error line="137" column="64" source="standard:trailing-comma-on-call-site" />
+        <error line="141" column="14" source="standard:trailing-comma-on-call-site" />
+        <error line="151" column="64" source="standard:trailing-comma-on-call-site" />
+        <error line="154" column="32" source="standard:multiline-expression-wrapping" />
+        <error line="160" column="30" source="standard:multiline-expression-wrapping" />
+        <error line="161" column="63" source="standard:trailing-comma-on-call-site" />
+        <error line="163" column="54" source="standard:trailing-comma-on-call-site" />
+        <error line="167" column="40" source="standard:multiline-expression-wrapping" />
+        <error line="170" column="64" source="standard:trailing-comma-on-call-site" />
+        <error line="174" column="52" source="standard:trailing-comma-on-call-site" />
+        <error line="191" column="32" source="standard:unnecessary-parentheses-before-trailing-lambda" />
+        <error line="201" column="58" source="standard:multiline-expression-wrapping" />
+        <error line="203" column="61" source="standard:trailing-comma-on-call-site" />
+        <error line="204" column="42" source="standard:trailing-comma-on-call-site" />
+        <error line="210" column="56" source="standard:multiline-expression-wrapping" />
+        <error line="212" column="64" source="standard:trailing-comma-on-call-site" />
+        <error line="214" column="57" source="standard:multiline-expression-wrapping" />
+        <error line="215" column="75" source="standard:trailing-comma-on-call-site" />
+        <error line="216" column="50" source="standard:trailing-comma-on-call-site" />
+        <error line="218" column="65" source="standard:multiline-expression-wrapping" />
+        <error line="221" column="90" source="standard:trailing-comma-on-call-site" />
+        <error line="230" column="100" source="standard:trailing-comma-on-call-site" />
+        <error line="238" column="96" source="standard:trailing-comma-on-call-site" />
+        <error line="243" column="90" source="standard:trailing-comma-on-call-site" />
+        <error line="255" column="1" source="standard:final-newline" />
+    </file>
+    <file name="src/main/java/com/kblack/offlinemap/ui/screen/overview/component/KeepScreenOn.kt">
+        <error line="8" column="5" source="standard:function-naming" />
+        <error line="16" column="1" source="standard:final-newline" />
+    </file>
+    <file name="src/main/java/com/kblack/offlinemap/ui/screen/overview/component/MapCameraEffects.kt">
+        <error line="37" column="5" source="standard:function-naming" />
+        <error line="103" column="29" source="standard:multiline-expression-wrapping" />
+        <error line="104" column="41" source="standard:trailing-comma-on-call-site" />
+        <error line="106" column="41" source="standard:no-multi-spaces" />
+        <error line="108" column="34" source="standard:multiline-expression-wrapping" />
+    </file>
+    <file name="src/main/java/com/kblack/offlinemap/ui/screen/overview/component/MapControls.kt">
+        <error line="3" column="1" source="standard:import-ordering" />
+        <error line="40" column="14" source="standard:function-naming" />
+        <error line="49" column="2" source="standard:curly-spacing" />
+        <error line="49" column="2" source="standard:function-start-of-body-spacing" />
+        <error line="49" column="2" source="standard:function-signature" />
+        <error line="51" column="20" source="standard:multiline-expression-wrapping" />
+        <error line="55" column="59" source="standard:trailing-comma-on-call-site" />
+        <error line="58" column="24" source="standard:multiline-expression-wrapping" />
+        <error line="60" column="45" source="standard:trailing-comma-on-call-site" />
+        <error line="64" column="65" source="standard:trailing-comma-on-call-site" />
+        <error line="69" column="32" source="standard:multiline-expression-wrapping" />
+        <error line="75" column="46" source="standard:trailing-comma-on-call-site" />
+        <error line="81" column="56" source="standard:trailing-comma-on-call-site" />
+        <error line="88" column="32" source="standard:multiline-expression-wrapping" />
+        <error line="94" column="46" source="standard:trailing-comma-on-call-site" />
+        <error line="100" column="56" source="standard:trailing-comma-on-call-site" />
+        <error line="109" column="57" source="standard:trailing-comma-on-call-site" />
+        <error line="111" column="1" source="standard:no-empty-first-line-in-method-block" />
+        <error line="116" column="1" source="standard:no-empty-first-line-in-method-block" />
+        <error line="119" column="40" source="standard:multiline-expression-wrapping" />
+        <error line="123" column="88" source="standard:trailing-comma-on-call-site" />
+        <error line="126" column="76" source="standard:keyword-spacing" />
+        <error line="128" column="75" source="standard:trailing-comma-on-call-site" />
+        <error line="135" column="40" source="standard:multiline-expression-wrapping" />
+        <error line="139" column="88" source="standard:trailing-comma-on-call-site" />
+        <error line="142" column="115" source="standard:argument-list-wrapping" />
+        <error line="142" column="141" source="standard:max-line-length" />
+        <error line="143" column="75" source="standard:trailing-comma-on-call-site" />
+        <error line="150" column="36" source="standard:multiline-expression-wrapping" />
+        <error line="154" column="84" source="standard:trailing-comma-on-call-site" />
+        <error line="157" column="54" source="standard:argument-list-wrapping" />
+        <error line="158" column="71" source="standard:trailing-comma-on-call-site" />
+        <error line="161" column="1" source="standard:no-blank-line-before-rbrace" />
+        <error line="162" column="1" source="standard:no-consecutive-blank-lines" />
+        <error line="169" column="1" source="standard:final-newline" />
+    </file>
+    <file name="src/main/java/com/kblack/offlinemap/ui/screen/overview/component/MapLocationAccess.kt">
+        <error line="40" column="16" source="standard:multiline-expression-wrapping" />
+        <error line="41" column="14" source="standard:argument-list-wrapping" />
+        <error line="41" column="54" source="standard:trailing-comma-on-call-site" />
+        <error line="43" column="18" source="standard:multiline-expression-wrapping" />
+        <error line="44" column="14" source="standard:argument-list-wrapping" />
+        <error line="44" column="56" source="standard:trailing-comma-on-call-site" />
+        <error line="50" column="27" source="standard:multiline-expression-wrapping" />
+        <error line="57" column="1" source="standard:spacing-between-declarations-with-annotations" />
+        <error line="64" column="22" source="standard:multiline-expression-wrapping" />
+        <error line="66" column="49" source="standard:trailing-comma-on-call-site" />
+        <error line="68" column="24" source="standard:multiline-expression-wrapping" />
+        <error line="70" column="51" source="standard:trailing-comma-on-call-site" />
+        <error line="73" column="33" source="standard:multiline-expression-wrapping" />
+        <error line="73" column="47" source="standard:condition-wrapping" />
+        <error line="73" column="47" source="standard:multiline-expression-wrapping" />
+        <error line="75" column="49" source="standard:trailing-comma-on-call-site" />
+        <error line="77" column="35" source="standard:multiline-expression-wrapping" />
+        <error line="77" column="51" source="standard:condition-wrapping" />
+        <error line="77" column="51" source="standard:multiline-expression-wrapping" />
+        <error line="79" column="51" source="standard:trailing-comma-on-call-site" />
+        <error line="89" column="64" source="standard:trailing-comma-on-call-site" />
+        <error line="92" column="10" source="standard:trailing-comma-on-call-site" />
+        <error line="110" column="17" source="standard:function-signature" />
+        <error line="118" column="63" source="standard:trailing-comma-on-call-site" />
+        <error line="119" column="18" source="standard:trailing-comma-on-call-site" />
+        <error line="143" column="30" source="standard:multiline-expression-wrapping" />
+        <error line="144" column="61" source="standard:trailing-comma-on-call-site" />
+        <error line="153" column="36" source="standard:multiline-expression-wrapping" />
+        <error line="154" column="57" source="standard:trailing-comma-on-call-site" />
+        <error line="163" column="24" source="standard:multiline-expression-wrapping" />
+        <error line="183" column="63" source="standard:trailing-comma-on-call-site" />
+        <error line="184" column="18" source="standard:trailing-comma-on-call-site" />
+        <error line="193" column="31" source="standard:multiline-expression-wrapping" />
+        <error line="198" column="14" source="standard:trailing-comma-on-call-site" />
+    </file>
+    <file name="src/main/java/com/kblack/offlinemap/ui/screen/overview/component/NavigationMode.kt">
+        <error line="3" column="1" source="standard:import-ordering" />
+        <error line="40" column="5" source="standard:function-naming" />
+        <error line="46" column="20" source="standard:multiline-expression-wrapping" />
+        <error line="49" column="59" source="standard:trailing-comma-on-call-site" />
+        <error line="54" column="46" source="standard:trailing-comma-on-call-site" />
+        <error line="59" column="65" source="standard:trailing-comma-on-call-site" />
+        <error line="65" column="32" source="standard:multiline-expression-wrapping" />
+        <error line="67" column="95" source="standard:trailing-comma-on-call-site" />
+        <error line="73" column="49" source="standard:trailing-comma-on-call-site" />
+        <error line="81" column="46" source="standard:trailing-comma-on-call-site" />
+        <error line="89" column="29" source="standard:trailing-comma-on-call-site" />
+        <error line="96" column="5" source="standard:function-naming" />
+        <error line="109" column="30" source="standard:trailing-comma-on-call-site" />
+        <error line="117" column="50" source="standard:trailing-comma-on-call-site" />
+        <error line="122" column="40" source="standard:trailing-comma-on-call-site" />
+        <error line="126" column="39" source="standard:trailing-comma-on-call-site" />
+        <error line="135" column="79" source="standard:trailing-comma-on-call-site" />
+        <error line="160" column="28" source="standard:multiline-expression-wrapping" />
+        <error line="167" column="67" source="standard:trailing-comma-on-call-site" />
+        <error line="172" column="53" source="standard:trailing-comma-on-call-site" />
+        <error line="181" column="13" source="standard:function-naming" />
+        <error line="181" column="20" source="standard:function-signature" />
+        <error line="181" column="35" source="standard:function-signature" />
+        <error line="181" column="48" source="standard:function-signature" />
+        <error line="187" column="41" source="standard:trailing-comma-on-call-site" />
+        <error line="193" column="43" source="standard:trailing-comma-on-call-site" />
+        <error line="198" column="1" source="standard:no-consecutive-blank-lines" />
+    </file>
+    <file name="src/main/java/com/kblack/offlinemap/ui/screen/overview/component/RouteInstructionsBottomSheet.kt">
+        <error line="3" column="1" source="standard:import-ordering" />
+        <error line="42" column="5" source="standard:function-naming" />
+        <error line="48" column="20" source="standard:multiline-expression-wrapping" />
+        <error line="50" column="59" source="standard:trailing-comma-on-call-site" />
+        <error line="57" column="32" source="standard:multiline-expression-wrapping" />
+        <error line="60" column="40" source="standard:trailing-comma-on-call-site" />
+        <error line="68" column="32" source="standard:multiline-expression-wrapping" />
+        <error line="72" column="61" source="standard:trailing-comma-on-call-site" />
+        <error line="76" column="75" source="standard:trailing-comma-on-call-site" />
+        <error line="83" column="32" source="standard:multiline-expression-wrapping" />
+        <error line="86" column="67" source="standard:trailing-comma-on-call-site" />
+        <error line="98" column="13" source="standard:function-naming" />
+        <error line="100" column="20" source="standard:multiline-expression-wrapping" />
+        <error line="105" column="55" source="standard:trailing-comma-on-call-site" />
+        <error line="113" column="52" source="standard:trailing-comma-on-call-site" />
+        <error line="117" column="90" source="standard:trailing-comma-on-call-site" />
+        <error line="126" column="52" source="standard:trailing-comma-on-call-site" />
+        <error line="130" column="89" source="standard:trailing-comma-on-call-site" />
+        <error line="136" column="13" source="standard:function-naming" />
+        <error line="152" column="13" source="standard:function-naming" />
+        <error line="154" column="20" source="standard:multiline-expression-wrapping" />
+        <error line="157" column="42" source="standard:trailing-comma-on-call-site" />
+        <error line="166" column="59" source="standard:trailing-comma-on-call-site" />
+        <error line="173" column="49" source="standard:trailing-comma-on-call-site" />
+        <error line="180" column="13" source="standard:function-naming" />
+        <error line="184" column="20" source="standard:multiline-expression-wrapping" />
+        <error line="188" column="44" source="standard:trailing-comma-on-call-site" />
+        <error line="195" column="24" source="standard:multiline-expression-wrapping" />
+        <error line="197" column="34" source="standard:trailing-comma-on-call-site" />
+        <error line="202" column="1" source="standard:no-consecutive-blank-lines" />
+    </file>
+    <file name="src/main/java/com/kblack/offlinemap/ui/screen/overview/component/RouteLineAnimation.kt">
+        <error line="1" column="1" source="standard:filename" />
+        <error line="58" column="24" source="standard:function-signature" />
+        <error line="58" column="48" source="standard:function-signature" />
+        <error line="58" column="62" source="standard:function-signature" />
+        <error line="103" column="22" source="standard:multiline-expression-wrapping" />
+        <error line="104" column="32" source="standard:multiline-expression-wrapping" />
+        <error line="107" column="30" source="standard:multiline-expression-wrapping" />
+        <error line="129" column="19" source="standard:multiline-expression-wrapping" />
+        <error line="131" column="27" source="standard:multiline-expression-wrapping" />
+    </file>
+    <file name="src/main/java/com/kblack/offlinemap/ui/screen/overview/component/SelectPointBottomSheet.kt">
+        <error line="34" column="5" source="standard:function-naming" />
+        <error line="40" column="1" source="standard:no-blank-line-in-list" />
+        <error line="41" column="1" source="standard:indent" />
+        <error line="41" column="5" source="standard:function-signature" />
+        <error line="46" column="24" source="standard:multiline-expression-wrapping" />
+        <error line="58" column="18" source="standard:trailing-comma-on-call-site" />
+        <error line="69" column="18" source="standard:trailing-comma-on-call-site" />
+        <error line="73" column="1" source="standard:no-blank-line-before-rbrace" />
+        <error line="77" column="13" source="standard:function-naming" />
+        <error line="87" column="47" source="standard:trailing-comma-on-call-site" />
+        <error line="92" column="1" source="standard:indent" />
+        <error line="96" column="62" source="standard:trailing-comma-on-call-site" />
+        <error line="103" column="28" source="standard:multiline-expression-wrapping" />
+        <error line="106" column="44" source="standard:trailing-comma-on-call-site" />
+        <error line="111" column="1" source="standard:final-newline" />
+    </file>
+    <file name="src/main/java/com/kblack/offlinemap/ui/screen/overview/component/UpdateRoutingVehicle.kt">
+        <error line="39" column="5" source="standard:function-naming" />
+        <error line="48" column="20" source="standard:multiline-expression-wrapping" />
+        <error line="52" column="81" source="standard:trailing-comma-on-call-site" />
+        <error line="54" column="13" source="standard:chain-method-continuation" />
+        <error line="58" column="29" source="standard:trailing-comma-on-call-site" />
+        <error line="59" column="14" source="standard:trailing-comma-on-call-site" />
+        <error line="63" column="24" source="standard:multiline-expression-wrapping" />
+        <error line="68" column="72" source="standard:trailing-comma-on-call-site" />
+        <error line="73" column="59" source="standard:trailing-comma-on-call-site" />
+        <error line="85" column="66" source="standard:trailing-comma-on-call-site" />
+        <error line="90" column="72" source="standard:trailing-comma-on-call-site" />
+        <error line="95" column="65" source="standard:trailing-comma-on-call-site" />
+        <error line="103" column="24" source="standard:multiline-expression-wrapping" />
+        <error line="106" column="38" source="standard:trailing-comma-on-call-site" />
+        <error line="114" column="13" source="standard:function-naming" />
+        <error line="121" column="20" source="standard:multiline-expression-wrapping" />
+        <error line="131" column="18" source="standard:trailing-comma-on-call-site" />
+        <error line="132" column="14" source="standard:trailing-comma-on-call-site" />
+        <error line="137" column="55" source="standard:trailing-comma-on-call-site" />
+    </file>
+    <file name="src/main/java/com/kblack/offlinemap/ui/theme/Color.kt">
+        <error line="92" column="1" source="standard:no-consecutive-blank-lines" />
+        <error line="93" column="50" source="standard:final-newline" />
+    </file>
+    <file name="src/main/java/com/kblack/offlinemap/ui/theme/Theme.kt">
+        <error line="210" column="36" source="standard:annotation" />
+        <error line="217" column="5" source="standard:function-naming" />
+        <error line="230" column="1" source="standard:no-consecutive-blank-lines" />
+        <error line="232" column="5" source="standard:function-naming" />
+        <error line="236" column="36" source="standard:trailing-comma-on-declaration-site" />
+        <error line="239" column="35" source="standard:comment-spacing" />
+        <error line="264" column="1" source="standard:final-newline" />
+    </file>
+    <file name="src/main/java/com/kblack/offlinemap/ui/theme/ThemeSettings.kt">
+        <error line="1" column="1" source="standard:no-empty-file" />
+        <error line="3" column="1" source="standard:no-consecutive-blank-lines" />
+    </file>
+    <file name="src/main/java/com/kblack/offlinemap/ui/theme/Type.kt">
+        <error line="9" column="18" source="standard:multiline-expression-wrapping" />
+        <error line="10" column="17" source="standard:multiline-expression-wrapping" />
+        <error line="15" column="31" source="standard:trailing-comma-on-call-site" />
+        <error line="16" column="6" source="standard:trailing-comma-on-call-site" />
+        <error line="32" column="6" source="standard:block-comment-initial-star-alignment" />
+        <error line="33" column="1" source="standard:final-newline" />
+    </file>
+    <file name="src/main/java/com/kblack/offlinemap/ui/utils/Confetti.kt">
+        <error line="27" column="1" source="standard:comment-spacing" />
+        <error line="39" column="66" source="standard:function-expression-body" />
+        <error line="44" column="5" source="standard:function-naming" />
+        <error line="47" column="36" source="standard:trailing-comma-on-declaration-site" />
+        <error line="52" column="18" source="standard:multiline-expression-wrapping" />
+        <error line="55" column="29" source="standard:trailing-comma-on-call-site" />
+        <error line="60" column="42" source="standard:trailing-comma-on-call-site" />
+        <error line="64" column="19" source="standard:multiline-expression-wrapping" />
+        <error line="65" column="20" source="standard:multiline-expression-wrapping" />
+        <error line="90" column="14" source="standard:trailing-comma-on-call-site" />
+        <error line="108" column="29" source="standard:trailing-comma-on-call-site" />
+        <error line="112" column="34" source="standard:trailing-comma-on-call-site" />
+        <error line="116" column="1" source="standard:final-newline" />
+    </file>
+    <file name="src/main/java/com/kblack/offlinemap/ui/utils/Constant.kt">
+        <error line="4" column="1" source="standard:no-empty-first-line-in-class-body" />
+        <error line="9" column="1" source="standard:final-newline" />
+    </file>
+    <file name="src/main/java/com/kblack/offlinemap/ui/utils/NavigationInstructionFormat.kt">
+        <error line="5" column="1" source="standard:comment-spacing" />
+        <error line="7" column="1" source="standard:no-empty-first-line-in-class-body" />
+        <error line="8" column="43" source="standard:function-expression-body" />
+        <error line="20" column="39" source="standard:trailing-comma-on-declaration-site" />
+        <error line="30" column="36" source="standard:trailing-comma-on-declaration-site" />
+        <error line="36" column="15" source="standard:function-signature" />
+        <error line="36" column="26" source="standard:function-signature" />
+        <error line="36" column="38" source="standard:function-signature" />
+        <error line="37" column="22" source="standard:multiline-expression-wrapping" />
+        <error line="65" column="1" source="standard:final-newline" />
+    </file>
+    <file name="src/main/java/com/kblack/offlinemap/ui/utils/Utils.kt">
+        <error line="34" column="1" source="standard:indent" />
+        <error line="35" column="1" source="standard:indent" />
+        <error line="36" column="1" source="standard:indent" />
+        <error line="37" column="1" source="standard:indent" />
+        <error line="38" column="1" source="standard:indent" />
+        <error line="45" column="1" source="standard:blank-line-before-declaration" />
+        <error line="45" column="1" source="standard:spacing-between-declarations-with-comments" />
+        <error line="52" column="33" source="standard:function-signature" />
+        <error line="52" column="53" source="standard:function-signature" />
+        <error line="52" column="95" source="standard:function-signature" />
+        <error line="84" column="51" source="standard:function-expression-body" />
+        <error line="86" column="1" source="standard:final-newline" />
+    </file>
+    <file name="src/main/java/com/kblack/offlinemap/ui/viewmodel/HomeViewModel.kt">
+        <error line="5" column="1" source="standard:no-unused-imports" />
+        <error line="8" column="1" source="standard:no-unused-imports" />
+        <error line="28" column="1" source="standard:no-blank-line-in-list" />
+        <error line="35" column="20" source="standard:annotation" />
+        <error line="35" column="28" source="standard:annotation" />
+        <error line="39" column="1" source="standard:no-empty-first-line-in-class-body" />
+        <error line="74" column="47" source="standard:function-expression-body" />
+        <error line="78" column="35" source="standard:function-signature" />
+        <error line="78" column="50" source="standard:function-signature" />
+        <error line="78" column="75" source="standard:function-signature" />
+        <error line="102" column="1" source="standard:indent" />
+        <error line="104" column="80" source="standard:wrapping" />
+        <error line="104" column="81" source="standard:argument-list-wrapping" />
+        <error line="104" column="81" source="standard:trailing-comma-on-call-site" />
+        <error line="123" column="1" source="standard:no-blank-line-before-rbrace" />
+        <error line="128" column="90" source="standard:trailing-comma-on-call-site" />
+        <error line="142" column="100" source="standard:trailing-comma-on-call-site" />
+        <error line="153" column="22" source="standard:curly-spacing" />
+        <error line="153" column="22" source="standard:function-start-of-body-spacing" />
+        <error line="153" column="22" source="standard:function-signature" />
+        <error line="180" column="1" source="standard:no-blank-line-before-rbrace" />
+        <error line="181" column="1" source="standard:final-newline" />
+    </file>
+    <file name="src/main/java/com/kblack/offlinemap/ui/viewmodel/MapViewModel.kt">
+        <error line="49" column="1" source="standard:no-blank-line-in-list" />
+        <error line="56" column="1" source="standard:no-blank-line-in-list" />
+        <error line="60" column="1" source="standard:no-blank-line-in-list" />
+        <error line="65" column="19" source="standard:annotation" />
+        <error line="65" column="27" source="standard:annotation" />
+        <error line="73" column="59" source="standard:trailing-comma-on-declaration-site" />
+        <error line="75" column="1" source="standard:no-empty-first-line-in-class-body" />
+        <error line="91" column="5" source="standard:blank-line-before-declaration" />
+        <error line="98" column="17" source="standard:backing-property-naming" />
+        <error line="110" column="25" source="standard:multiline-expression-wrapping" />
+        <error line="132" column="87" source="standard:trailing-comma-on-call-site" />
+        <error line="139" column="32" source="standard:multiline-expression-wrapping" />
+        <error line="139" column="32" source="standard:function-signature" />
+        <error line="153" column="44" source="standard:trailing-comma-on-call-site" />
+        <error line="182" column="1" source="standard:no-empty-first-line-in-method-block" />
+        <error line="188" column="36" source="standard:trailing-comma-on-call-site" />
+        <error line="203" column="20" source="standard:multiline-expression-wrapping" />
+        <error line="214" column="84" source="standard:trailing-comma-on-call-site" />
+        <error line="251" column="24" source="standard:multiline-expression-wrapping" />
+        <error line="263" column="23" source="standard:multiline-expression-wrapping" />
+        <error line="283" column="24" source="standard:multiline-expression-wrapping" />
+        <error line="316" column="17" source="standard:comment-spacing" />
+        <error line="343" column="13" source="standard:chain-method-continuation" />
+        <error line="346" column="43" source="standard:multiline-expression-wrapping" />
+        <error line="346" column="43" source="standard:function-signature" />
+        <error line="352" column="36" source="standard:trailing-comma-on-call-site" />
+        <error line="364" column="1" source="standard:final-newline" />
+    </file>
+    <file name="src/main/java/com/kblack/offlinemap/usecase/routing/BuildNavigationUseCase.kt">
+        <error line="13" column="1" source="standard:no-empty-first-line-in-class-body" />
+        <error line="17" column="32" source="standard:trailing-comma-on-declaration-site" />
+        <error line="26" column="39" source="standard:trailing-comma-on-call-site" />
+        <error line="50" column="88" source="standard:trailing-comma-on-call-site" />
+        <error line="56" column="39" source="standard:trailing-comma-on-declaration-site" />
+        <error line="65" column="24" source="standard:multiline-expression-wrapping" />
+        <error line="68" column="34" source="standard:trailing-comma-on-call-site" />
+        <error line="80" column="36" source="standard:trailing-comma-on-declaration-site" />
+        <error line="96" column="1" source="standard:final-newline" />
+    </file>
+    <file name="src/main/java/com/kblack/offlinemap/usecase/routing/InitializeRouterUseCase.kt">
+        <error line="6" column="53" source="standard:trailing-comma-on-declaration-site" />
+    </file>
+    <file name="src/main/java/com/kblack/offlinemap/utils/Ext.kt">
+        <error line="9" column="21" source="standard:multiline-expression-wrapping" />
+        <error line="9" column="26" source="standard:chain-method-continuation" />
+        <error line="10" column="27" source="standard:chain-method-continuation" />
+        <error line="14" column="40" source="standard:function-expression-body" />
+        <error line="18" column="1" source="standard:indent" />
+        <error line="19" column="1" source="standard:indent" />
+        <error line="21" column="1" source="standard:final-newline" />
+    </file>
+    <file name="src/main/java/com/kblack/offlinemap/utils/GeoMath.kt">
+        <error line="9" column="1" source="standard:blank-line-before-declaration" />
+        <error line="18" column="24" source="standard:function-signature" />
+        <error line="18" column="42" source="standard:function-signature" />
+        <error line="18" column="58" source="standard:function-signature" />
+        <error line="24" column="17" source="standard:multiline-expression-wrapping" />
+        <error line="25" column="1" source="standard:indent" />
+        <error line="29" column="27" source="standard:function-signature" />
+        <error line="29" column="54" source="standard:function-signature" />
+        <error line="29" column="75" source="standard:function-signature" />
+        <error line="45" column="38" source="standard:function-signature" />
+        <error line="45" column="56" source="standard:function-signature" />
+        <error line="45" column="74" source="standard:function-signature" />
+        <error line="45" column="90" source="standard:function-signature" />
+        <error line="65" column="20" source="standard:multiline-expression-wrapping" />
+        <error line="67" column="36" source="standard:trailing-comma-on-call-site" />
+        <error line="72" column="24" source="standard:function-signature" />
+        <error line="72" column="45" source="standard:function-signature" />
+        <error line="72" column="62" source="standard:function-signature" />
+        <error line="82" column="1" source="standard:final-newline" />
+    </file>
+    <file name="src/main/java/com/kblack/offlinemap/utils/RouteTextFormatter.kt">
+        <error line="6" column="1" source="standard:no-empty-first-line-in-class-body" />
+        <error line="11" column="30" source="standard:function-signature" />
+        <error line="11" column="54" source="standard:function-signature" />
+        <error line="11" column="82" source="standard:function-signature" />
+        <error line="41" column="63" source="standard:function-expression-body" />
+        <error line="44" column="1" source="standard:final-newline" />
+    </file>
+    <file name="src/main/java/com/kblack/offlinemap/utils/UpdateChecker.kt">
+        <error line="3" column="1" source="standard:import-ordering" />
+        <error line="14" column="5" source="standard:comment-spacing" />
+        <error line="26" column="5" source="standard:blank-line-before-declaration" />
+        <error line="26" column="5" source="standard:spacing-between-declarations-with-comments" />
+        <error line="27" column="27" source="standard:function-signature" />
+        <error line="27" column="45" source="standard:function-signature" />
+        <error line="27" column="64" source="standard:function-signature" />
+        <error line="29" column="22" source="standard:multiline-expression-wrapping" />
+        <error line="34" column="49" source="standard:curly-spacing" />
+        <error line="34" column="49" source="standard:statement-wrapping" />
+        <error line="34" column="49" source="standard:try-catch-finally-spacing" />
+        <error line="34" column="53" source="standard:curly-spacing" />
+        <error line="34" column="53" source="standard:statement-wrapping" />
+        <error line="34" column="53" source="standard:try-catch-finally-spacing" />
+        <error line="43" column="1" source="standard:final-newline" />
+    </file>
+    <file name="src/test/java/com/kblack/offlinemap/data/repository/MapDownloadTest.kt">
+        <error line="20" column="1" source="standard:no-empty-first-line-in-class-body" />
+        <error line="21" column="5" source="standard:comment-spacing" />
+        <error line="30" column="27" source="standard:multiline-expression-wrapping" />
+        <error line="42" column="32" source="standard:trailing-comma-on-call-site" />
+        <error line="52" column="27" source="standard:multiline-expression-wrapping" />
+        <error line="55" column="38" source="standard:trailing-comma-on-call-site" />
+        <error line="57" column="51" source="standard:comma-spacing" />
+        <error line="89" column="5" source="standard:comment-spacing" />
+        <error line="90" column="1" source="standard:no-blank-line-before-rbrace" />
+        <error line="91" column="1" source="standard:final-newline" />
+    </file>
+    <file name="src/test/java/com/kblack/offlinemap/domain/usecase/BuildNavUseCaseTest.kt">
+        <error line="20" column="5" source="standard:comment-spacing" />
+        <error line="21" column="27" source="standard:multiline-expression-wrapping" />
+        <error line="34" column="39" source="standard:trailing-comma-on-declaration-site" />
+        <error line="35" column="22" source="standard:function-expression-body" />
+        <error line="35" column="24" source="standard:statement-wrapping" />
+        <error line="35" column="66" source="standard:statement-wrapping" />
+        <error line="41" column="14" source="standard:function-expression-body" />
+        <error line="49" column="27" source="standard:trailing-comma-on-call-site" />
+        <error line="53" column="32" source="standard:multiline-expression-wrapping" />
+        <error line="58" column="30" source="standard:wrapping" />
+        <error line="58" column="31" source="standard:argument-list-wrapping" />
+        <error line="58" column="31" source="standard:trailing-comma-on-call-site" />
+        <error line="69" column="5" source="standard:comment-spacing" />
+        <error line="79" column="5" source="standard:comment-spacing" />
+        <error line="82" column="1" source="standard:no-empty-first-line-in-method-block" />
+        <error line="90" column="5" source="standard:comment-spacing" />
+        <error line="95" column="86" source="standard:op-spacing" />
+        <error line="96" column="86" source="standard:op-spacing" />
+        <error line="129" column="69" source="standard:comma-spacing" />
+        <error line="139" column="69" source="standard:comma-spacing" />
+        <error line="170" column="1" source="standard:no-blank-line-before-rbrace" />
+        <error line="171" column="1" source="standard:final-newline" />
+    </file>
+    <file name="src/test/java/com/kblack/offlinemap/domain/utils/GeoMathTest.kt">
+        <error line="12" column="1" source="standard:no-empty-first-line-in-class-body" />
+        <error line="13" column="5" source="standard:comment-spacing" />
+        <error line="23" column="5" source="standard:comment-spacing" />
+        <error line="44" column="23" source="standard:multiline-expression-wrapping" />
+        <error line="45" column="72" source="standard:trailing-comma-on-call-site" />
+        <error line="53" column="5" source="standard:comment-spacing" />
+        <error line="56" column="23" source="standard:multiline-expression-wrapping" />
+        <error line="58" column="72" source="standard:trailing-comma-on-call-site" />
+        <error line="66" column="5" source="standard:comment-spacing" />
+        <error line="69" column="23" source="standard:multiline-expression-wrapping" />
+        <error line="71" column="72" source="standard:trailing-comma-on-call-site" />
+        <error line="79" column="5" source="standard:comment-spacing" />
+        <error line="82" column="1" source="standard:no-empty-first-line-in-method-block" />
+        <error line="83" column="23" source="standard:multiline-expression-wrapping" />
+        <error line="90" column="72" source="standard:trailing-comma-on-call-site" />
+        <error line="132" column="9" source="standard:comment-spacing" />
+        <error line="170" column="1" source="standard:no-blank-line-before-rbrace" />
+    </file>
+    <file name="src/test/java/com/kblack/offlinemap/domain/utils/RouteTextFormatTest.kt">
+        <error line="11" column="1" source="standard:no-empty-first-line-in-class-body" />
+        <error line="47" column="1" source="standard:no-consecutive-blank-lines" />
+        <error line="72" column="1" source="standard:no-consecutive-blank-lines" />
+        <error line="121" column="1" source="standard:no-blank-line-before-rbrace" />
+        <error line="122" column="1" source="standard:final-newline" />
+    </file>
+    <file name="src/test/java/com/kblack/offlinemap/presentation/HomeViewModelTest.kt">
+        <error line="1" column="1" source="standard:comment-spacing" />
+        <error line="1" column="1" source="standard:no-empty-file" />
+        <error line="3" column="1" source="standard:comment-spacing" />
+        <error line="4" column="1" source="standard:comment-spacing" />
+        <error line="5" column="1" source="standard:comment-spacing" />
+        <error line="6" column="1" source="standard:comment-spacing" />
+        <error line="7" column="1" source="standard:comment-spacing" />
+        <error line="8" column="1" source="standard:comment-spacing" />
+        <error line="9" column="1" source="standard:comment-spacing" />
+        <error line="10" column="1" source="standard:comment-spacing" />
+        <error line="11" column="1" source="standard:comment-spacing" />
+        <error line="12" column="1" source="standard:comment-spacing" />
+        <error line="13" column="1" source="standard:comment-spacing" />
+        <error line="14" column="1" source="standard:comment-spacing" />
+        <error line="15" column="1" source="standard:comment-spacing" />
+        <error line="16" column="1" source="standard:comment-spacing" />
+        <error line="17" column="1" source="standard:comment-spacing" />
+        <error line="18" column="1" source="standard:comment-spacing" />
+        <error line="19" column="1" source="standard:comment-spacing" />
+        <error line="20" column="1" source="standard:comment-spacing" />
+        <error line="21" column="1" source="standard:comment-spacing" />
+        <error line="22" column="1" source="standard:comment-spacing" />
+        <error line="23" column="1" source="standard:comment-spacing" />
+        <error line="24" column="1" source="standard:comment-spacing" />
+        <error line="25" column="1" source="standard:comment-spacing" />
+        <error line="26" column="1" source="standard:comment-spacing" />
+        <error line="27" column="1" source="standard:comment-spacing" />
+        <error line="28" column="1" source="standard:comment-spacing" />
+        <error line="30" column="1" source="standard:comment-spacing" />
+        <error line="31" column="1" source="standard:comment-spacing" />
+        <error line="108" column="1" source="standard:comment-spacing" />
+        <error line="108" column="3" source="standard:final-newline" />
+    </file>
+    <file name="src/test/java/com/kblack/offlinemap/presentation/MapViewModelTest.kt">
+        <error line="1" column="1" source="standard:comment-spacing" />
+        <error line="1" column="1" source="standard:no-empty-file" />
+        <error line="3" column="1" source="standard:comment-spacing" />
+        <error line="4" column="1" source="standard:comment-spacing" />
+        <error line="5" column="1" source="standard:comment-spacing" />
+        <error line="6" column="1" source="standard:comment-spacing" />
+        <error line="7" column="1" source="standard:comment-spacing" />
+        <error line="8" column="1" source="standard:comment-spacing" />
+        <error line="9" column="1" source="standard:comment-spacing" />
+        <error line="10" column="1" source="standard:comment-spacing" />
+        <error line="11" column="1" source="standard:comment-spacing" />
+        <error line="12" column="1" source="standard:comment-spacing" />
+        <error line="13" column="1" source="standard:comment-spacing" />
+        <error line="14" column="1" source="standard:comment-spacing" />
+        <error line="15" column="1" source="standard:comment-spacing" />
+        <error line="16" column="1" source="standard:comment-spacing" />
+        <error line="17" column="1" source="standard:comment-spacing" />
+        <error line="18" column="1" source="standard:comment-spacing" />
+        <error line="19" column="1" source="standard:comment-spacing" />
+        <error line="20" column="1" source="standard:comment-spacing" />
+        <error line="21" column="1" source="standard:comment-spacing" />
+        <error line="22" column="1" source="standard:comment-spacing" />
+        <error line="23" column="1" source="standard:comment-spacing" />
+        <error line="24" column="1" source="standard:comment-spacing" />
+        <error line="25" column="1" source="standard:comment-spacing" />
+        <error line="26" column="1" source="standard:comment-spacing" />
+        <error line="27" column="1" source="standard:comment-spacing" />
+        <error line="28" column="1" source="standard:comment-spacing" />
+        <error line="29" column="1" source="standard:comment-spacing" />
+        <error line="30" column="1" source="standard:comment-spacing" />
+        <error line="32" column="1" source="standard:comment-spacing" />
+        <error line="33" column="1" source="standard:comment-spacing" />
+        <error line="96" column="1" source="standard:comment-spacing" />
+        <error line="96" column="3" source="standard:final-newline" />
+    </file>
+</baseline>

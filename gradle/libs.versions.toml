@@ -14,6 +14,12 @@ hilt = "2.60.1"
 hiltNavigationCompose = "1.4.0"
 #ksp
 ksp = "2.3.6"
+# ktlint-gradle (static analysis / formatting gate) -- NOT detekt: detekt's latest stable
+# (1.23.8) cannot parse Kotlin 2.3+ metadata (detekt/detekt#8865); this project is on
+# Kotlin 2.4.10, so only detekt's pre-1.0 "dev.detekt" alpha line would work today. ktlint
+# core version is left to the plugin's own default (not pinned here) since the plugin
+# picks one it has actually verified against its own supported Kotlin range.
+ktlintGradle = "14.2.0"
 #room
 room = "2.8.4"
 #leakcanary
@@ -146,6 +152,7 @@ dataStore = ["data-store-preferences", "data-store-preferences-core"]
 maplibre = ["maplibre-compose", "spatialk-turf"]
 
 [plugins]
+ktlint = { id = "org.jlleitschuh.gradle.ktlint", version.ref = "ktlintGradle" }
 android-application = { id = "com.android.application", version.ref = "agp" }
 kotlin-compose = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
 kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }

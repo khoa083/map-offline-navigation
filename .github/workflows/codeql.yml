@@ -1,0 +1,53 @@
+name: "CodeQL"
+
+on:
+  push:
+    branches: [ 'main' ]
+  pull_request:
+    branches: [ 'main' ]
+  schedule:
+    # Mondays 03:30 UTC — catches new CodeQL query-pack rules against unchanged code, not just new commits.
+    - cron: '30 3 * * 1'
+  workflow_dispatch: {}
+
+jobs:
+  analyze:
+    name: Analyze (Java/Kotlin)
+    runs-on: ubuntu-latest
+    permissions:
+      security-events: write
+      actions: read
+      contents: read
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up JDK 21
+        uses: actions/setup-java@v4
+        with:
+          java-version: '21'
+          distribution: 'temurin'
+
+      - name: Grant execute permission for gradlew
+        run: chmod +x gradlew
+
+      - name: Setup Gradle
+        uses: gradle/actions/setup-gradle@v6
+
+      - name: Initialize CodeQL
+        uses: github/codeql-action/init@v3
+        with:
+          languages: java-kotlin
+          # build-mode "none" skips analyzing Kotlin sources entirely (CodeQL only extracts Kotlin
+          # from an actual compile) -- "manual" + a real Gradle build below is required to get
+          # Kotlin coverage, not just the small amount of Java in this codebase.
+          build-mode: manual
+
+      - name: Build debug APK for CodeQL extraction
+        run: ./gradlew :app:assembleDebug -x lint -x test --no-daemon
+
+      - name: Perform CodeQL Analysis
+        uses: github/codeql-action/analyze@v3
+        with:
+          category: "/language:java-kotlin"

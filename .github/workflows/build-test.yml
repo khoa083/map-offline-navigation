@@ -7,7 +7,8 @@ on:
     branches: [ '**' ]
 
 jobs:
-  build:
+  static-analysis:
+    name: Lint + ktlint
     runs-on: ubuntu-latest
 
     steps:
@@ -23,32 +24,63 @@ jobs:
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew
 
-      - name: Cache Gradle packages
-        uses: actions/cache@v4
+      - name: Setup Gradle
+        uses: gradle/actions/setup-gradle@v6
+
+      # ktlint first: fastest check, gives quick feedback before spending time on
+      # lint/test/build. ktlintCheck fails on anything NOT already in
+      # app/config/ktlint/baseline.xml (see CLAUDE.md Gotchas for how that baseline works).
+      - name: Run ktlint
+        run: ./gradlew ktlintCheck
+
+      # lintDebug fails on anything NOT already in app/lint-baseline.xml, same grandfathering
+      # approach as ktlint above.
+      - name: Run Android Lint
+        run: ./gradlew :app:lintDebug
+
+      - name: Upload Lint Results
+        if: always()
+        uses: actions/upload-artifact@v4
         with:
-          path: |
-            ~/.gradle/caches
-            ~/.gradle/wrapper
-          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
-          restore-keys: |
-            ${{ runner.os }}-gradle-
+          name: lint-results
+          path: app/build/reports/lint-results-debug.html
+
+  unit-test:
+    name: Unit Tests + Jacoco
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up JDK 21
+        uses: actions/setup-java@v4
+        with:
+          java-version: '21'
+          distribution: 'temurin'
+
+      - name: Grant execute permission for gradlew
+        run: chmod +x gradlew
+
+      - name: Setup Gradle
+        uses: gradle/actions/setup-gradle@v6
 
       - name: Run Unit Tests and JaCoCo Report
         run: ./gradlew :app:test :app:jacocoTestReportAll
 
-#      - name: Upload Test Results
-#        if: always()
-#        uses: actions/upload-artifact@v4
-#        with:
-#          name: test-results
-#          path: app/build/reports/tests/testDebugUnitTest/
-#
-#      - name: Upload JaCoCo Results
-#        if: always()
-#        uses: actions/upload-artifact@v4
-#        with:
-#          name: jacoco-results
-#          path: app/build/reports/jacoco/all/
+      - name: Upload Test Results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: test-results
+          path: app/build/reports/tests/testDebugUnitTest/
+
+      - name: Upload JaCoCo Results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: jacoco-results
+          path: app/build/reports/jacoco/all/
 
       - name: Build Debug APK
         if: github.ref == 'refs/heads/main'
@@ -60,3 +92,75 @@ jobs:
         with:
           name: app-debug
           path: app/build/outputs/apk/debug/app-debug.apk
+
+  instrumented-test:
+    name: Instrumented Tests (emulator)
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        api-level: [ 30 ]
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up JDK 21
+        uses: actions/setup-java@v4
+        with:
+          java-version: '21'
+          distribution: 'temurin'
+
+      - name: Grant execute permission for gradlew
+        run: chmod +x gradlew
+
+      - name: Setup Gradle
+        uses: gradle/actions/setup-gradle@v6
+
+      - name: Enable KVM (hardware acceleration for the emulator)
+        run: |
+          echo 'KERNEL=="kvm", GROUP="kvm", MODE="0666", OPTIONS+="static_node=kvm"' | sudo tee /etc/udev/rules.d/99-kvm4all.rules
+          sudo udevadm control --reload-rules
+          sudo udevadm trigger --name-match=kvm
+
+      # AVD boot is the slow part (~2-3 min cold); caching a pre-booted snapshot cuts that to
+      # a few seconds on cache hits.
+      - name: AVD cache
+        uses: actions/cache@v4
+        id: avd-cache
+        with:
+          path: |
+            ~/.android/avd/*
+            ~/.android/adb*
+          key: avd-${{ matrix.api-level }}
+
+      - name: Create AVD and generate snapshot for caching
+        if: steps.avd-cache.outputs.cache-hit != 'true'
+        uses: reactivecircus/android-emulator-runner@v2
+        with:
+          api-level: ${{ matrix.api-level }}
+          arch: x86_64
+          target: default
+          profile: pixel_5
+          force-avd-creation: false
+          emulator-options: -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim -camera-back none
+          disable-animations: false
+          script: echo "Generated AVD snapshot for caching."
+
+      - name: Run instrumented tests
+        uses: reactivecircus/android-emulator-runner@v2
+        with:
+          api-level: ${{ matrix.api-level }}
+          arch: x86_64
+          target: default
+          profile: pixel_5
+          force-avd-creation: false
+          emulator-options: -no-snapshot-save -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim -camera-back none
+          disable-animations: true
+          script: ./gradlew :app:connectedDebugAndroidTest
+
+      - name: Upload instrumented test results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: instrumented-test-results
+          path: app/build/reports/androidTests/connected/

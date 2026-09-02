@@ -6,6 +6,14 @@ plugins {
     alias(libs.plugins.android.ksp)
     alias(libs.plugins.android.hilt)
     alias(libs.plugins.kotlin.serialization)
+    alias(libs.plugins.ktlint)
+}
+
+configure<org.jlleitschuh.gradle.ktlint.KtlintExtension> {
+    // Android-specific rule tweaks (e.g. import-ordering exceptions for generated Android code).
+    android.set(true)
+    // ignoreFailures defaults to false, i.e. ktlintCheck fails the build on any violation NOT
+    // already recorded in the baseline below -- this is the actual PR gate.
 }
 
 android {
@@ -133,6 +141,14 @@ android {
         includeInApk = false
         // Disables dependency metadata when building Android App Bundles (for Google Play)
         includeInBundle = false
+    }
+
+    lint {
+        // Baseline records every lint finding that existed when it was generated
+        // (./gradlew :app:lintDebug, run once -- see lint-baseline.xml). lintDebug then only
+        // fails on NEW findings introduced after that point, so existing tech debt doesn't
+        // block CI, matching the ktlintCheck gate above.
+        baseline = file("lint-baseline.xml")
     }
 
 }

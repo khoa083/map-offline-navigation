@@ -1,0 +1,38 @@
+version: 2
+
+updates:
+  # Gradle dependencies -- reads app/build.gradle.kts, root build.gradle.kts, and the
+  # gradle/libs.versions.toml version catalog (Dependabot supports catalogs natively).
+  - package-ecosystem: "gradle"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+    open-pull-requests-limit: 10
+    labels:
+      - "dependencies"
+    groups:
+      # Bundles routine minor/patch bumps into one PR instead of one-PR-per-library, so review
+      # load stays manageable. Major bumps (breaking changes) always get their own PR.
+      minor-and-patch:
+        update-types:
+          - "minor"
+          - "patch"
+    ignore:
+      # Pinned on purpose -- see CLAUDE.md Gotchas ("GraphHopper pinned 1.0 with transitive
+      # excludes ... do not bump casually"). Both are inline in app/build.gradle.kts, not the
+      # version catalog, specifically so they're NOT swept up in routine catalog bumps; a
+      # Dependabot PR would bypass that intent, since it edits build.gradle.kts directly.
+      # Remove either entry below if you'd rather have Dependabot at least flag new versions.
+      - dependency-name: "com.graphhopper:graphhopper-core"
+      - dependency-name: "com.github.luben:zstd-jni"
+
+  # Keeps the Actions pinned in .github/workflows/*.yml (actions/checkout, setup-java,
+  # codeql-action, etc.) current -- these are supply-chain surface too, not just app deps.
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+    labels:
+      - "ci"

@@ -1,9 +1,14 @@
 name: Build Release APK
 
 on:
-  push:
-    branches:
-      - main
+  # Gated on build-test.yml succeeding on main, NOT on push directly -- a plain `push` trigger
+  # here ran in parallel with build-test.yml, with nothing stopping a signed release from
+  # publishing before (or even if) tests/lint/instrumented tests failed. workflow_run only fires
+  # once the named workflow's run has actually finished.
+  workflow_run:
+    workflows: [ "Build and Test/Jacoco" ]
+    types: [ completed ]
+    branches: [ main ]
   workflow_dispatch: {}
 
 permissions:
@@ -12,7 +17,15 @@ permissions:
 jobs:
   release:
 
-    if: github.event_name == 'workflow_dispatch' || startsWith(github.event.head_commit.message, '[release]')
+    # workflow_run fires on EVERY completion of build-test.yml (success AND failure) --
+    # conclusion == 'success' is what actually blocks releasing on a red build-test run.
+    # head_commit.message lives under github.event.workflow_run in this trigger, not
+    # github.event.head_commit (that field only exists on a real `push` event).
+    if: |
+      github.event_name == 'workflow_dispatch' ||
+      (github.event_name == 'workflow_run' &&
+        github.event.workflow_run.conclusion == 'success' &&
+        startsWith(github.event.workflow_run.head_commit.message, '[release]'))
     runs-on: ubuntu-latest
     permissions:
       contents: write
@@ -23,7 +36,14 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
         with:
-          ref: ${{ github.sha }}
+          # workflow_run always executes using the workflow FILE from the default branch, but
+          # github.sha/github.ref in that context still point at the default branch tip, not the
+          # commit that build-test.yml actually tested. Pinning to workflow_run.head_sha is what
+          # guarantees the exact commit that passed CI is the one that gets built and released --
+          # without this, a second push landing between build-test.yml finishing and this job
+          # starting could get released untested. Falls back to github.sha for workflow_dispatch,
+          # where github.event.workflow_run doesn't exist.
+          ref: ${{ github.event.workflow_run.head_sha || github.sha }}
           fetch-depth: 0
           token: ${{ secrets.GITHUB_TOKEN }}
 #          token: ${{ secrets.BOT_PAT }}
@@ -127,7 +147,7 @@ jobs:
         with:
           tag_name: ${{ steps.version.outputs.tag_name }}
           name: ${{ steps.version.outputs.tag_name }}
-          target_commitish: ${{ github.sha }}
+          target_commitish: ${{ github.event.workflow_run.head_sha || github.sha }}
           body: |
 
             **Build Info:**
