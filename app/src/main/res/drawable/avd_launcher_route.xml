@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  CORRECTION (this replaces an earlier version of this file that did not match the approved
+  design): the previous geometry here — a solid filled circle plus a separate triangle,
+  no punched hole, no rotation, drawn in plain white — was hand-approximated from memory
+  and did not match the actual "10a Route-drawn pin" asset in the design canvas. This
+  version uses the literal SVG the canvas renders for concept 10a / splash concept 11b
+  ("2 (dot) The route draws itself"), extracted directly from the canvas export's embedded
+  markup, not re-drawn by eye:
+    road:  path d="M24 88 C 24 76, 33 74, 40 70" stroke="#7FD7C1" stroke-width="9"
+    pin:   path d="M56 22 L70 22 A12 12 0 0 1 82 34 L82 48 A12 12 0 0 1 70 60 L44 60
+                    L44 34 A12 12 0 0 1 56 22 Z" transform="rotate(-45 63 41)" fill="#F4F7F1"
+    hole:  circle cx="63" cy="41" r="8.5" (composited as a background-colour circle in the
+           canvas's static mockup; reimplemented below as a true evenOdd cutout, see note)
+    dot:   circle cx="63" cy="41" r="4.4" fill="#7FD7C1" (appears once the route completes —
+           it sits INSIDE the pin's own punched hole, not out by the road; easy to miss since
+           the canvas mockup only shows it in the "route complete" frames, not frame one)
+
+  TWO deliberate departures from the literal canvas markup, both necessary and both disclosed:
+
+  1. EvenOdd hole instead of a background-colour circle. The design canvas punches the pin's
+     head hole by painting a circle in the exact background colour (#0B4F45) on top of a solid
+     pin — fine for a static mockup image, but wrong here: MainActivity's exit animation
+     crossfades splashScreenViewProvider.view's background color away from #0B4F45 over 420ms
+     (see MainActivity.kt), and a hole implemented as a same-colour circle would stay a solid
+     #0B4F45 disc while the real background moves on, becoming a visible dark spot mid-fade.
+     android:fillType="evenOdd" on a single compound path (pin outline + hole subpath) is truly
+     transparent — it shows whatever is actually behind it, crossfade included.
+
+  2. Road pulled in from its literal endpoint. Verified against developer.android.com/develop/ui/views/launch/splash-screen
+     ("App icon without an icon background: this must be 288x288 dp and fit within a circle
+     192 dp in diameter ... Everything outside the circle turns invisible (masked)"): in this
+     108-unit viewport the real, enforced splash-icon safe circle is centred at (54,54) with
+     radius 96dp / (288dp/108) = 36 units. The road's literal start point (24,88) sits 45.3
+     units from that centre — rendering it verbatim in the SPLASH icon (unlike the Play
+     Store / adaptive-icon context 10a is drawn for, which uses a different, more lenient
+     66dp safe zone) would still get its outer third or so clipped by the platform, the same
+     failure mode already seen on device with the previous, even-further-out geometry.
+     Fix: scale the road's start point and both control points by 0.4 toward its fixed,
+     already-safe pin-side endpoint (40,70) — a uniform scale about a fixed point keeps the
+     exact curve shape (Bezier curves scale conformably), just shorter — landing the new
+     start point at radius 30.9, plus the 4.5-unit stroke half-width, safely under 36. Every
+     other value (colour, stroke width, pin geometry/rotation, hole, dot) is untouched and
+     literal.
+
+  288dp physical size for the no-icon-background case (windowSplashScreenIconBackgroundColor
+  is intentionally not set), matching themes.xml. viewportWidth/Height use a 108-unit space
+  so geometry lines up 1:1 with the animated twin in drawable-v31/avd_launcher_route.xml —
+  the two files MUST share the same path geometry, only one moves.
+-->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="288dp"
+    android:height="288dp"
+    android:viewportWidth="108"
+    android:viewportHeight="108">
+
+    <!-- Approach road: fully drawn, no trim. Nudged start point — see header note 2. -->
+    <path
+        android:name="road"
+        android:pathData="M33.6,77.2 C33.6,72.4 37.2,71.6 40,70"
+        android:strokeColor="#7FD7C1"
+        android:strokeWidth="9"
+        android:strokeLineCap="round"
+        android:strokeLineJoin="round"
+        android:fillColor="#00000000" />
+
+    <!-- Pin body: literal 10a/11b geometry, rotated -45deg about its own hole centre (63,41)
+         to reach the canvas's final teardrop orientation. Compound evenOdd path = outline
+         minus the punched head-hole circle — see header note 1 for why evenOdd, not a
+         background-coloured circle. -->
+    <group
+        android:name="pin_group"
+        android:pivotX="63"
+        android:pivotY="41"
+        android:rotation="-45">
+        <path
+            android:name="pin_body"
+            android:pathData="M56,22 L70,22 A12,12 0 0,1 82,34 L82,48 A12,12 0 0,1 70,60 L44,60 L44,34 A12,12 0 0,1 56,22 Z M63,41 m-8.5,0 a8.5,8.5 0 1,0 17,0 a8.5,8.5 0 1,0 -17,0 Z"
+            android:fillColor="#F4F7F1"
+            android:fillType="evenOdd" />
+    </group>
+
+    <!-- Landing dot: sits inside the punched hole (63,41) is rotation-invariant, so it needs
+         no group of its own here). Always shown in the static/settled pose. -->
+    <path
+        android:name="dot"
+        android:pathData="M63,41 m-4.4,0 a4.4,4.4 0 1,0 8.8,0 a4.4,4.4 0 1,0 -8.8,0 Z"
+        android:fillColor="#7FD7C1" />
+</vector>

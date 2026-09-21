@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  CORRECTION (this replaces an earlier version that did not match the approved design) —
+  same root cause and same fix as the static twin in res/drawable/avd_launcher_route.xml;
+  read that file's header first for the full explanation of both departures from the
+  literal canvas markup (evenOdd hole instead of a same-colour circle; the road's start
+  point pulled in from radius 45.3 to radius 30.9 to survive the real, verified 36-unit
+  splash-icon safe-zone mask). This file only adds the loop on top of that corrected,
+  literal geometry.
+
+  SIMPLIFIED vs. the design canvas's exact keyframe spec (turn 11b), on purpose, same
+  reasoning as before this correction: the source design choreographs three distinct beats
+  — draw (0-750ms), a discrete hold (750-880ms), a reset "on an invisible frame" (880ms),
+  padding out to a 1000ms cycle — and a spring-physics overshoot on the dot (damping 0.6,
+  stiffness 800). Android's animator XML authoritatively supports repeatCount/repeatMode/
+  startOffset only on individual <objectAnimator> elements, never on <set> (confirmed
+  against developer.android.com/guide/topics/resources/animation-resource, which lists
+  <set>'s only attribute as android:ordering). ValueAnimator's own documented contract is
+  that startOffset/startDelay applies ONLY to an animator's first play, never to its
+  repeats — so a <set> of several sequenced, differently-offset objectAnimators cannot
+  each be given their own independent repeatCount and stay synchronized past the first
+  cycle; they drift apart. Reproducing the exact three-beat, spring-overshoot timeline AND
+  looping it forever needs either <propertyValuesHolder>/<keyframe> XML (schema not
+  confirmed against an authoritative source at implementation time) or an imperative
+  Animatable2.registerAnimationCallback { start() } restart loop in Kotlin (not available
+  here — this AVD is inflated internally by the SplashScreen library from a theme
+  attribute, the app never gets a direct Drawable reference to it while it needs to loop).
+
+  So: the road and the dot are each a SINGLE self-contained objectAnimator, same 750ms
+  period, no startOffset on either — guaranteed to stay in sync forever because neither
+  one depends on a sibling's repeat cycle. This trades the discrete hold/reset beat and the
+  spring overshoot for a continuously looping "route re-plots itself" motion that is
+  verifiably correct XML rather than an unverified guess.
+
+  NOT implemented (disclosed, out of scope of this fix): the design's exit sequence
+  ("exit + 180: the icon's road extends past the tile onto the map ... same stroke, now the
+  real route") describes the road's stroke continuing as an actual polyline onto the first
+  map frame. MainActivity.kt's current exit animation only scales/fades the whole icon and
+  crossfades the background colour — it does not draw a continuing stroke. That would need
+  a Compose-side canvas element positioned/coloured to pick up exactly where the AVD's road
+  leaves off, which is a separate, larger piece of work.
+-->
+<animated-vector xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:aapt="http://schemas.android.com/aapt">
+
+    <aapt:attr name="android:drawable">
+        <vector
+            android:width="288dp"
+            android:height="288dp"
+            android:viewportWidth="108"
+            android:viewportHeight="108">
+
+            <!-- Approach road: starts fully untrimmed (invisible), trimPathEnd is animated.
+                 Nudged start point — see static twin's header note 2. -->
+            <path
+                android:name="road"
+                android:pathData="M33.6,77.2 C33.6,72.4 37.2,71.6 40,70"
+                android:strokeColor="#7FD7C1"
+                android:strokeWidth="9"
+                android:strokeLineCap="round"
+                android:strokeLineJoin="round"
+                android:fillColor="#00000000"
+                android:trimPathEnd="0" />
+
+            <!-- Pin body: static, present from frame one (design: "the pin is present from
+                 frame one"). Literal 10a/11b geometry — see static twin's header. -->
+            <group
+                android:name="pin_group"
+                android:pivotX="63"
+                android:pivotY="41"
+                android:rotation="-45">
+                <path
+                    android:name="pin_body"
+                    android:pathData="M56,22 L70,22 A12,12 0 0,1 82,34 L82,48 A12,12 0 0,1 70,60 L44,60 L44,34 A12,12 0 0,1 56,22 Z M63,41 m-8.5,0 a8.5,8.5 0 1,0 17,0 a8.5,8.5 0 1,0 -17,0 Z"
+                    android:fillColor="#F4F7F1"
+                    android:fillType="evenOdd" />
+            </group>
+
+            <!-- Landing dot: wrapped in a group so scale can be animated (a bare <path> has
+                 no scale property; only a <group> does). Pivot (63,41) is the dot's own
+                 centre — same point the hole and the rotation above pivot on, so it needs
+                 no translation, just scale. Starts at scale 0 (invisible, hole reads as
+                 empty/background-coloured). -->
+            <group
+                android:name="dot_group"
+                android:pivotX="63"
+                android:pivotY="41"
+                android:scaleX="0"
+                android:scaleY="0">
+                <path
+                    android:name="dot"
+                    android:pathData="M63,41 m-4.4,0 a4.4,4.4 0 1,0 8.8,0 a4.4,4.4 0 1,0 -8.8,0 Z"
+                    android:fillColor="#7FD7C1" />
+            </group>
+        </vector>
+    </aapt:attr>
+
+    <!-- One self-contained, repeatCount="infinite" objectAnimator per target — see the
+         file header for why this replaces a <set> of sequenced, individually-offset
+         animators. -->
+    <target android:name="road">
+        <aapt:attr name="android:animation">
+            <objectAnimator
+                android:propertyName="trimPathEnd"
+                android:valueFrom="0"
+                android:valueTo="1"
+                android:valueType="floatType"
+                android:duration="750"
+                android:repeatCount="infinite"
+                android:repeatMode="restart"
+                android:interpolator="@interpolator/splash_emphasized_decelerate" />
+        </aapt:attr>
+    </target>
+
+    <target android:name="dot_group">
+        <aapt:attr name="android:animation">
+            <set android:ordering="together">
+                <objectAnimator
+                    android:propertyName="scaleX"
+                    android:valueFrom="0"
+                    android:valueTo="1.0"
+                    android:valueType="floatType"
+                    android:duration="750"
+                    android:repeatCount="infinite"
+                    android:repeatMode="reverse"
+                    android:interpolator="@android:interpolator/fast_out_slow_in" />
+                <objectAnimator
+                    android:propertyName="scaleY"
+                    android:valueFrom="0"
+                    android:valueTo="1.0"
+                    android:valueType="floatType"
+                    android:duration="750"
+                    android:repeatCount="infinite"
+                    android:repeatMode="reverse"
+                    android:interpolator="@android:interpolator/fast_out_slow_in" />
+            </set>
+        </aapt:attr>
+    </target>
+</animated-vector>

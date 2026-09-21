@@ -3,6 +3,34 @@
 
     <style name="Theme.Offlinemap" parent="android:Theme.Material.Light.NoActionBar" />
 
+    <!--
+      Cold-start-only theme, applied to MainActivity in AndroidManifest.xml. Backed by
+      androidx.core:core-splashscreen (installSplashScreen() in MainActivity.kt).
+
+      #0B4F45 is the "Cartography Teal" seed from the approved icon/splash design (canvas
+      turn 1a / 10a) — deliberately NOT the app's current Material seed (#0B57D0). Per the
+      design doc's own rule, the splash/adaptive-icon background does not follow the
+      light/dark theme: it is one literal value, identical in both.
+
+      windowSplashScreenIconBackgroundColor is intentionally left unset: the icon already
+      carries its own ground (the teal comes from windowSplashScreenBackground below), and
+      setting an icon background too would stack two teal circles.
+
+      windowSplashScreenAnimatedIcon points at @drawable/avd_launcher_route. Android
+      resolves that name to the ANIMATED version in res/drawable-v31/ on API 31+, and to
+      the STATIC version in res/drawable/ on every lower API (this app's minSdk is 26) —
+      a single theme attribute, zero branching in code. See the comments in both drawable
+      files for why: on API < 31 the core-splashscreen compat library cannot play
+      AnimatedVectorDrawable animation at all (verified against the androidx-main
+      core-splashscreen source).
+    -->
+    <style name="Theme.Offlinemap.Starting" parent="Theme.SplashScreen">
+        <item name="windowSplashScreenBackground">#0B4F45</item>
+        <item name="windowSplashScreenAnimatedIcon">@drawable/avd_launcher_route</item>
+        <item name="windowSplashScreenAnimationDuration">1000</item>
+        <item name="postSplashScreenTheme">@style/Theme.Offlinemap</item>
+    </style>
+
     <style name="BugHunter" parent="Theme.Offlinemap">
 
     </style>

@@ -5,4 +5,9 @@
     <string name="cd_downloading_icon">Downloading</string>
     <string name="cd_download_failed_icon">Download failed</string>
     <string name="confirm_delete_model_dialog_content" translatable="false">Are you sure you want to delete the downloaded map \"%s\"?</string>
+
+    <!-- Splash screen: only ever shown if cold-start init (loadMapAllowlist) is still
+         running past 2.5s — an explanation for an unusually slow first run, not a
+         permanent loading label. See SplashHaloOverlay.kt. -->
+    <string name="splash_preparing_offline_maps">Preparing offline maps</string>
 </resources>

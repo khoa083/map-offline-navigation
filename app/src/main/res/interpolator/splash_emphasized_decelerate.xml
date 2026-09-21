@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Emphasized-decelerate easing, cubic-bezier(0.05, 0.7, 0.1, 1.0), per the approved
+  splash design (canvas turn 11b, "The route draws itself"). Used on the road's
+  trimPathEnd animator in the API 31+ animated icon so the road stroke arrives at the
+  pin with confidence rather than a linear crawl.
+-->
+<pathInterpolator xmlns:android="http://schemas.android.com/apk/res/android"
+    android:controlX1="0.05"
+    android:controlY1="0.7"
+    android:controlX2="0.1"
+    android:controlY2="1.0" />

@@ -90,6 +90,12 @@ import kotlinx.serialization.json.JsonObject
 import timber.log.Timber
 import kotlin.time.Duration.Companion.seconds
 
+private enum class MapScreenMode {
+    SelectingPoints,
+    ReviewingRoute,
+    Navigating,
+}
+
 @SuppressLint("SourceLockedOrientationActivity")
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -116,6 +122,12 @@ fun MapViewScreen(
     var zoom by remember { mutableDoubleStateOf(INITIAL_ZOOM) }
 
     val showEndFlagAndTopBar = uiState.startPoint != null && uiState.endPoint != null
+    val screenMode =
+        when {
+            uiState.isNavigating -> MapScreenMode.Navigating
+            showEndFlagAndTopBar -> MapScreenMode.ReviewingRoute
+            else -> MapScreenMode.SelectingPoints
+        }
     val selectedTravelMode = uiState.routingOptions.travelMode
     val canStartNavigation = uiState.route != null && !uiState.isRouting
     val snackBarHostState = remember { SnackbarHostState() }
@@ -269,15 +281,15 @@ fun MapViewScreen(
                     )
                 }
 
-                if (showEndFlagAndTopBar) {
-
-                    FlagPointLayer(point = uiState.endPoint!!)
-                } else if (uiState.endPoint != null) {
+                val endPoint = uiState.endPoint
+                if (screenMode != MapScreenMode.SelectingPoints && endPoint != null) {
+                    FlagPointLayer(point = endPoint)
+                } else if (endPoint != null) {
                     // Memoized on the point itself: without this, every recomposition (e.g. the
                     // current-location update every second while navigating) re-serialized this
                     // GeoJSON and pushed it to the native source even though the point hadn't moved.
-                    val endPointJson = remember(uiState.endPoint) {
-                        singlePointFeatureJson(uiState.endPoint!!)
+                    val endPointJson = remember(endPoint) {
+                        singlePointFeatureJson(endPoint)
                     }
                     val endPointSource = rememberGeoJsonSource(
                         data = GeoJsonData.JsonString(endPointJson)
@@ -333,7 +345,7 @@ fun MapViewScreen(
             }
 
 
-            if (showEndFlagAndTopBar && !uiState.isNavigating) {
+            if (screenMode == MapScreenMode.ReviewingRoute) {
                 UpdateRoutingVehicle(
                     selectedTravelMode = selectedTravelMode,
                     onBackClick = {
@@ -351,7 +363,7 @@ fun MapViewScreen(
                 )
             }
 
-            if (!uiState.isNavigating && !showEndFlagAndTopBar) {
+            if (screenMode == MapScreenMode.SelectingPoints) {
                 FloatingSearchBar(
                     searchQuery = uiState.searchQuery,
                     searchResults = uiState.searchResults,
@@ -367,7 +379,7 @@ fun MapViewScreen(
             }
 
             // https://stackoverflow.com/questions/69039723/is-there-a-jetpack-compose-equivalent-for-androidkeepscreenon-to-keep-screen-al
-            if (uiState.isNavigating) {
+            if (screenMode == MapScreenMode.Navigating) {
                 KeepScreenOn()
             }
 
@@ -382,7 +394,7 @@ fun MapViewScreen(
                 onClickMapMode3d = { mapMode3d = !mapMode3d }
             )
 
-            if (showSelectPointSheet && !showEndFlagAndTopBar) {
+            if (showSelectPointSheet && screenMode == MapScreenMode.SelectingPoints) {
                 focusManager.clearFocus()
                 SelectPointBottomSheet(
                     point = point,
@@ -399,7 +411,7 @@ fun MapViewScreen(
                 )
             }
 
-            if (showEndFlagAndTopBar && !uiState.isNavigating) {
+            if (screenMode == MapScreenMode.ReviewingRoute) {
                 BottomSheetScaffold(
                     sheetPeekHeight = 148.dp,
                     scaffoldState = sheetState,
@@ -417,7 +429,7 @@ fun MapViewScreen(
                 ) { _ -> }
             }
 
-            if (uiState.isNavigating) {
+            if (screenMode == MapScreenMode.Navigating) {
                 NavigationMode(
                     snapshot = uiState.navigationSnapshot,
                     modifier = Modifier.align(Alignment.TopCenter)
