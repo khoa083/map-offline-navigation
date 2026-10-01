@@ -1,3 +1,7 @@
+// Token constants are PascalCase per the Compose API guidelines (as in Material's own token
+// objects), not SCREAMING_SNAKE_CASE.
+@file:Suppress("ktlint:standard:property-naming")
+
 package com.kblack.offlinemap.ui.theme
 
 import androidx.compose.runtime.Composable
@@ -127,7 +131,8 @@ fun currentWindowSizeClass(): WindowSizeClass {
  */
 @Composable
 @ReadOnlyComposable
-fun useLandscapeHudLayout(): Boolean = when (currentWindowSizeClass()) {
-    WindowSizeClass.CompactHeight, WindowSizeClass.Expanded -> true
-    WindowSizeClass.Compact, WindowSizeClass.Medium -> false
-}
+fun useLandscapeHudLayout(): Boolean =
+    when (currentWindowSizeClass()) {
+        WindowSizeClass.CompactHeight, WindowSizeClass.Expanded -> true
+        WindowSizeClass.Compact, WindowSizeClass.Medium -> false
+    }

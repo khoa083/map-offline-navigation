@@ -1,3 +1,7 @@
+// Token constants are PascalCase per the Compose API guidelines (as in Material's own token
+// objects), not SCREAMING_SNAKE_CASE.
+@file:Suppress("ktlint:standard:property-naming")
+
 package com.kblack.offlinemap.ui.theme
 
 import androidx.compose.foundation.background
@@ -54,7 +58,6 @@ import androidx.compose.ui.unit.dp
  * already encodes that split, so a component written once behaves correctly in both schemes.
  */
 object Elevation {
-
     /** Level 0 — flat on the surface. Grouping comes from shape and container colour, not depth. */
     val Level0: Dp = 0.dp
 
@@ -85,7 +88,10 @@ object Elevation {
      * Returns [Level0] on AMOLED regardless of the level asked for: a shadow on #000000 is
      * wasted overdraw. Pair it with [borderWidth] and a container-colour step instead.
      */
-    fun shadowElevation(level: Dp, isAmoled: Boolean): Dp = if (isAmoled) Level0 else level
+    fun shadowElevation(
+        level: Dp,
+        isAmoled: Boolean,
+    ): Dp = if (isAmoled) Level0 else level
 
     /**
      * Border width to draw for [level] in the current scheme.
@@ -94,8 +100,10 @@ object Elevation {
      * the shadow. The light scheme gets none, because there the shadow plus the container step
      * already carry the depth and a border would read as a second, competing edge.
      */
-    fun borderWidth(level: Dp, isAmoled: Boolean): Dp =
-        if (isAmoled && level > Level0) 1.dp else 0.dp
+    fun borderWidth(
+        level: Dp,
+        isAmoled: Boolean,
+    ): Dp = if (isAmoled && level > Level0) 1.dp else 0.dp
 }
 
 /**
@@ -131,21 +139,21 @@ fun elevatedContainerColor(level: Dp): Color {
  * ```
  * Box(
  *     Modifier
- *         .elevatedSurface(Elevation.Level2, Moving.control, isAmoled)
+ *         .elevatedSurface(Elevation.Level2, Moving.control)
  *         .size(LocalSpacing.current.controlEmphasis)
  * )
  * ```
  *
- * [isAmoled] is passed in rather than read from a CompositionLocal on purpose: "dark theme" and
- * "AMOLED" are separate ideas in this app — a standard dark theme keeps #101614 as its
- * background and still wants shadows, while the AMOLED variant is true black and does not. A
- * component must be told which one it is in, not guess from `isSystemInDarkTheme()`.
+ * [isAmoled] defaults to [isAmoledTheme], i.e. the palette OfflinemapTheme resolved — never
+ * `isSystemInDarkTheme()`. "Dark" and "AMOLED" are separate ideas in this app: a standard dark
+ * theme keeps #101614 as its background and still wants shadows, while the AMOLED variant is
+ * true black and does not. Pass it explicitly only in previews that render both side by side.
  */
 @Composable
 fun Modifier.elevatedSurface(
     level: Dp,
     shape: Shape,
-    isAmoled: Boolean,
+    isAmoled: Boolean = isAmoledTheme(),
     containerColor: Color? = null,
 ): Modifier {
     val container = containerColor ?: elevatedContainerColor(level)

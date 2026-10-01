@@ -30,7 +30,6 @@ import androidx.compose.ui.platform.LocalHapticFeedback
  * buzzes, nothing routed through this object.
  */
 object Haptics {
-
     /**
      * Approaching a maneuver, fired 150 m out, once per maneuver.
      *

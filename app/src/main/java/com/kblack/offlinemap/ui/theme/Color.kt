@@ -16,9 +16,7 @@ import androidx.compose.ui.graphics.Color
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- */
-
-/**
+ *
  * "Cartography Teal" — the v2 reskin color system, seeded from #0B4F45.
  *
  * Two independent palettes, not one derived from the other:

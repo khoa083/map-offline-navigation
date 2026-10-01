@@ -1,3 +1,7 @@
+// Token constants are PascalCase per the Compose API guidelines (as in Material's own token
+// objects), not SCREAMING_SNAKE_CASE.
+@file:Suppress("ktlint:standard:property-naming")
+
 package com.kblack.offlinemap.ui.theme
 
 import androidx.compose.animation.core.CubicBezierEasing
@@ -5,6 +9,10 @@ import androidx.compose.animation.core.Easing
 import androidx.compose.animation.core.FiniteAnimationSpec
 import androidx.compose.animation.core.spring
 import androidx.compose.animation.core.tween
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.ReadOnlyComposable
+import androidx.compose.runtime.staticCompositionLocalOf
 
 /**
  * Motion — the whole Material 3 spring system, the duration scale, the easing curves, and the
@@ -41,7 +49,6 @@ import androidx.compose.animation.core.tween
  * disabling animation entirely.
  */
 object Motion {
-
     // ---------------------------------------------------------------------------------------
     // Expressive scheme
     // ---------------------------------------------------------------------------------------
@@ -202,52 +209,40 @@ object Motion {
     // ---------------------------------------------------------------------------------------
 
     /** Expressive spatial spring — sheets, dialogs, list stagger, settings rows. */
-    fun <T> expressiveSpatial(): FiniteAnimationSpec<T> =
-        spring(Expressive.DefaultSpatialDamping, Expressive.DefaultSpatialStiffness)
+    fun <T> expressiveSpatial(): FiniteAnimationSpec<T> = spring(Expressive.DefaultSpatialDamping, Expressive.DefaultSpatialStiffness)
 
     /** Expressive fast spatial — switch thumb travel and its shape morph, segmented selection. */
-    fun <T> expressiveFastSpatial(): FiniteAnimationSpec<T> =
-        spring(Expressive.FastSpatialDamping, Expressive.FastSpatialStiffness)
+    fun <T> expressiveFastSpatial(): FiniteAnimationSpec<T> = spring(Expressive.FastSpatialDamping, Expressive.FastSpatialStiffness)
 
     /** Expressive slow spatial — empty-state and onboarding entrances only. */
-    fun <T> expressiveSlowSpatial(): FiniteAnimationSpec<T> =
-        spring(Expressive.SlowSpatialDamping, Expressive.SlowSpatialStiffness)
+    fun <T> expressiveSlowSpatial(): FiniteAnimationSpec<T> = spring(Expressive.SlowSpatialDamping, Expressive.SlowSpatialStiffness)
 
     /** Effects spring — colour, opacity, elevation. Identical in both schemes. Never overshoots. */
-    fun <T> effects(): FiniteAnimationSpec<T> =
-        spring(Expressive.DefaultEffectsDamping, Expressive.DefaultEffectsStiffness)
+    fun <T> effects(): FiniteAnimationSpec<T> = spring(Expressive.DefaultEffectsDamping, Expressive.DefaultEffectsStiffness)
 
     /** Fast effects — map-control press feedback, off-route colour flip, HUD cross-fade. */
-    fun <T> fastEffects(): FiniteAnimationSpec<T> =
-        spring(Expressive.FastEffectsDamping, Expressive.FastEffectsStiffness)
+    fun <T> fastEffects(): FiniteAnimationSpec<T> = spring(Expressive.FastEffectsDamping, Expressive.FastEffectsStiffness)
 
     /** Slow effects — scrim fades behind sheets and dialogs, map-style cross-fade. */
-    fun <T> slowEffects(): FiniteAnimationSpec<T> =
-        spring(Expressive.SlowEffectsDamping, Expressive.SlowEffectsStiffness)
+    fun <T> slowEffects(): FiniteAnimationSpec<T> = spring(Expressive.SlowEffectsDamping, Expressive.SlowEffectsStiffness)
 
     /** Standard spatial — turn-card content swap, ETA-row layout, camera-follow recentre. */
-    fun <T> drivingSpatial(): FiniteAnimationSpec<T> =
-        spring(Standard.DefaultSpatialDamping, Standard.DefaultSpatialStiffness)
+    fun <T> drivingSpatial(): FiniteAnimationSpec<T> = spring(Standard.DefaultSpatialDamping, Standard.DefaultSpatialStiffness)
 
     /** Standard fast spatial — zoom step, compass snap, 3D toggle. */
-    fun <T> drivingFastSpatial(): FiniteAnimationSpec<T> =
-        spring(Standard.FastSpatialDamping, Standard.FastSpatialStiffness)
+    fun <T> drivingFastSpatial(): FiniteAnimationSpec<T> = spring(Standard.FastSpatialDamping, Standard.FastSpatialStiffness)
 
     /** Map-control press: [Duration.Short3] on [Easings.StandardDecelerate]. */
-    fun <T> mapControlTween(): FiniteAnimationSpec<T> =
-        tween(Duration.Short3, easing = Easings.StandardDecelerate)
+    fun <T> mapControlTween(): FiniteAnimationSpec<T> = tween(Duration.Short3, easing = Easings.StandardDecelerate)
 
     /** Camera recentre: [Duration.Medium1], linear, so map motion tracks real motion. */
-    fun <T> cameraRecentreTween(): FiniteAnimationSpec<T> =
-        tween(Duration.Medium1, easing = Easings.Linear)
+    fun <T> cameraRecentreTween(): FiniteAnimationSpec<T> = tween(Duration.Medium1, easing = Easings.Linear)
 
     /** Camera tilt into 3D navigation: [Duration.Medium4], linear, same reason. */
-    fun <T> cameraTiltTween(): FiniteAnimationSpec<T> =
-        tween(Duration.Medium4, easing = Easings.Linear)
+    fun <T> cameraTiltTween(): FiniteAnimationSpec<T> = tween(Duration.Medium4, easing = Easings.Linear)
 
     /** State-layer fade in and out: [Duration.Short4] on an effects curve. */
-    fun <T> stateLayerTween(): FiniteAnimationSpec<T> =
-        tween(Duration.Short4, easing = Easings.Standard)
+    fun <T> stateLayerTween(): FiniteAnimationSpec<T> = tween(Duration.Short4, easing = Easings.Standard)
 }
 
 /*
@@ -266,4 +261,60 @@ object Motion {
  * was briefly declared in both files during this pass, which is the exact failure a token system
  * exists to prevent: two sources for one value drift the moment either is edited. Sizes belong
  * to Spacing; this file owns timing only.
+ */
+
+/**
+ * Which half of the motion rule a subtree is on (spec 1m, "The rule").
+ *
+ * [Static] is the default everywhere: Home, Browse, Settings, onboarding, dialogs, sheets at
+ * rest. Wrap anything shown while the vehicle is moving in [DrivingSurface] — the turn card, ETA
+ * row, map controls, off-route banner — and every spec read through [spatialSpec] and friends
+ * inside it switches to the Standard scheme automatically.
+ *
+ * This is the app's stand-in for reading `MaterialTheme.motionScheme`: the values are the same
+ * Material 3 tokens, but the scheme is chosen by surface rather than set once for the whole app.
+ */
+enum class MotionContext { Static, Driving }
+
+val LocalMotionContext = staticCompositionLocalOf { MotionContext.Static }
+
+/** Marks [content] as a driving surface: spatial springs inside it never visibly overshoot. */
+@Composable
+fun DrivingSurface(content: @Composable () -> Unit) {
+    CompositionLocalProvider(LocalMotionContext provides MotionContext.Driving, content = content)
+}
+
+/** Default spatial spring for the current [MotionContext] — position and size. */
+@Composable
+@ReadOnlyComposable
+fun <T> spatialSpec(): FiniteAnimationSpec<T> =
+    when (LocalMotionContext.current) {
+        MotionContext.Static -> Motion.expressiveSpatial()
+        MotionContext.Driving -> Motion.drivingSpatial()
+    }
+
+/** Fast spatial spring for the current [MotionContext] — toggles, selection, zoom step. */
+@Composable
+@ReadOnlyComposable
+fun <T> fastSpatialSpec(): FiniteAnimationSpec<T> =
+    when (LocalMotionContext.current) {
+        MotionContext.Static -> Motion.expressiveFastSpatial()
+        MotionContext.Driving -> Motion.drivingFastSpatial()
+    }
+
+/**
+ * Slow spatial spring. On a driving surface the spec marks the slow spring "unused", so this
+ * falls back to the standard default spring rather than introducing a long settle there.
+ */
+@Composable
+@ReadOnlyComposable
+fun <T> slowSpatialSpec(): FiniteAnimationSpec<T> =
+    when (LocalMotionContext.current) {
+        MotionContext.Static -> Motion.expressiveSlowSpatial()
+        MotionContext.Driving -> Motion.drivingSpatial()
+    }
+
+/*
+ * Effects springs (colour, opacity, elevation) are identical in both schemes, so they need no
+ * context: use Motion.effects(), Motion.fastEffects() and Motion.slowEffects() directly.
  */

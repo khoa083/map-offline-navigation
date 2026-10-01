@@ -311,8 +311,13 @@ val amoledCustomColors =
         onEndNavigationFixed = onEndNavigationFixed,
     )
 
+@Deprecated(
+    "Pre-reskin palette. New UI reads MaterialTheme.colorScheme for M3 roles and " +
+        "MaterialTheme.offlineMapColors for warning, map/nav surfaces and the fixed HUD tokens.",
+)
 val MaterialTheme.customColors: CustomColors
-    @Composable @ReadOnlyComposable get() = LocalCustomColors.current
+    @Composable @ReadOnlyComposable
+    get() = LocalCustomColors.current
 
 /**
  * Controls the color of the phone's status bar icons based on whether the app is using a dark
@@ -333,12 +338,11 @@ fun StatusBarColorController(useDarkTheme: Boolean) {
 }
 
 /**
- * @param darkTheme Selects amoledScheme vs lightScheme. Defaults to the system setting via
- *   isSystemInDarkTheme and, unlike the pre-reskin build, is no longer overridden — the
- *   previous val darkTheme: Boolean = true //todo: fixme forced Amoled regardless of this
- *   parameter or the system setting; that bug is fixed here. Pass AppThemeMode through this
- *   boolean at the call site (themeMode == AppThemeMode.Amoled) once a persisted user setting
- *   exists — see ThemeSettings.kt for why "follow system" isn't wired in by default.
+ * @param themeMode The user's theme choice. [AppThemeMode.System] (the default) maps the
+ *   platform dark-mode signal to Amoled — see ThemeSettings.kt. The resolved palette is
+ *   provided as [LocalResolvedTheme]; components read it through [isAmoledTheme], never
+ *   through isSystemInDarkTheme(), because an explicit Light/Amoled choice overrides the
+ *   system. Once a persisted setting exists, pass it here from the Activity.
  * @param dynamicColor Android 12+ dynamic (wallpaper-derived) color, sampled and clamped per
  *   the spec's "Personalization ceiling" note — see DynamicColor.kt for the full contract. Only
  *   the primary/secondary/tertiary triad (the roles behind map controls, the FAB, the route
@@ -349,11 +353,13 @@ fun StatusBarColorController(useDarkTheme: Boolean) {
  */
 @Composable
 fun OfflinemapTheme(
-    darkTheme: Boolean = isSystemInDarkTheme(),
+    themeMode: AppThemeMode = AppThemeMode.System,
     dynamicColor: Boolean = true,
-    content: @Composable () -> Unit
+    content: @Composable () -> Unit,
 ) {
     val view = LocalView.current
+    val resolvedTheme = themeMode.resolve(isSystemInDarkTheme())
+    val darkTheme = resolvedTheme == ResolvedTheme.Amoled
 
     StatusBarColorController(useDarkTheme = darkTheme)
 
@@ -370,8 +376,11 @@ fun OfflinemapTheme(
         )
 
     val customColorsPalette = if (darkTheme) amoledCustomColors else lightCustomColors
+    val offlineMapColors = if (darkTheme) amoledOfflineMapColors else lightOfflineMapColors
 
     CompositionLocalProvider(
+        LocalResolvedTheme provides resolvedTheme,
+        LocalOfflineMapColors provides offlineMapColors,
         LocalCustomColors provides customColorsPalette,
         LocalSpacing provides Spacing(),
     ) {
@@ -385,7 +394,9 @@ fun OfflinemapTheme(
 
     // Make sure the navigation bar stays transparent on manual theme changes.
     LaunchedEffect(darkTheme) {
-        val window = (view.context as Activity).window
+        // Safe cast: in @Preview and in tests the host context is not an Activity, and a hard
+        // cast here used to crash every preview that wrapped itself in this theme.
+        val window = (view.context as? Activity)?.window ?: return@LaunchedEffect
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
             window.isNavigationBarContrastEnforced = false

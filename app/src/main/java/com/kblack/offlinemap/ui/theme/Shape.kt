@@ -1,3 +1,7 @@
+// Token constants are PascalCase per the Compose API guidelines (as in Material's own token
+// objects), not SCREAMING_SNAKE_CASE.
+@file:Suppress("ktlint:standard:property-naming")
+
 package com.kblack.offlinemap.ui.theme
 
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -120,17 +124,18 @@ object Stopped {
  * usable without an experimental opt-in, set them explicitly then — not to change a value, but
  * so the theme states its own scale rather than inheriting one that happens to agree.
  */
-val Shapes = Shapes(
-    extraSmall = Stopped.extraSmall,
-    small = Stopped.small,
-    medium = Stopped.medium,
-    large = Stopped.large,
-    extraLarge = Stopped.extraLarge,
-    // largeIncreased / extraLargeIncreased / extraExtraLarge are deliberately absent - the
-    // constructor overload that takes them is internal to Material 3. See the docs above; their
-    // defaults already equal this app's Corner values, so nothing renders differently. For a
-    // shape outside these five slots, use Corner directly at the call site.
-)
+val Shapes =
+    Shapes(
+        extraSmall = Stopped.extraSmall,
+        small = Stopped.small,
+        medium = Stopped.medium,
+        large = Stopped.large,
+        extraLarge = Stopped.extraLarge,
+        // largeIncreased / extraLargeIncreased / extraExtraLarge are deliberately absent - the
+        // constructor overload that takes them is internal to Material 3. See the docs above; their
+        // defaults already equal this app's Corner values, so nothing renders differently. For a
+        // shape outside these five slots, use Corner directly at the call site.
+    )
 
 /**
  * Position of an item inside a grouped/sectioned list (spec 1d, "GROUPED LIST · 28 / 8 / 28").
@@ -227,20 +232,22 @@ object ShapeMorph {
  */
 object SegmentedPair {
     /** Top half - outer corners on top, square where it meets its partner. */
-    val zoomInShape = RoundedCornerShape(
-        topStart = Corner.Medium,
-        topEnd = Corner.Medium,
-        bottomStart = 0.dp,
-        bottomEnd = 0.dp,
-    )
+    val zoomInShape =
+        RoundedCornerShape(
+            topStart = Corner.Medium,
+            topEnd = Corner.Medium,
+            bottomStart = 0.dp,
+            bottomEnd = 0.dp,
+        )
 
     /** Bottom half - square where it meets its partner, outer corners below. */
-    val zoomOutShape = RoundedCornerShape(
-        topStart = 0.dp,
-        topEnd = 0.dp,
-        bottomStart = Corner.Medium,
-        bottomEnd = Corner.Medium,
-    )
+    val zoomOutShape =
+        RoundedCornerShape(
+            topStart = 0.dp,
+            topEnd = 0.dp,
+            bottomStart = Corner.Medium,
+            bottomEnd = Corner.Medium,
+        )
 
     /** The container both halves sit in, when one is drawn behind them. */
     val containerShape = RoundedCornerShape(Corner.Medium)

@@ -1,3 +1,7 @@
+// Token constants are PascalCase per the Compose API guidelines (as in Material's own token
+// objects), not SCREAMING_SNAKE_CASE.
+@file:Suppress("ktlint:standard:property-naming")
+
 package com.kblack.offlinemap.ui.theme
 
 import androidx.compose.foundation.border
@@ -53,7 +57,6 @@ import androidx.compose.ui.unit.dp
  * never fires for touch, so it is not a substitute for a pressed state.
  */
 object StateLayer {
-
     /** Pointer or stylus is over the control. Never fires for touch. */
     const val Hover = 0.08f
 

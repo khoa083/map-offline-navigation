@@ -44,7 +44,6 @@ data class Spacing(
     val xl: Dp = 20.dp, // sheet content padding
     val xxl: Dp = 24.dp, // section-to-section spacing, dialog padding
     val xxxl: Dp = 28.dp, // large bottom-sheet top padding / handle clearance
-
     // -----------------------------------------------------------------------------------------
     // Layout roles
     // -----------------------------------------------------------------------------------------
@@ -56,15 +55,14 @@ data class Spacing(
     val sheetHandleTopInset: Dp = 10.dp, // space above the handle before sheet content starts
     val listRowVertical: Dp = 12.dp, // vertical padding inside a search-result / region row
     val listRowIconGap: Dp = 12.dp, // gap between a row's leading icon and its text block
-    val progressTrackHeight: Dp = 6.dp, // straight (non-wavy) route/ETA track — spec 1m
-
-    // -----------------------------------------------------------------------------------------
-    // Control sizes — see the class docs; three values, no others
-    // -----------------------------------------------------------------------------------------
-
-    /** Standard tier and the platform minimum for anything tappable. */
+    // straight (non-wavy) route/ETA track — spec 1m
+    val progressTrackHeight: Dp = 6.dp,
+    /**
+     * Control sizes start here — three values, no others (see the class docs).
+     *
+     * Standard tier and the platform minimum for anything tappable.
+     */
     val touchTargetMin: Dp = 48.dp,
-
     /**
      * Emphasis tier: the map control cluster — zoom pair, compass, 3D toggle.
      *
@@ -73,7 +71,6 @@ data class Spacing(
      * tier scale exists to prevent.
      */
     val controlEmphasis: Dp = 56.dp,
-
     /**
      * The recenter FAB, and nothing else. Full-round at 64dp so it is the one control on the
      * map identifiable by shape and size without looking.
@@ -82,23 +79,18 @@ data class Spacing(
      * size difference the "findable by shape alone" rule depends on.
      */
     val recenterFabSize: Dp = 64.dp,
-
-    // -----------------------------------------------------------------------------------------
-    // Separation — spec 1q
-    // -----------------------------------------------------------------------------------------
-
     /**
+     * Separation (spec 1q) starts here.
+     *
      * Minimum clear space between two adjacent touch targets. 48dp of *size* is not enough on
      * its own: two live targets closer than this read as one, and a press landing between them
      * hits neither.
      */
     val touchTargetSeparation: Dp = 8.dp,
-
     /**
      * Gap between controls in the map cluster. Comfortably above [touchTargetSeparation].
      */
     val mapClusterGap: Dp = 12.dp,
-
     /**
      * Divider inside the joined zoom control. The zoom pair is deliberately **one segmented
      * control** rather than two buttons: at 3dp apart they had a visible seam that was too small

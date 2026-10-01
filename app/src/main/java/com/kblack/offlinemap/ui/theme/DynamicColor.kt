@@ -13,7 +13,7 @@ import kotlin.math.max
 import kotlin.math.min
 import kotlin.math.pow
 
-/**
+/*
  * Dynamic color (Monet), sampled from the device wallpaper on Android 12+ and clamped against
  * the app's own contrast floor — per the spec's "Personalization ceiling" note:
  *
@@ -50,7 +50,10 @@ private fun relativeLuminance(color: Color): Double {
 }
 
 /** WCAG contrast ratio between two colors, in [1, 21]. */
-fun contrastRatio(a: Color, b: Color): Double {
+fun contrastRatio(
+    a: Color,
+    b: Color,
+): Double {
     val la = relativeLuminance(a)
     val lb = relativeLuminance(b)
     val lighter = max(la, lb)
